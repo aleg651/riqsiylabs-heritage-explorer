@@ -10,12 +10,25 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
 import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
+import { Route as DescubreSlugRouteImport } from './routes/descubre.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EscaneaRoute = EscaneaRouteImport.update({
+  id: '/escanea',
+  path: '/escanea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MiraMasAllaRoute = MiraMasAllaRouteImport.update({
+  id: '/mira-mas-alla',
+  path: '/mira-mas-alla',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PorQueRoute = PorQueRouteImport.update({
@@ -28,34 +41,70 @@ const DescubreIndexRoute = DescubreIndexRouteImport.update({
   path: '/descubre/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DescubreSlugRoute = DescubreSlugRouteImport.update({
+  id: '/descubre/$slug',
+  path: '/descubre/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/escanea': typeof EscaneaRoute
+  '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
+  '/descubre/$slug': typeof DescubreSlugRoute
   '/descubre/': typeof DescubreIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/escanea': typeof EscaneaRoute
+  '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
+  '/descubre/$slug': typeof DescubreSlugRoute
   '/descubre': typeof DescubreIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/escanea': typeof EscaneaRoute
+  '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
+  '/descubre/$slug': typeof DescubreSlugRoute
   '/descubre/': typeof DescubreIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/por-que' | '/descubre/'
+  fullPaths:
+    | '/'
+    | '/escanea'
+    | '/mira-mas-alla'
+    | '/por-que'
+    | '/descubre/$slug'
+    | '/descubre/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/por-que' | '/descubre'
-  id: '__root__' | '/' | '/por-que' | '/descubre/'
+  to:
+    | '/'
+    | '/escanea'
+    | '/mira-mas-alla'
+    | '/por-que'
+    | '/descubre/$slug'
+    | '/descubre'
+  id:
+    | '__root__'
+    | '/'
+    | '/escanea'
+    | '/mira-mas-alla'
+    | '/por-que'
+    | '/descubre/$slug'
+    | '/descubre/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  EscaneaRoute: typeof EscaneaRoute
+  MiraMasAllaRoute: typeof MiraMasAllaRoute
   PorQueRoute: typeof PorQueRoute
+  DescubreSlugRoute: typeof DescubreSlugRoute
   DescubreIndexRoute: typeof DescubreIndexRoute
 }
 
@@ -66,6 +115,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/escanea': {
+      id: '/escanea'
+      path: '/escanea'
+      fullPath: '/escanea'
+      preLoaderRoute: typeof EscaneaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mira-mas-alla': {
+      id: '/mira-mas-alla'
+      path: '/mira-mas-alla'
+      fullPath: '/mira-mas-alla'
+      preLoaderRoute: typeof MiraMasAllaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/por-que': {
@@ -82,12 +145,22 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DescubreIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/descubre/$slug': {
+      id: '/descubre/$slug'
+      path: '/descubre/$slug'
+      fullPath: '/descubre/$slug'
+      preLoaderRoute: typeof DescubreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  EscaneaRoute: EscaneaRoute,
+  MiraMasAllaRoute: MiraMasAllaRoute,
   PorQueRoute: PorQueRoute,
+  DescubreSlugRoute: DescubreSlugRoute,
   DescubreIndexRoute: DescubreIndexRoute,
 }
 export const routeTree = rootRouteImport
