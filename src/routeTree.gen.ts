@@ -10,33 +10,167 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
+import { Route as CompromisoRouteImport } from './routes/compromiso'
+import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as InvestigacionRouteImport } from './routes/investigacion'
+import { Route as MapaRouteImport } from './routes/mapa'
+import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
+import { Route as PorQueRouteImport } from './routes/por-que'
+import { Route as ProgresoRouteImport } from './routes/progreso'
+import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
+import { Route as DescubreSlugRouteImport } from './routes/descubre.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AntesYDespuesRoute = AntesYDespuesRouteImport.update({
+  id: '/antes-y-despues',
+  path: '/antes-y-despues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompromisoRoute = CompromisoRouteImport.update({
+  id: '/compromiso',
+  path: '/compromiso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EscaneaRoute = EscaneaRouteImport.update({
+  id: '/escanea',
+  path: '/escanea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestigacionRoute = InvestigacionRouteImport.update({
+  id: '/investigacion',
+  path: '/investigacion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapaRoute = MapaRouteImport.update({
+  id: '/mapa',
+  path: '/mapa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MiraMasAllaRoute = MiraMasAllaRouteImport.update({
+  id: '/mira-mas-alla',
+  path: '/mira-mas-alla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PorQueRoute = PorQueRouteImport.update({
+  id: '/por-que',
+  path: '/por-que',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgresoRoute = ProgresoRouteImport.update({
+  id: '/progreso',
+  path: '/progreso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DescubreIndexRoute = DescubreIndexRouteImport.update({
+  id: '/descubre/',
+  path: '/descubre/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DescubreSlugRoute = DescubreSlugRouteImport.update({
+  id: '/descubre/$slug',
+  path: '/descubre/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/antes-y-despues': typeof AntesYDespuesRoute
+  '/compromiso': typeof CompromisoRoute
+  '/escanea': typeof EscaneaRoute
+  '/investigacion': typeof InvestigacionRoute
+  '/mapa': typeof MapaRoute
+  '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/por-que': typeof PorQueRoute
+  '/progreso': typeof ProgresoRoute
+  '/descubre/$slug': typeof DescubreSlugRoute
+  '/descubre/': typeof DescubreIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/antes-y-despues': typeof AntesYDespuesRoute
+  '/compromiso': typeof CompromisoRoute
+  '/escanea': typeof EscaneaRoute
+  '/investigacion': typeof InvestigacionRoute
+  '/mapa': typeof MapaRoute
+  '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/por-que': typeof PorQueRoute
+  '/progreso': typeof ProgresoRoute
+  '/descubre/$slug': typeof DescubreSlugRoute
+  '/descubre': typeof DescubreIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/antes-y-despues': typeof AntesYDespuesRoute
+  '/compromiso': typeof CompromisoRoute
+  '/escanea': typeof EscaneaRoute
+  '/investigacion': typeof InvestigacionRoute
+  '/mapa': typeof MapaRoute
+  '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/por-que': typeof PorQueRoute
+  '/progreso': typeof ProgresoRoute
+  '/descubre/$slug': typeof DescubreSlugRoute
+  '/descubre/': typeof DescubreIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/antes-y-despues'
+    | '/compromiso'
+    | '/escanea'
+    | '/investigacion'
+    | '/mapa'
+    | '/mira-mas-alla'
+    | '/por-que'
+    | '/progreso'
+    | '/descubre/$slug'
+    | '/descubre/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/antes-y-despues'
+    | '/compromiso'
+    | '/escanea'
+    | '/investigacion'
+    | '/mapa'
+    | '/mira-mas-alla'
+    | '/por-que'
+    | '/progreso'
+    | '/descubre/$slug'
+    | '/descubre'
+  id:
+    | '__root__'
+    | '/'
+    | '/antes-y-despues'
+    | '/compromiso'
+    | '/escanea'
+    | '/investigacion'
+    | '/mapa'
+    | '/mira-mas-alla'
+    | '/por-que'
+    | '/progreso'
+    | '/descubre/$slug'
+    | '/descubre/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AntesYDespuesRoute: typeof AntesYDespuesRoute
+  CompromisoRoute: typeof CompromisoRoute
+  EscaneaRoute: typeof EscaneaRoute
+  InvestigacionRoute: typeof InvestigacionRoute
+  MapaRoute: typeof MapaRoute
+  MiraMasAllaRoute: typeof MiraMasAllaRoute
+  PorQueRoute: typeof PorQueRoute
+  ProgresoRoute: typeof ProgresoRoute
+  DescubreSlugRoute: typeof DescubreSlugRoute
+  DescubreIndexRoute: typeof DescubreIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +182,91 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/antes-y-despues': {
+      id: '/antes-y-despues'
+      path: '/antes-y-despues'
+      fullPath: '/antes-y-despues'
+      preLoaderRoute: typeof AntesYDespuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compromiso': {
+      id: '/compromiso'
+      path: '/compromiso'
+      fullPath: '/compromiso'
+      preLoaderRoute: typeof CompromisoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/escanea': {
+      id: '/escanea'
+      path: '/escanea'
+      fullPath: '/escanea'
+      preLoaderRoute: typeof EscaneaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investigacion': {
+      id: '/investigacion'
+      path: '/investigacion'
+      fullPath: '/investigacion'
+      preLoaderRoute: typeof InvestigacionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mapa': {
+      id: '/mapa'
+      path: '/mapa'
+      fullPath: '/mapa'
+      preLoaderRoute: typeof MapaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mira-mas-alla': {
+      id: '/mira-mas-alla'
+      path: '/mira-mas-alla'
+      fullPath: '/mira-mas-alla'
+      preLoaderRoute: typeof MiraMasAllaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/por-que': {
+      id: '/por-que'
+      path: '/por-que'
+      fullPath: '/por-que'
+      preLoaderRoute: typeof PorQueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progreso': {
+      id: '/progreso'
+      path: '/progreso'
+      fullPath: '/progreso'
+      preLoaderRoute: typeof ProgresoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/descubre/': {
+      id: '/descubre/'
+      path: '/descubre'
+      fullPath: '/descubre/'
+      preLoaderRoute: typeof DescubreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/descubre/$slug': {
+      id: '/descubre/$slug'
+      path: '/descubre/$slug'
+      fullPath: '/descubre/$slug'
+      preLoaderRoute: typeof DescubreSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AntesYDespuesRoute: AntesYDespuesRoute,
+  CompromisoRoute: CompromisoRoute,
+  EscaneaRoute: EscaneaRoute,
+  InvestigacionRoute: InvestigacionRoute,
+  MapaRoute: MapaRoute,
+  MiraMasAllaRoute: MiraMasAllaRoute,
+  PorQueRoute: PorQueRoute,
+  ProgresoRoute: ProgresoRoute,
+  DescubreSlugRoute: DescubreSlugRoute,
+  DescubreIndexRoute: DescubreIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
