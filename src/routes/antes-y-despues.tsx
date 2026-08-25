@@ -20,8 +20,9 @@ export const Route = createFileRoute("/antes-y-despues")({
 });
 
 function AntesDespues() {
-  const [slug, setSlug] = useState(SITIOS[0].slug);
+  const [slug, setSlug] = useState(SITIOS[0]!.slug);
   const sitio = SITIOS.find((s) => s.slug === slug)!;
+
   const [fase, setFase] = useState<0 | 1 | 2>(0);
 
   const fases = [
