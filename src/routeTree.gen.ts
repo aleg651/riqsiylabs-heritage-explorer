@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PorQueRouteImport } from './routes/por-que'
+import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PorQueRoute = PorQueRouteImport.update({
+  id: '/por-que',
+  path: '/por-que',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DescubreIndexRoute = DescubreIndexRouteImport.update({
+  id: '/descubre/',
+  path: '/descubre/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/por-que': typeof PorQueRoute
+  '/descubre/': typeof DescubreIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/por-que': typeof PorQueRoute
+  '/descubre': typeof DescubreIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/por-que': typeof PorQueRoute
+  '/descubre/': typeof DescubreIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/por-que' | '/descubre/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/por-que' | '/descubre'
+  id: '__root__' | '/' | '/por-que' | '/descubre/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  PorQueRoute: typeof PorQueRoute
+  DescubreIndexRoute: typeof DescubreIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/por-que': {
+      id: '/por-que'
+      path: '/por-que'
+      fullPath: '/por-que'
+      preLoaderRoute: typeof PorQueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/descubre/': {
+      id: '/descubre/'
+      path: '/descubre'
+      fullPath: '/descubre/'
+      preLoaderRoute: typeof DescubreIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  PorQueRoute: PorQueRoute,
+  DescubreIndexRoute: DescubreIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
