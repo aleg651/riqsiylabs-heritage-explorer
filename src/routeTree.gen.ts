@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
+import { Route as CompromisoRouteImport } from './routes/compromiso'
 import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
 import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
@@ -21,9 +24,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AntesYDespuesRoute = AntesYDespuesRouteImport.update({
+  id: '/antes-y-despues',
+  path: '/antes-y-despues',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompromisoRoute = CompromisoRouteImport.update({
+  id: '/compromiso',
+  path: '/compromiso',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EscaneaRoute = EscaneaRouteImport.update({
   id: '/escanea',
   path: '/escanea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapaRoute = MapaRouteImport.update({
+  id: '/mapa',
+  path: '/mapa',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MiraMasAllaRoute = MiraMasAllaRouteImport.update({
@@ -49,7 +67,10 @@ const DescubreSlugRoute = DescubreSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/antes-y-despues': typeof AntesYDespuesRoute
+  '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
   '/descubre/$slug': typeof DescubreSlugRoute
@@ -57,7 +78,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/antes-y-despues': typeof AntesYDespuesRoute
+  '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
   '/descubre/$slug': typeof DescubreSlugRoute
@@ -66,7 +90,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/antes-y-despues': typeof AntesYDespuesRoute
+  '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
   '/descubre/$slug': typeof DescubreSlugRoute
@@ -76,7 +103,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/antes-y-despues'
+    | '/compromiso'
     | '/escanea'
+    | '/mapa'
     | '/mira-mas-alla'
     | '/por-que'
     | '/descubre/$slug'
@@ -84,7 +114,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/antes-y-despues'
+    | '/compromiso'
     | '/escanea'
+    | '/mapa'
     | '/mira-mas-alla'
     | '/por-que'
     | '/descubre/$slug'
@@ -92,7 +125,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/antes-y-despues'
+    | '/compromiso'
     | '/escanea'
+    | '/mapa'
     | '/mira-mas-alla'
     | '/por-que'
     | '/descubre/$slug'
@@ -101,7 +137,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AntesYDespuesRoute: typeof AntesYDespuesRoute
+  CompromisoRoute: typeof CompromisoRoute
   EscaneaRoute: typeof EscaneaRoute
+  MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
   PorQueRoute: typeof PorQueRoute
   DescubreSlugRoute: typeof DescubreSlugRoute
@@ -117,11 +156,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/antes-y-despues': {
+      id: '/antes-y-despues'
+      path: '/antes-y-despues'
+      fullPath: '/antes-y-despues'
+      preLoaderRoute: typeof AntesYDespuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compromiso': {
+      id: '/compromiso'
+      path: '/compromiso'
+      fullPath: '/compromiso'
+      preLoaderRoute: typeof CompromisoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/escanea': {
       id: '/escanea'
       path: '/escanea'
       fullPath: '/escanea'
       preLoaderRoute: typeof EscaneaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mapa': {
+      id: '/mapa'
+      path: '/mapa'
+      fullPath: '/mapa'
+      preLoaderRoute: typeof MapaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mira-mas-alla': {
@@ -157,7 +217,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AntesYDespuesRoute: AntesYDespuesRoute,
+  CompromisoRoute: CompromisoRoute,
   EscaneaRoute: EscaneaRoute,
+  MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
   PorQueRoute: PorQueRoute,
   DescubreSlugRoute: DescubreSlugRoute,
