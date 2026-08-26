@@ -20,6 +20,7 @@ import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as ProgresoRouteImport } from './routes/progreso'
 import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
 import { Route as DescubreSlugRouteImport } from './routes/descubre.$slug'
+import { Route as JuegosIndexRouteImport } from './routes/juegos.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -76,6 +77,11 @@ const DescubreSlugRoute = DescubreSlugRouteImport.update({
   path: '/descubre/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JuegosIndexRoute = JuegosIndexRouteImport.update({
+  id: '/juegos/',
+  path: '/juegos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/progreso': typeof ProgresoRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/descubre/': typeof DescubreIndexRoute
+  '/juegos/': typeof JuegosIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -102,6 +109,7 @@ export interface FileRoutesByTo {
   '/progreso': typeof ProgresoRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/descubre': typeof DescubreIndexRoute
+  '/juegos': typeof JuegosIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/progreso': typeof ProgresoRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/descubre/': typeof DescubreIndexRoute
+  '/juegos/': typeof JuegosIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/descubre/$slug'
     | '/descubre/'
+    | '/juegos/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/descubre/$slug'
     | '/descubre'
+    | '/juegos'
   id:
     | '__root__'
     | '/'
@@ -157,6 +168,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/descubre/$slug'
     | '/descubre/'
+    | '/juegos/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -171,6 +183,7 @@ export interface RootRouteChildren {
   ProgresoRoute: typeof ProgresoRoute
   DescubreSlugRoute: typeof DescubreSlugRoute
   DescubreIndexRoute: typeof DescubreIndexRoute
+  JuegosIndexRoute: typeof JuegosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DescubreSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/juegos/': {
+      id: '/juegos/'
+      path: '/juegos'
+      fullPath: '/juegos/'
+      preLoaderRoute: typeof JuegosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -267,6 +287,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProgresoRoute: ProgresoRoute,
   DescubreSlugRoute: DescubreSlugRoute,
   DescubreIndexRoute: DescubreIndexRoute,
+  JuegosIndexRoute: JuegosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
