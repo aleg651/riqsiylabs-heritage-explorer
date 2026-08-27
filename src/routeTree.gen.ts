@@ -13,14 +13,18 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
 import { Route as CompromisoRouteImport } from './routes/compromiso'
 import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
 import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as ProgresoRouteImport } from './routes/progreso'
+import { Route as RecompensasRouteImport } from './routes/recompensas'
+import { Route as TestRouteImport } from './routes/test'
 import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
 import { Route as DescubreSlugRouteImport } from './routes/descubre.$slug'
 import { Route as JuegosIndexRouteImport } from './routes/juegos.index'
+import { Route as JuegosIdRouteImport } from './routes/juegos.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +44,11 @@ const CompromisoRoute = CompromisoRouteImport.update({
 const EscaneaRoute = EscaneaRouteImport.update({
   id: '/escanea',
   path: '/escanea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HistoriasRoute = HistoriasRouteImport.update({
+  id: '/historias',
+  path: '/historias',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvestigacionRoute = InvestigacionRouteImport.update({
@@ -67,6 +76,16 @@ const ProgresoRoute = ProgresoRouteImport.update({
   path: '/progreso',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecompensasRoute = RecompensasRouteImport.update({
+  id: '/recompensas',
+  path: '/recompensas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TestRoute = TestRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DescubreIndexRoute = DescubreIndexRouteImport.update({
   id: '/descubre/',
   path: '/descubre/',
@@ -82,18 +101,27 @@ const JuegosIndexRoute = JuegosIndexRouteImport.update({
   path: '/juegos/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JuegosIdRoute = JuegosIdRouteImport.update({
+  id: '/juegos/$id',
+  path: '/juegos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
+  '/recompensas': typeof RecompensasRoute
+  '/test': typeof TestRoute
   '/descubre/$slug': typeof DescubreSlugRoute
+  '/juegos/$id': typeof JuegosIdRoute
   '/descubre/': typeof DescubreIndexRoute
   '/juegos/': typeof JuegosIndexRoute
 }
@@ -102,12 +130,16 @@ export interface FileRoutesByTo {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
+  '/recompensas': typeof RecompensasRoute
+  '/test': typeof TestRoute
   '/descubre/$slug': typeof DescubreSlugRoute
+  '/juegos/$id': typeof JuegosIdRoute
   '/descubre': typeof DescubreIndexRoute
   '/juegos': typeof JuegosIndexRoute
 }
@@ -117,12 +149,16 @@ export interface FileRoutesById {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
+  '/recompensas': typeof RecompensasRoute
+  '/test': typeof TestRoute
   '/descubre/$slug': typeof DescubreSlugRoute
+  '/juegos/$id': typeof JuegosIdRoute
   '/descubre/': typeof DescubreIndexRoute
   '/juegos/': typeof JuegosIndexRoute
 }
@@ -133,12 +169,16 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/historias'
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
     | '/por-que'
     | '/progreso'
+    | '/recompensas'
+    | '/test'
     | '/descubre/$slug'
+    | '/juegos/$id'
     | '/descubre/'
     | '/juegos/'
   fileRoutesByTo: FileRoutesByTo
@@ -147,12 +187,16 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/historias'
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
     | '/por-que'
     | '/progreso'
+    | '/recompensas'
+    | '/test'
     | '/descubre/$slug'
+    | '/juegos/$id'
     | '/descubre'
     | '/juegos'
   id:
@@ -161,12 +205,16 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/historias'
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
     | '/por-que'
     | '/progreso'
+    | '/recompensas'
+    | '/test'
     | '/descubre/$slug'
+    | '/juegos/$id'
     | '/descubre/'
     | '/juegos/'
   fileRoutesById: FileRoutesById
@@ -176,12 +224,16 @@ export interface RootRouteChildren {
   AntesYDespuesRoute: typeof AntesYDespuesRoute
   CompromisoRoute: typeof CompromisoRoute
   EscaneaRoute: typeof EscaneaRoute
+  HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
   PorQueRoute: typeof PorQueRoute
   ProgresoRoute: typeof ProgresoRoute
+  RecompensasRoute: typeof RecompensasRoute
+  TestRoute: typeof TestRoute
   DescubreSlugRoute: typeof DescubreSlugRoute
+  JuegosIdRoute: typeof JuegosIdRoute
   DescubreIndexRoute: typeof DescubreIndexRoute
   JuegosIndexRoute: typeof JuegosIndexRoute
 }
@@ -214,6 +266,13 @@ declare module '@tanstack/react-router' {
       path: '/escanea'
       fullPath: '/escanea'
       preLoaderRoute: typeof EscaneaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/historias': {
+      id: '/historias'
+      path: '/historias'
+      fullPath: '/historias'
+      preLoaderRoute: typeof HistoriasRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/investigacion': {
@@ -251,6 +310,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgresoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recompensas': {
+      id: '/recompensas'
+      path: '/recompensas'
+      fullPath: '/recompensas'
+      preLoaderRoute: typeof RecompensasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/descubre/': {
       id: '/descubre/'
       path: '/descubre'
@@ -272,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JuegosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/juegos/$id': {
+      id: '/juegos/$id'
+      path: '/juegos/$id'
+      fullPath: '/juegos/$id'
+      preLoaderRoute: typeof JuegosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -280,12 +360,16 @@ const rootRouteChildren: RootRouteChildren = {
   AntesYDespuesRoute: AntesYDespuesRoute,
   CompromisoRoute: CompromisoRoute,
   EscaneaRoute: EscaneaRoute,
+  HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
   PorQueRoute: PorQueRoute,
   ProgresoRoute: ProgresoRoute,
+  RecompensasRoute: RecompensasRoute,
+  TestRoute: TestRoute,
   DescubreSlugRoute: DescubreSlugRoute,
+  JuegosIdRoute: JuegosIdRoute,
   DescubreIndexRoute: DescubreIndexRoute,
   JuegosIndexRoute: JuegosIndexRoute,
 }
