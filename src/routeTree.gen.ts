@@ -18,6 +18,7 @@ import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
+import { Route as PanelInvestigadorRouteImport } from './routes/panel-investigador'
 import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as ProgresoRouteImport } from './routes/progreso'
 import { Route as RecompensasRouteImport } from './routes/recompensas'
@@ -72,6 +73,11 @@ const MiraMasAllaRoute = MiraMasAllaRouteImport.update({
   path: '/mira-mas-alla',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PanelInvestigadorRoute = PanelInvestigadorRouteImport.update({
+  id: '/panel-investigador',
+  path: '/panel-investigador',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PorQueRoute = PorQueRouteImport.update({
   id: '/por-que',
   path: '/por-que',
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/panel-investigador': typeof PanelInvestigadorRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/panel-investigador': typeof PanelInvestigadorRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/panel-investigador': typeof PanelInvestigadorRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
@@ -183,6 +192,7 @@ export interface FileRouteTypes {
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/panel-investigador'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
@@ -202,6 +212,7 @@ export interface FileRouteTypes {
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/panel-investigador'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/panel-investigador'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
@@ -241,6 +253,7 @@ export interface RootRouteChildren {
   InvestigacionRoute: typeof InvestigacionRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
+  PanelInvestigadorRoute: typeof PanelInvestigadorRoute
   PorQueRoute: typeof PorQueRoute
   ProgresoRoute: typeof ProgresoRoute
   RecompensasRoute: typeof RecompensasRoute
@@ -316,6 +329,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MiraMasAllaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/panel-investigador': {
+      id: '/panel-investigador'
+      path: '/panel-investigador'
+      fullPath: '/panel-investigador'
+      preLoaderRoute: typeof PanelInvestigadorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/por-que': {
       id: '/por-que'
       path: '/por-que'
@@ -385,6 +405,7 @@ const rootRouteChildren: RootRouteChildren = {
   InvestigacionRoute: InvestigacionRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
+  PanelInvestigadorRoute: PanelInvestigadorRoute,
   PorQueRoute: PorQueRoute,
   ProgresoRoute: ProgresoRoute,
   RecompensasRoute: RecompensasRoute,

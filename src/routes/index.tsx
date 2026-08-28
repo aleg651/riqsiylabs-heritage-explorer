@@ -174,6 +174,34 @@ function Inicio() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-8">
+        <SectionTitle
+          eyebrow="Gamificación"
+          title="Juega, gana RIQSI-COINS y sube de nivel"
+          description="Cinco minijuegos, retos, insignias y recompensas por valorar el patrimonio cusqueño."
+        />
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { to: "/juegos" as const, titulo: "Minijuegos", texto: "Encaja la piedra, Salva el agua, el andén, el Qhapaq Ñan y la sombra del Intihuatana." },
+            { to: "/recompensas" as const, titulo: "Recompensas", texto: "Canjea tus RIQSI-COINS por insignias y certificados (convenios institucionales)." },
+            { to: "/test" as const, titulo: "Test de valoración", texto: "Diagnóstico inicial y final: parte de la investigación científica del proyecto." },
+            { to: "/historias" as const, titulo: "Historias", texto: "Registra testimonios orales de tu familia y comunidad sobre el patrimonio." },
+          ].map((c) => (
+            <Link
+              key={c.to}
+              to={c.to}
+              className="shadow-stone group rounded-lg border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-accent"
+            >
+              <h3 className="font-display text-xl">{c.titulo}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{c.texto}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+                Entrar <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 pb-8">
         <div className="gradient-earth shadow-stone rounded-xl p-8 text-stone-deep-foreground sm:p-12">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] opacity-80">Parte científica</p>
           <h2 className="mt-3 max-w-3xl font-display text-2xl sm:text-3xl">
