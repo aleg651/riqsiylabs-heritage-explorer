@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
 import { Route as CompromisoRouteImport } from './routes/compromiso'
 import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as FencytRouteImport } from './routes/fencyt'
 import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
 import { Route as MapaRouteImport } from './routes/mapa'
@@ -44,6 +45,11 @@ const CompromisoRoute = CompromisoRouteImport.update({
 const EscaneaRoute = EscaneaRouteImport.update({
   id: '/escanea',
   path: '/escanea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FencytRoute = FencytRouteImport.update({
+  id: '/fencyt',
+  path: '/fencyt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoriasRoute = HistoriasRouteImport.update({
@@ -112,6 +118,7 @@ export interface FileRoutesByFullPath {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
@@ -130,6 +137,7 @@ export interface FileRoutesByTo {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/fencyt'
     | '/historias'
     | '/investigacion'
     | '/mapa'
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/fencyt'
     | '/historias'
     | '/investigacion'
     | '/mapa'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/fencyt'
     | '/historias'
     | '/investigacion'
     | '/mapa'
@@ -224,6 +236,7 @@ export interface RootRouteChildren {
   AntesYDespuesRoute: typeof AntesYDespuesRoute
   CompromisoRoute: typeof CompromisoRoute
   EscaneaRoute: typeof EscaneaRoute
+  FencytRoute: typeof FencytRoute
   HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
   MapaRoute: typeof MapaRoute
@@ -266,6 +279,13 @@ declare module '@tanstack/react-router' {
       path: '/escanea'
       fullPath: '/escanea'
       preLoaderRoute: typeof EscaneaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/fencyt': {
+      id: '/fencyt'
+      path: '/fencyt'
+      fullPath: '/fencyt'
+      preLoaderRoute: typeof FencytRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/historias': {
@@ -360,6 +380,7 @@ const rootRouteChildren: RootRouteChildren = {
   AntesYDespuesRoute: AntesYDespuesRoute,
   CompromisoRoute: CompromisoRoute,
   EscaneaRoute: EscaneaRoute,
+  FencytRoute: FencytRoute,
   HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
   MapaRoute: MapaRoute,
