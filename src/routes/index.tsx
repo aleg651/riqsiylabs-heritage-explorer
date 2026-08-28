@@ -214,6 +214,12 @@ function Inicio() {
           >
             Ver nuestra investigación <ArrowRight className="h-4 w-4" />
           </Link>
+          <Link
+            to="/fencyt"
+            className="ml-3 mt-6 inline-flex items-center gap-2 rounded-md border border-white/40 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-white/10"
+          >
+            Ficha FENCYT <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </section>
     </>
