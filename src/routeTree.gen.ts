@@ -13,10 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
 import { Route as CompromisoRouteImport } from './routes/compromiso'
 import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as FencytRouteImport } from './routes/fencyt'
 import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
+import { Route as PanelInvestigadorRouteImport } from './routes/panel-investigador'
 import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as ProgresoRouteImport } from './routes/progreso'
 import { Route as RecompensasRouteImport } from './routes/recompensas'
@@ -46,6 +48,11 @@ const EscaneaRoute = EscaneaRouteImport.update({
   path: '/escanea',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FencytRoute = FencytRouteImport.update({
+  id: '/fencyt',
+  path: '/fencyt',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HistoriasRoute = HistoriasRouteImport.update({
   id: '/historias',
   path: '/historias',
@@ -64,6 +71,11 @@ const MapaRoute = MapaRouteImport.update({
 const MiraMasAllaRoute = MiraMasAllaRouteImport.update({
   id: '/mira-mas-alla',
   path: '/mira-mas-alla',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanelInvestigadorRoute = PanelInvestigadorRouteImport.update({
+  id: '/panel-investigador',
+  path: '/panel-investigador',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PorQueRoute = PorQueRouteImport.update({
@@ -112,10 +124,12 @@ export interface FileRoutesByFullPath {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/panel-investigador': typeof PanelInvestigadorRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
@@ -130,10 +144,12 @@ export interface FileRoutesByTo {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/panel-investigador': typeof PanelInvestigadorRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
@@ -149,10 +165,12 @@ export interface FileRoutesById {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/panel-investigador': typeof PanelInvestigadorRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
@@ -169,10 +187,12 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/fencyt'
     | '/historias'
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/panel-investigador'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
@@ -187,10 +207,12 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/fencyt'
     | '/historias'
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/panel-investigador'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
@@ -205,10 +227,12 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/compromiso'
     | '/escanea'
+    | '/fencyt'
     | '/historias'
     | '/investigacion'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/panel-investigador'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
@@ -224,10 +248,12 @@ export interface RootRouteChildren {
   AntesYDespuesRoute: typeof AntesYDespuesRoute
   CompromisoRoute: typeof CompromisoRoute
   EscaneaRoute: typeof EscaneaRoute
+  FencytRoute: typeof FencytRoute
   HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
+  PanelInvestigadorRoute: typeof PanelInvestigadorRoute
   PorQueRoute: typeof PorQueRoute
   ProgresoRoute: typeof ProgresoRoute
   RecompensasRoute: typeof RecompensasRoute
@@ -268,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EscaneaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fencyt': {
+      id: '/fencyt'
+      path: '/fencyt'
+      fullPath: '/fencyt'
+      preLoaderRoute: typeof FencytRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/historias': {
       id: '/historias'
       path: '/historias'
@@ -294,6 +327,13 @@ declare module '@tanstack/react-router' {
       path: '/mira-mas-alla'
       fullPath: '/mira-mas-alla'
       preLoaderRoute: typeof MiraMasAllaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panel-investigador': {
+      id: '/panel-investigador'
+      path: '/panel-investigador'
+      fullPath: '/panel-investigador'
+      preLoaderRoute: typeof PanelInvestigadorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/por-que': {
@@ -360,10 +400,12 @@ const rootRouteChildren: RootRouteChildren = {
   AntesYDespuesRoute: AntesYDespuesRoute,
   CompromisoRoute: CompromisoRoute,
   EscaneaRoute: EscaneaRoute,
+  FencytRoute: FencytRoute,
   HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
+  PanelInvestigadorRoute: PanelInvestigadorRoute,
   PorQueRoute: PorQueRoute,
   ProgresoRoute: ProgresoRoute,
   RecompensasRoute: RecompensasRoute,

@@ -27,7 +27,7 @@ export const Route = createFileRoute("/historias")({
 function Historias() {
   const { testimonios, agregarTestimonio, hidratado } = useProgreso();
   const [form, setForm] = useState({
-    lugar: SITIOS[0].nombre,
+    lugar: SITIOS[0]!.nombre,
     historia: "",
     testimonio: "",
     compartidoPor: "",

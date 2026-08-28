@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { Header } from "@/components/riqsiy/Header";
+import { BackButton } from "@/components/riqsiy/BackButton";
 import { Footer } from "@/components/riqsiy/Footer";
 import { ProgresoProvider } from "@/lib/progress";
 import { Toaster } from "@/components/ui/sonner";
@@ -135,6 +136,7 @@ function RootComponent() {
       <ProgresoProvider>
         <div className="flex min-h-screen flex-col">
           <Header />
+          <BackButton />
           <main className="flex-1">
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
