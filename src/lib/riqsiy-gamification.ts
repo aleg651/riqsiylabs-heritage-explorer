@@ -21,7 +21,7 @@ export const NIVELES: Nivel[] = [
 ];
 
 export function nivelDe(coins: number) {
-  const actual = [...NIVELES].reverse().find((n) => coins >= n.min) ?? NIVELES[0];
+  const actual = [...NIVELES].reverse().find((n) => coins >= n.min) ?? NIVELES[0]!;
   const siguiente = NIVELES.find((n) => n.min > coins) ?? null;
   const base = actual.min;
   const techo = siguiente ? siguiente.min : actual.min;
