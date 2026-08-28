@@ -84,7 +84,7 @@ function Escena({ juego, paso, acierto }: { juego: Juego; paso: number; acierto:
 
   // sombra
   const angulos = [-70, -35, 0, 30, 65];
-  const ang = angulos[Math.min(avance, angulos.length - 1)];
+  const ang = angulos[Math.min(avance, angulos.length - 1)] ?? 0;
   return (
     <div className="relative h-32 overflow-hidden rounded-md bg-gradient-to-b from-primary/15 to-earth/25">
       <div
@@ -110,14 +110,14 @@ export function JuegoEngine({ juego }: { juego: Juego }) {
   const [intentos, setIntentos] = useState(0);
   const [terminado, setTerminado] = useState(false);
 
-  const actual = juego.pasos[paso];
-  const acierto = elegida === null ? null : elegida === actual?.correcta;
+  const actual = juego.pasos[paso] ?? juego.pasos[0]!;
+  const acierto = elegida === null ? null : elegida === actual.correcta;
 
   const elegir = (i: number) => {
     if (elegida !== null) return;
     setElegida(i);
     setIntentos((n) => n + 1);
-    if (i === juego.pasos[paso].correcta) setAciertos((n) => n + 1);
+    if (i === actual.correcta) setAciertos((n) => n + 1);
   };
 
   const siguiente = () => {
