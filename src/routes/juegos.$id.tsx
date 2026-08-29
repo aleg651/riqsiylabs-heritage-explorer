@@ -51,7 +51,7 @@ function JuegoPage() {
         description={juego.intro}
       />
       <div className="mt-8">
-        <JuegoEngine juego={juego} />
+        {juego.id === "encaja-la-piedra" ? <MuroPuzzle /> : <JuegoEngine juego={juego} />}
       </div>
       {juego.nota && (
         <p className="mt-8 rounded-lg border border-dashed border-border bg-secondary/40 p-4 text-xs text-muted-foreground">
