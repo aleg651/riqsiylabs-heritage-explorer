@@ -66,7 +66,7 @@ function tableroInicial(): Tablero {
     [7, 0], [6, 0], [7, 1],
     [7, 7], [6, 7], [7, 6],
   ];
-  for (const [r, c] of semillas) t[r][c] = 1;
+  for (const [r, c] of semillas) t[r]![c] = 1;
   return t;
 }
 
@@ -74,7 +74,7 @@ function cabePieza(tablero: Tablero, celdas: Celda[], r0: number, c0: number): b
   return celdas.every(([r, c]) => {
     const rr = r0 + r;
     const cc = c0 + c;
-    return rr >= 0 && rr < SIZE && cc >= 0 && cc < SIZE && tablero[rr][cc] === 0;
+    return rr >= 0 && rr < SIZE && cc >= 0 && cc < SIZE && tablero[rr]![cc] === 0;
   });
 }
 
