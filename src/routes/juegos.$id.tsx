@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { JUEGOS } from "@/lib/riqsiy-juegos";
 import { JuegoEngine } from "@/components/riqsiy/JuegoEngine";
+import { MuroPuzzle } from "@/components/riqsiy/MuroPuzzle";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { AUTOR } from "@/lib/riqsiy-gamification";
 
