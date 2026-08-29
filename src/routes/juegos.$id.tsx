@@ -1,6 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { JUEGOS } from "@/lib/riqsiy-juegos";
 import { JuegoEngine } from "@/components/riqsiy/JuegoEngine";
+import { MuroPuzzle } from "@/components/riqsiy/MuroPuzzle";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { AUTOR } from "@/lib/riqsiy-gamification";
 
@@ -51,7 +52,7 @@ function JuegoPage() {
         description={juego.intro}
       />
       <div className="mt-8">
-        <JuegoEngine juego={juego} />
+        {juego.id === "encaja-la-piedra" ? <MuroPuzzle /> : <JuegoEngine juego={juego} />}
       </div>
       {juego.nota && (
         <p className="mt-8 rounded-lg border border-dashed border-border bg-secondary/40 p-4 text-xs text-muted-foreground">
