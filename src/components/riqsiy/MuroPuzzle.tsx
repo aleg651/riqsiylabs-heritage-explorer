@@ -86,11 +86,11 @@ function hayJugada(tablero: Tablero, celdas: Celda[]): boolean {
 
 let piezaSeq = 1;
 function nuevaPieza(): Pieza {
-  const forma = FORMAS[Math.floor(Math.random() * FORMAS.length)];
+  const forma = FORMAS[Math.floor(Math.random() * FORMAS.length)]!;
   return {
     id: piezaSeq++,
     celdas: forma,
-    color: GRADIENTES[Math.floor(Math.random() * GRADIENTES.length)],
+    color: GRADIENTES[Math.floor(Math.random() * GRADIENTES.length)]!,
   };
 }
 
@@ -143,7 +143,7 @@ export function MuroPuzzle() {
       }
       setTablero((t) => {
         const nt = t.map((fila) => [...fila]);
-        for (const [r, c] of pieza.celdas) nt[destino.r + r][destino.c + c] = 1;
+        for (const [r, c] of pieza.celdas) nt[destino.r + r]![destino.c + c] = 1;
         // detectar líneas completas
         const filasFull = nt.map((fila, r) => (fila.every(Boolean) ? r : -1)).filter((r) => r >= 0);
         const colsFull: number[] = [];
