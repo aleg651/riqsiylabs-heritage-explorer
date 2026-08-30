@@ -1,15 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Award, Coins, Gamepad2, RotateCcw, Sparkles } from "lucide-react";
+import { Award, Coins, Gamepad2, RotateCcw, Trophy } from "lucide-react";
 import { useProgreso } from "@/lib/progress";
 
 /**
- * Pirqa RIQSIY — rompecabezas estilo "Block Blast" con sillares incas.
- * Arrastra piezas poliominó sobre un muro de 8x8; completa hileras o
- * columnas para derribarlas y ganar RIQSI-COINS.
+ * PIRQA RIQSIY — rompecabezas estilo "Block Blast" con sillares incas.
+ * Réplica de la app PIRQA del mismo autor, integrada al sistema de
+ * progreso y RIQSI-COINS de RIQSIY.
+ *
+ * Arrastra la piedra al muro · o tócala y elige el nicho.
+ * Completa hileras o columnas para consolidar el tramo y sumar puntos.
  */
 
 const SIZE = 8;
+const MEJOR_KEY = "riqsiy-pirqa-mejor";
 
 type Celda = [number, number]; // [fila, columna] relativa
 interface Pieza {
@@ -101,6 +105,11 @@ function boundingBox(celdas: Celda[]): { filas: number; cols: number } {
   };
 }
 
+function leerMejor(): number {
+  if (typeof window === "undefined") return 0;
+  return Number(window.localStorage.getItem(MEJOR_KEY) ?? 0) || 0;
+}
+
 export function MuroPuzzle() {
   const { completarJuego, coins } = useProgreso();
   const boardRef = useRef<HTMLDivElement>(null);
@@ -108,15 +117,17 @@ export function MuroPuzzle() {
   const [tablero, setTablero] = useState<Tablero>(tableroInicial);
   const [bandeja, setBandeja] = useState<Pieza[]>(() => [nuevaPieza(), nuevaPieza(), nuevaPieza()]);
   const [arrastre, setArrastre] = useState<{ pieza: Pieza; x: number; y: number } | null>(null);
+  const [seleccion, setSeleccion] = useState<Pieza | null>(null);
   const [preview, setPreview] = useState<{ r: number; c: number; ok: boolean } | null>(null);
+  const [puntos, setPuntos] = useState(0);
+  const [racha, setRacha] = useState(0);
+  const [mejor, setMejor] = useState(leerMejor);
   const [ganadas, setGanadas] = useState(0);
   const [lineas, setLineas] = useState(0);
   const [fin, setFin] = useState(false);
   const [flash, setFlash] = useState<Celda[]>([]);
   const [errorId, setErrorId] = useState<number | null>(null);
   const [registrado, setRegistrado] = useState(false);
-
-  const colocadas = tablero.flat().filter(Boolean).length;
 
   const celdaDesdePunto = useCallback((clientX: number, clientY: number, pieza: Pieza) => {
     const board = boardRef.current?.getBoundingClientRect();
@@ -131,24 +142,26 @@ export function MuroPuzzle() {
     return { r: r0, c: c0 };
   }, []);
 
-  const soltar = useCallback(
-    (pieza: Pieza, clientX: number, clientY: number) => {
-      setArrastre(null);
-      setPreview(null);
-      const destino = celdaDesdePunto(clientX, clientY, pieza);
-      if (!destino || !cabePieza(tablero, pieza.celdas, destino.r, destino.c)) {
-        setErrorId(pieza.id);
-        window.setTimeout(() => setErrorId(null), 400);
-        return;
-      }
+  const colocar = useCallback(
+    (pieza: Pieza, r0: number, c0: number) => {
       setTablero((t) => {
         const nt = t.map((fila) => [...fila]);
-        for (const [r, c] of pieza.celdas) nt[destino.r + r]![destino.c + c] = 1;
+        for (const [r, c] of pieza.celdas) nt[r0 + r]![c0 + c] = 1;
         // detectar líneas completas
         const filasFull = nt.map((fila, r) => (fila.every(Boolean) ? r : -1)).filter((r) => r >= 0);
         const colsFull: number[] = [];
         for (let c = 0; c < SIZE; c++) if (nt.every((fila) => fila[c])) colsFull.push(c);
         const totalLineas = filasFull.length + colsFull.length;
+
+        const cerrarTurno = (tableroFinal: Tablero) => {
+          setBandeja((b) => {
+            const restantes = b.filter((p) => p.id !== pieza.id);
+            const nueva = restantes.length === 0 ? [nuevaPieza(), nuevaPieza(), nuevaPieza()] : restantes;
+            if (!nueva.some((p) => hayJugada(tableroFinal, p.celdas))) setFin(true);
+            return nueva;
+          });
+        };
+
         if (totalLineas > 0) {
           const celdasFlash: Celda[] = [];
           for (const r of filasFull) for (let c = 0; c < SIZE; c++) celdasFlash.push([r, c]);
@@ -159,146 +172,208 @@ export function MuroPuzzle() {
               const limpio = tt.map((fila, r) =>
                 fila.map((v, c) => (filasFull.includes(r) || colsFull.includes(c) ? 0 : v)),
               );
-              // ¿fin del juego tras limpiar?
-              setBandeja((b) => {
-                const restantes = b.filter((p) => p.id !== pieza.id);
-                const nueva = restantes.length === 0 ? [nuevaPieza(), nuevaPieza(), nuevaPieza()] : restantes;
-                if (!nueva.some((p) => hayJugada(limpio, p.celdas))) setFin(true);
-                return nueva;
-              });
+              cerrarTurno(limpio);
               return limpio;
             });
             setFlash([]);
           }, 450);
+          // puntos: piedras colocadas + líneas con multiplicador de racha
+          const nuevaRacha = racha + 1;
+          setRacha(nuevaRacha);
+          setPuntos((p) => p + pieza.celdas.length + 40 * totalLineas * nuevaRacha);
           setLineas((l) => l + totalLineas);
           setGanadas((g) => g + COINS_PIEZA + totalLineas * COINS_LINEA);
         } else {
+          setRacha(0);
+          setPuntos((p) => p + pieza.celdas.length);
           setGanadas((g) => g + COINS_PIEZA);
-          setBandeja((b) => {
-            const restantes = b.filter((p) => p.id !== pieza.id);
-            const nueva = restantes.length === 0 ? [nuevaPieza(), nuevaPieza(), nuevaPieza()] : restantes;
-            if (!nueva.some((p) => hayJugada(nt, p.celdas))) setFin(true);
-            return nueva;
-          });
+          cerrarTurno(nt);
         }
         return nt;
       });
     },
-    [tablero, celdaDesdePunto],
+    [racha],
   );
+
+  const soltar = useCallback(
+    (pieza: Pieza, clientX: number, clientY: number) => {
+      setArrastre(null);
+      setPreview(null);
+      const destino = celdaDesdePunto(clientX, clientY, pieza);
+      if (!destino || !cabePieza(tablero, pieza.celdas, destino.r, destino.c)) {
+        setErrorId(pieza.id);
+        window.setTimeout(() => setErrorId(null), 400);
+        return;
+      }
+      setSeleccion(null);
+      colocar(pieza, destino.r, destino.c);
+    },
+    [tablero, celdaDesdePunto, colocar],
+  );
+
+  /** modo táctil alternativo: toca la piedra, luego toca el nicho */
+  const tocarNicho = (r: number, c: number) => {
+    if (!seleccion || fin) return;
+    if (!cabePieza(tablero, seleccion.celdas, r, c)) {
+      setErrorId(seleccion.id);
+      window.setTimeout(() => setErrorId(null), 400);
+      return;
+    }
+    const p = seleccion;
+    setSeleccion(null);
+    setPreview(null);
+    colocar(p, r, c);
+  };
 
   const reiniciar = () => {
     setTablero(tableroInicial());
     setBandeja([nuevaPieza(), nuevaPieza(), nuevaPieza()]);
+    setPuntos(0);
+    setRacha(0);
     setGanadas(0);
     setLineas(0);
     setFin(false);
     setRegistrado(false);
     setFlash([]);
+    setSeleccion(null);
+    setPreview(null);
   };
 
   useEffect(() => {
-    if (fin && !registrado) {
-      setRegistrado(true);
-      completarJuego("encaja-la-piedra", ganadas);
+    if (fin) {
+      if (puntos > mejor) {
+        setMejor(puntos);
+        window.localStorage.setItem(MEJOR_KEY, String(puntos));
+      }
+      if (!registrado) {
+        setRegistrado(true);
+        completarJuego("encaja-la-piedra", ganadas);
+      }
     }
-  }, [fin, registrado, ganadas, completarJuego]);
+  }, [fin, registrado, ganadas, puntos, mejor, completarJuego]);
 
-  const progreso = Math.min(100, Math.round((colocadas / (SIZE * SIZE)) * 100));
+  // vista previa con la pieza seleccionada al pasar sobre el tablero
+  const previewSel = useMemo(() => {
+    if (!seleccion) return null;
+    return preview;
+  }, [seleccion, preview]);
 
   return (
-    <div className="space-y-6">
-      {/* barra superior */}
-      <div className="flex flex-wrap items-center gap-4 rounded-xl border border-border bg-card p-4">
-        <div className="min-w-[200px] flex-1">
-          <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            <span>Muro levantado</span>
-            <span>{progreso}%</span>
-          </div>
-          <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-secondary">
-            <div
-              className="h-full rounded-full bg-gradient-to-r from-gold to-accent transition-all duration-500"
-              style={{ width: `${progreso}%` }}
-            />
-          </div>
+    <div className="space-y-5">
+      {/* marcadores estilo PIRQA */}
+      <div className="mx-auto grid max-w-xl grid-cols-3 gap-3">
+        <div className="rounded-lg border border-border bg-card px-4 py-3 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Puntos</p>
+          <p className="font-display text-2xl text-gold">{puntos}</p>
         </div>
-        <span className="inline-flex items-center gap-2 rounded-full bg-gold/25 px-3 py-1.5 text-sm font-semibold">
-          <Coins className="h-4 w-4" /> +{ganadas}
-        </span>
-        <span className="inline-flex items-center gap-2 rounded-full bg-jade/20 px-3 py-1.5 text-sm font-semibold">
-          <Sparkles className="h-4 w-4" /> {lineas} hileras
-        </span>
-        <button
-          type="button"
-          onClick={reiniciar}
-          className="inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-secondary"
-        >
-          <RotateCcw className="h-3.5 w-3.5" /> Reiniciar
-        </button>
+        <div className="rounded-lg border border-border bg-card px-4 py-3 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Racha</p>
+          <p className="font-display text-2xl">{racha > 0 ? `×${racha}` : "0"}</p>
+        </div>
+        <div className="rounded-lg border border-border bg-card px-4 py-3 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Mejor</p>
+          <p className="inline-flex items-center gap-1.5 font-display text-2xl">
+            <Trophy className="h-4 w-4 text-gold" /> {Math.max(mejor, puntos)}
+          </p>
+        </div>
       </div>
 
       {!fin && (
-        <p className="text-sm text-muted-foreground">
-          Arrastra los sillares al muro. Al completar una hilera o columna entera, la piedra se
-          asienta y el tramo se consolida: ¡así crecían los muros del Tahuantinsuyo!
+        <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
+          Arrastra la piedra al muro · o tócala y elige el nicho
         </p>
       )}
 
-      {/* TABLERO */}
+      {/* TABLERO con marco de piedra */}
       <div className="mx-auto max-w-xl">
         <div
-          ref={boardRef}
-          className="shadow-stone relative grid aspect-square w-full grid-cols-8 gap-[3px] rounded-2xl border-2 border-border p-[6px]"
-          style={{ background: "linear-gradient(160deg, hsl(30 12% 26%), hsl(28 10% 16%))" }}
+          className="rounded-xl p-2"
+          style={{
+            background:
+              "linear-gradient(160deg, hsl(30 10% 42%), hsl(28 12% 24%) 40%, hsl(30 10% 36%))",
+            boxShadow: "0 10px 30px rgba(0,0,0,.45), inset 0 2px 6px rgba(255,255,255,.15)",
+          }}
         >
-          {tablero.map((fila, r) =>
-            fila.map((v, c) => {
-              const esFlash = flash.some(([fr, fc]) => fr === r && fc === c);
-              const enPreview =
-                arrastre &&
-                preview &&
-                arrastre.pieza.celdas.some(([pr, pc]) => preview.r + pr === r && preview.c + pc === c);
-              return (
-                <div
-                  key={`${r}-${c}`}
-                  className={`rounded-[3px] transition-all duration-200 ${
-                    esFlash ? "animate-[pulse_.45s_ease-in-out]" : ""
-                  }`}
-                  style={{
-                    background: v
-                      ? esFlash
-                        ? "linear-gradient(150deg, hsl(48 90% 70%), hsl(40 80% 55%))"
-                        : "linear-gradient(150deg, hsl(32 18% 62%), hsl(28 14% 40%))"
-                      : enPreview
-                        ? preview!.ok
-                          ? "hsla(45, 70%, 60%, .45)"
-                          : "hsla(0, 70%, 55%, .4)"
-                        : "hsl(28 12% 20%)",
-                    boxShadow: v ? "inset 0 2px 4px rgba(255,255,255,.2), inset 0 -2px 4px rgba(0,0,0,.3)" : "inset 0 0 6px rgba(0,0,0,.5)",
-                  }}
+          <div
+            ref={boardRef}
+            className="relative grid aspect-square w-full grid-cols-8 gap-[3px] rounded-lg p-[6px]"
+            style={{ background: "linear-gradient(160deg, hsl(30 12% 24%), hsl(28 10% 14%))" }}
+            onPointerMove={(e) => {
+              if (!seleccion || arrastre) return;
+              const board = boardRef.current?.getBoundingClientRect();
+              if (!board) return;
+              const cell = board.width / SIZE;
+              const c = Math.floor((e.clientX - board.left) / cell);
+              const r = Math.floor((e.clientY - board.top) / cell);
+              if (r >= 0 && r < SIZE && c >= 0 && c < SIZE) {
+                setPreview({ r, c, ok: cabePieza(tablero, seleccion.celdas, r, c) });
+              } else setPreview(null);
+            }}
+          >
+            {tablero.map((fila, r) =>
+              fila.map((v, c) => {
+                const esFlash = flash.some(([fr, fc]) => fr === r && fc === c);
+                const piezaActiva = arrastre?.pieza ?? seleccion;
+                const previewActivo = arrastre ? preview : previewSel;
+                const enPreview =
+                  piezaActiva &&
+                  previewActivo &&
+                  piezaActiva.celdas.some(
+                    ([pr, pc]) => previewActivo.r + pr === r && previewActivo.c + pc === c,
+                  );
+                return (
+                  <div
+                    key={`${r}-${c}`}
+                    onPointerUp={() => tocarNicho(r, c)}
+                    className={`rounded-[3px] transition-all duration-200 ${
+                      esFlash ? "animate-[pulse_.45s_ease-in-out]" : ""
+                    } ${seleccion && !v ? "cursor-pointer" : ""}`}
+                    style={{
+                      background: v
+                        ? esFlash
+                          ? "linear-gradient(150deg, hsl(48 90% 70%), hsl(40 80% 55%))"
+                          : "linear-gradient(150deg, hsl(32 18% 62%), hsl(28 14% 40%))"
+                        : enPreview
+                          ? previewActivo!.ok
+                            ? "hsla(45, 70%, 60%, .45)"
+                            : "hsla(0, 70%, 55%, .4)"
+                          : "hsl(28 12% 18%)",
+                      boxShadow: v
+                        ? "inset 0 2px 4px rgba(255,255,255,.2), inset 0 -2px 4px rgba(0,0,0,.3)"
+                        : "inset 0 0 6px rgba(0,0,0,.5)",
+                    }}
+                  />
+                );
+              }),
+            )}
+            {fin && (
+              <div className="absolute inset-0 z-10 flex items-center justify-center rounded-lg bg-background/80 backdrop-blur-sm">
+                <PantallaFinal
+                  ganadas={ganadas}
+                  lineas={lineas}
+                  puntos={puntos}
+                  mejor={Math.max(mejor, puntos)}
+                  coins={coins}
+                  onJugar={reiniciar}
                 />
-              );
-            }),
-          )}
-          {fin && (
-            <div className="absolute inset-0 z-10 flex items-center justify-center rounded-2xl bg-background/80 backdrop-blur-sm">
-              <PantallaFinal ganadas={ganadas} lineas={lineas} coins={coins} onJugar={reiniciar} />
-            </div>
-          )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
       {/* BANDEJA */}
       {!fin && (
-        <div className="rounded-2xl border border-border bg-secondary/40 p-4">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-            Sillares tallados
-          </p>
+        <div
+          className="mx-auto max-w-xl rounded-xl border border-border p-4"
+          style={{ background: "linear-gradient(160deg, hsl(28 14% 22%), hsl(28 12% 14%))" }}
+        >
           <div className="flex flex-wrap items-center justify-center gap-6">
             {bandeja.map((p) => {
               const { filas, cols } = boundingBox(p.celdas);
               const esError = errorId === p.id;
               const activa = arrastre?.pieza.id === p.id;
+              const elegida = seleccion?.id === p.id;
               const usable = hayJugada(tablero, p.celdas);
               return (
                 <div
@@ -318,15 +393,27 @@ export function MuroPuzzle() {
                     else setPreview(null);
                   }}
                   onPointerUp={(e) => {
-                    if (arrastre?.pieza.id === p.id) soltar(p, e.clientX, e.clientY);
+                    if (arrastre?.pieza.id !== p.id) return;
+                    // si casi no se movió, es un toque: seleccionar en vez de soltar
+                    const dx = Math.abs(e.clientX - arrastre.x);
+                    const dy = Math.abs(e.clientY - arrastre.y);
+                    if (dx < 8 && dy < 8) {
+                      setArrastre(null);
+                      setPreview(null);
+                      setSeleccion((s) => (s?.id === p.id ? null : p));
+                      return;
+                    }
+                    soltar(p, e.clientX, e.clientY);
                   }}
                   onPointerCancel={() => {
                     setArrastre(null);
                     setPreview(null);
                   }}
-                  className={`cursor-grab touch-none select-none transition-transform duration-200 ${
+                  className={`cursor-grab touch-none select-none rounded-lg p-2 transition-all duration-200 ${
                     esError ? "animate-[pulse_.2s_ease-in-out_2] ring-2 ring-destructive" : ""
-                  } ${activa ? "opacity-30" : "hover:scale-105"} ${!usable ? "opacity-40 saturate-0" : ""}`}
+                  } ${activa ? "opacity-30" : "hover:scale-105"} ${
+                    elegida ? "ring-2 ring-gold" : ""
+                  } ${!usable ? "opacity-40 saturate-0" : ""}`}
                 >
                   <div
                     className="grid gap-[3px]"
@@ -359,6 +446,23 @@ export function MuroPuzzle() {
           </div>
         </div>
       )}
+
+      {/* acciones */}
+      <div className="flex flex-wrap items-center justify-center gap-3">
+        <span className="inline-flex items-center gap-2 rounded-full bg-gold/25 px-3 py-1.5 text-sm font-semibold">
+          <Coins className="h-4 w-4" /> +{ganadas} RIQSI-COINS
+        </span>
+        <span className="inline-flex items-center gap-2 rounded-full bg-jade/20 px-3 py-1.5 text-sm font-semibold">
+          {lineas} hileras consolidadas
+        </span>
+        <button
+          type="button"
+          onClick={reiniciar}
+          className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-secondary"
+        >
+          <RotateCcw className="h-3.5 w-3.5" /> Nueva partida
+        </button>
+      </div>
 
       {/* fantasma de arrastre */}
       {arrastre && <Ghost arrastre={arrastre} boardRef={boardRef} />}
@@ -415,38 +519,41 @@ function Ghost({
 function PantallaFinal({
   ganadas,
   lineas,
+  puntos,
+  mejor,
   coins,
   onJugar,
 }: {
   ganadas: number;
   lineas: number;
+  puntos: number;
+  mejor: number;
   coins: number;
   onJugar: () => void;
 }) {
-  const total = useMemo(() => ganadas, [ganadas]);
   return (
     <div className="animate-scale-in m-4 w-full max-w-md rounded-2xl border-2 border-accent bg-card p-6 text-center">
       <h2 className="font-display text-3xl">¡Muro reconstruido!</h2>
       <p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">
         Has aprendido cómo el encaje de piedras ayudaba a construir estructuras resistentes.
       </p>
-      <div className="mt-5 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-xl bg-gold/20 p-4">
-          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">RIQSI-COINS</p>
-          <p className="font-display text-2xl">+{total}</p>
-        </div>
+      <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <div className="rounded-xl bg-secondary p-4">
-          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Hileras</p>
-          <p className="font-display text-2xl">{lineas}</p>
-        </div>
-        <div className="rounded-xl bg-jade/20 p-4">
-          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Insignia</p>
-          <p className="inline-flex items-center gap-1.5 font-display text-lg">
-            <Award className="h-4 w-4" /> Maestro de la Piedra
+          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Puntos</p>
+          <p className="font-display text-2xl">{puntos}</p>
+          <p className="mt-1 inline-flex items-center gap-1 text-xs text-muted-foreground">
+            <Trophy className="h-3 w-3 text-gold" /> Mejor: {mejor}
           </p>
         </div>
+        <div className="rounded-xl bg-gold/20 p-4">
+          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">RIQSI-COINS</p>
+          <p className="font-display text-2xl">+{ganadas}</p>
+          <p className="mt-1 text-xs text-muted-foreground">{lineas} hileras · Saldo: 🟡 {coins}</p>
+        </div>
       </div>
-      <p className="mt-3 text-xs text-muted-foreground">Saldo disponible: 🟡 {coins}</p>
+      <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-jade/20 px-3 py-1.5 text-sm font-semibold">
+        <Award className="h-4 w-4" /> Insignia: Maestro de la Piedra
+      </p>
       <div className="mt-5 flex flex-wrap justify-center gap-3">
         <button
           type="button"
