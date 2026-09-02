@@ -35,6 +35,7 @@ export interface ProgresoState {
   descubiertos: string[];
   retosCompletados: string[]; // `${slug}#${index}`
   juegosCompletados: string[]; // ids de minijuegos
+  experiencias: string[]; // ids de experiencias completadas (ej. patrimonio-local)
   puntos: number; // RIQSI-COINS acumuladas (histórico)
   gastados: number;
   compromisos: string[];
@@ -55,6 +56,7 @@ const VACIO: ProgresoState = {
   descubiertos: [],
   retosCompletados: [],
   juegosCompletados: [],
+  experiencias: [],
   puntos: 0,
   gastados: 0,
   compromisos: [],
@@ -77,6 +79,7 @@ interface Ctx extends ProgresoState {
   descubrir: (slug: string) => void;
   completarReto: (slug: string, index: number, puntos: number) => void;
   completarJuego: (id: JuegoId, puntos: number) => void;
+  completarExperiencia: (id: string, puntos: number) => void;
   toggleCompromiso: (id: string) => void;
   confirmarCompromisos: () => void;
   guardarTest: (fase: "inicial" | "final", respuestas: Record<string, number>) => void;
@@ -141,6 +144,14 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
       if (s.juegosCompletados.includes(id)) return s;
       ganar(puntos, "Minijuego completado");
       return { ...s, juegosCompletados: [...s.juegosCompletados, id], puntos: s.puntos + puntos };
+    });
+  }, []);
+
+  const completarExperiencia = useCallback((id: string, puntos: number) => {
+    setState((s) => {
+      if (s.experiencias.includes(id)) return s;
+      ganar(puntos, "Experiencia RIQSIY completada");
+      return { ...s, experiencias: [...s.experiencias, id], puntos: s.puntos + puntos };
     });
   }, []);
 
@@ -222,6 +233,8 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
             return state.compromisos.length >= 2 && !!state.fechaCompromiso;
           case "embajador":
             return state.puntos >= 2000;
+          case "explorador-local":
+            return state.experiencias.includes("patrimonio-local");
           case "diagnostico":
             return !!state.testInicial;
           default: {
@@ -258,6 +271,7 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
     descubrir,
     completarReto,
     completarJuego,
+    completarExperiencia,
     toggleCompromiso,
     confirmarCompromisos,
     guardarTest,
