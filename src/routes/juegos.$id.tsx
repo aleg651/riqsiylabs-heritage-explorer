@@ -43,16 +43,15 @@ function JuegoNoEncontrado() {
 
 function JuegoPage() {
   const { juego } = Route.useLoaderData();
+  const esPirqa = juego.id === "encaja-la-piedra";
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
-      <SectionTitle
-        eyebrow={`${juego.icono} ${juego.tema}`}
-        title={juego.titulo}
-        description={juego.intro}
-      />
-      <div className="mt-8">
-        {juego.id === "encaja-la-piedra" ? <MuroPuzzle /> : <JuegoEngine juego={juego} />}
+      {!esPirqa && (
+        <SectionTitle eyebrow={`${juego.icono} ${juego.tema}`} title={juego.titulo} description={juego.intro} />
+      )}
+      <div className={esPirqa ? "" : "mt-8"}>
+        {esPirqa ? <MuroPuzzle /> : <JuegoEngine juego={juego} />}
       </div>
       {juego.nota && (
         <p className="mt-8 rounded-lg border border-dashed border-border bg-secondary/40 p-4 text-xs text-muted-foreground">
@@ -62,3 +61,4 @@ function JuegoPage() {
     </div>
   );
 }
+
