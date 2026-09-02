@@ -465,10 +465,7 @@ export function MuroPuzzle() {
               );
             })}
           </div>
-        </div>
-      )}
 
-          </div>
           <p className="mt-4 text-center text-[11px] font-medium uppercase tracking-[0.22em] text-[hsl(38_16%_74%)]">
             Arrastra la piedra al muro · o tócala y elige el nicho
           </p>
