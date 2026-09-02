@@ -381,9 +381,14 @@ export function MuroPuzzle() {
       {/* BANDEJA */}
       {!fin && (
         <div
-          className="mx-auto max-w-xl rounded-xl border border-border p-4"
-          style={{ background: "linear-gradient(160deg, hsl(28 14% 22%), hsl(28 12% 14%))" }}
+          className="mx-auto max-w-xl overflow-hidden rounded-xl border border-[hsl(38_20%_40%/.5)] p-4"
+          style={{
+            backgroundImage: `linear-gradient(hsl(28 18% 12% / .5), hsl(28 18% 10% / .65)), url(${stoneImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
+
           <div className="flex flex-wrap items-center justify-center gap-6">
             {bandeja.map((p) => {
               const { filas, cols } = boundingBox(p.celdas);
