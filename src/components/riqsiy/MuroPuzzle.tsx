@@ -468,26 +468,36 @@ export function MuroPuzzle() {
         </div>
       )}
 
+          </div>
+          <p className="mt-4 text-center text-[11px] font-medium uppercase tracking-[0.22em] text-[hsl(38_16%_74%)]">
+            Arrastra la piedra al muro · o tócala y elige el nicho
+          </p>
+        </div>
+      )}
+
       {/* acciones */}
       <div className="flex flex-wrap items-center justify-center gap-3">
         <span className="inline-flex items-center gap-2 rounded-full bg-gold/25 px-3 py-1.5 text-sm font-semibold">
           <Coins className="h-4 w-4" /> +{ganadas} RIQSI-COINS
         </span>
-        <span className="inline-flex items-center gap-2 rounded-full bg-jade/20 px-3 py-1.5 text-sm font-semibold">
+        <span className="inline-flex items-center gap-2 rounded-full bg-jade/25 px-3 py-1.5 text-sm font-semibold">
           {lineas} hileras consolidadas
         </span>
+      </div>
+      <div className="flex justify-center">
         <button
           type="button"
           onClick={reiniciar}
-          className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] transition-colors hover:bg-secondary"
+          className="rounded-md border border-[hsl(38_30%_55%/.7)] px-10 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[hsl(38_25%_88%)] transition-colors hover:bg-[hsl(38_30%_55%/.15)]"
         >
-          <RotateCcw className="h-3.5 w-3.5" /> Nueva partida
+          Nueva partida
         </button>
       </div>
 
       {/* fantasma de arrastre */}
       {arrastre && <Ghost arrastre={arrastre} boardRef={boardRef} />}
-    </div>
+    </section>
+
   );
 }
 
