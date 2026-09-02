@@ -50,7 +50,18 @@ export const INSIGNIAS_JUEGOS = [
   },
 ];
 
-export const ALL_INSIGNIAS = [...INSIGNIAS, ...INSIGNIAS_JUEGOS];
+export const INSIGNIAS_EXPERIENCIAS = [
+  {
+    id: "explorador-local",
+    nombre: "Explorador del Patrimonio Local",
+    icono: "🗺️",
+    descripcion: "Completaste la experiencia “Descubriendo nuestro patrimonio local”.",
+  },
+];
+
+export const EXPERIENCIA_LOCAL_ID = "patrimonio-local";
+
+export const ALL_INSIGNIAS = [...INSIGNIAS, ...INSIGNIAS_JUEGOS, ...INSIGNIAS_EXPERIENCIAS];
 
 /* -------------------------------- Recompensas ------------------------------- */
 
