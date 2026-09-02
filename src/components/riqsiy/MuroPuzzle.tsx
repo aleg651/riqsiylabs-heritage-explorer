@@ -262,30 +262,43 @@ export function MuroPuzzle() {
   }, [seleccion, preview]);
 
   return (
-    <div className="space-y-5">
+    <section
+      className="-mx-4 space-y-5 px-4 py-8 text-[hsl(38_30%_92%)] sm:-mx-6 sm:rounded-2xl sm:px-6"
+      style={{
+        backgroundImage: `linear-gradient(hsl(28 22% 10% / .9), hsl(28 22% 7% / .96)), url(${heroImg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* portada PIRQA */}
+      <header className="text-center">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.45em] text-[hsl(38_22%_78%)]">
+          Tahuantinsuyo
+        </p>
+        <h2 className="font-display text-5xl tracking-[0.14em] text-gold">PIRQA</h2>
+        <p className="mt-1 text-[11px] uppercase tracking-[0.3em] text-[hsl(38_18%_76%)]">
+          Levanta el muro · piedra sobre piedra
+        </p>
+      </header>
+
       {/* marcadores estilo PIRQA */}
       <div className="mx-auto grid max-w-xl grid-cols-3 gap-3">
-        <div className="rounded-lg border border-border bg-card px-4 py-3 text-center">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Puntos</p>
+        <div className="rounded-lg border border-[hsl(38_20%_40%/.5)] bg-[hsl(28_20%_14%/.75)] px-4 py-3 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[hsl(38_16%_72%)]">Puntos</p>
           <p className="font-display text-2xl text-gold">{puntos}</p>
         </div>
-        <div className="rounded-lg border border-border bg-card px-4 py-3 text-center">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Racha</p>
+        <div className="rounded-lg border border-[hsl(38_20%_40%/.5)] bg-[hsl(28_20%_14%/.75)] px-4 py-3 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[hsl(38_16%_72%)]">Racha</p>
           <p className="font-display text-2xl">{racha > 0 ? `×${racha}` : "0"}</p>
         </div>
-        <div className="rounded-lg border border-border bg-card px-4 py-3 text-center">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted-foreground">Mejor</p>
+        <div className="rounded-lg border border-[hsl(38_20%_40%/.5)] bg-[hsl(28_20%_14%/.75)] px-4 py-3 text-center">
+          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[hsl(38_16%_72%)]">Mejor</p>
           <p className="inline-flex items-center gap-1.5 font-display text-2xl">
             <Trophy className="h-4 w-4 text-gold" /> {Math.max(mejor, puntos)}
           </p>
         </div>
       </div>
 
-      {!fin && (
-        <p className="text-center text-xs font-medium uppercase tracking-[0.22em] text-muted-foreground">
-          Arrastra la piedra al muro · o tócala y elige el nicho
-        </p>
-      )}
 
       {/* TABLERO con marco de piedra */}
       <div className="mx-auto max-w-xl">
