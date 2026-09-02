@@ -2,6 +2,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Award, Coins, Gamepad2, RotateCcw, Trophy } from "lucide-react";
 import { useProgreso } from "@/lib/progress";
+import heroImg from "@/assets/hero-sacsayhuaman.jpg";
+import stoneImg from "@/assets/site-hatunrumiyoc.jpg";
+
 
 /**
  * PIRQA RIQSIY — rompecabezas estilo "Block Blast" con sillares incas.
