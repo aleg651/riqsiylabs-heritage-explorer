@@ -16,6 +16,7 @@ import { Route as EscaneaRouteImport } from './routes/escanea'
 import { Route as FencytRouteImport } from './routes/fencyt'
 import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
+import { Route as MachuMuquRouteImport } from './routes/machu-muqu'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
 import { Route as PanelInvestigadorRouteImport } from './routes/panel-investigador'
@@ -62,6 +63,11 @@ const HistoriasRoute = HistoriasRouteImport.update({
 const InvestigacionRoute = InvestigacionRouteImport.update({
   id: '/investigacion',
   path: '/investigacion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MachuMuquRoute = MachuMuquRouteImport.update({
+  id: '/machu-muqu',
+  path: '/machu-muqu',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapaRoute = MapaRouteImport.update({
@@ -133,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
+  '/machu-muqu': typeof MachuMuquRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
+  '/machu-muqu': typeof MachuMuquRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
+  '/machu-muqu': typeof MachuMuquRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
@@ -199,6 +208,7 @@ export interface FileRouteTypes {
     | '/fencyt'
     | '/historias'
     | '/investigacion'
+    | '/machu-muqu'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/fencyt'
     | '/historias'
     | '/investigacion'
+    | '/machu-muqu'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/fencyt'
     | '/historias'
     | '/investigacion'
+    | '/machu-muqu'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
@@ -263,6 +275,7 @@ export interface RootRouteChildren {
   FencytRoute: typeof FencytRoute
   HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
+  MachuMuquRoute: typeof MachuMuquRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
   PanelInvestigadorRoute: typeof PanelInvestigadorRoute
@@ -326,6 +339,13 @@ declare module '@tanstack/react-router' {
       path: '/investigacion'
       fullPath: '/investigacion'
       preLoaderRoute: typeof InvestigacionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/machu-muqu': {
+      id: '/machu-muqu'
+      path: '/machu-muqu'
+      fullPath: '/machu-muqu'
+      preLoaderRoute: typeof MachuMuquRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mapa': {
@@ -423,6 +443,7 @@ const rootRouteChildren: RootRouteChildren = {
   FencytRoute: FencytRoute,
   HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
+  MachuMuquRoute: MachuMuquRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
   PanelInvestigadorRoute: PanelInvestigadorRoute,
