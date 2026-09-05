@@ -63,6 +63,41 @@ function Descubre() {
         ))}
       </div>
 
+      {/* Machu Muqu — patrimonio de nuestra comunidad */}
+      <Link
+        to="/machu-muqu"
+        className="shadow-stone group mt-8 grid overflow-hidden rounded-lg border border-accent/70 bg-card transition-all hover:-translate-y-1 hover:border-accent sm:grid-cols-[1.1fr_1fr]"
+      >
+        <div className="gradient-earth relative flex min-h-44 items-center justify-center text-stone-deep-foreground">
+          <div className="stone-grid absolute inset-0 opacity-20" aria-hidden="true" />
+          <div className="relative text-center">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.3em] opacity-80">
+              Patrimonio de nuestra comunidad
+            </p>
+            <span className="mt-2 block font-display text-3xl font-semibold tracking-[0.18em] sm:text-4xl">
+              MACHU MUQU
+            </span>
+            <span className="mt-2 block text-sm text-gold-soft">Memoria · piedra · territorio</span>
+          </div>
+          {machuMuquHecho && (
+            <span className="absolute right-3 top-3 rounded-full bg-jade/90 px-2.5 py-1 text-xs font-semibold text-stone-deep-foreground">
+              Descubierto
+            </span>
+          )}
+        </div>
+        <div className="p-5 sm:p-6">
+          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Experiencia especial RIQSIY</p>
+          <h3 className="mt-1 font-display text-xl">Descubre Machu Muqu</h3>
+          <p className="mt-3 text-sm">
+            Un sitio arqueológico de nuestra comunidad, documentado con fotografías y videos propios. Observa sus
+            evidencias, escucha la memoria de la comunidad y acompáñanos en lo que todavía falta investigar.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
+            Explorar Machu Muqu <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+          </span>
+        </div>
+      </Link>
+
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {lista.map((s) => (
           <Link
