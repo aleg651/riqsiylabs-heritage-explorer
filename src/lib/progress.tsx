@@ -235,6 +235,8 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
             return state.puntos >= 2000;
           case "explorador-local":
             return state.experiencias.includes("patrimonio-local");
+          case "explorador-machu-muqu":
+            return state.experiencias.includes("machu-muqu");
           case "diagnostico":
             return !!state.testInicial;
           default: {
