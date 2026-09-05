@@ -1,8 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { CATEGORIAS, SITIOS, type Categoria } from "@/lib/riqsiy-data";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { useProgreso } from "@/lib/progress";
+import { EXPERIENCIA_MACHU_MUQU_ID } from "@/lib/riqsiy-gamification";
 
 export const Route = createFileRoute("/descubre/")({
   head: () => ({
@@ -25,8 +27,9 @@ export const Route = createFileRoute("/descubre/")({
 
 function Descubre() {
   const [filtro, setFiltro] = useState<Categoria | "todos">("todos");
-  const { descubiertos, hidratado } = useProgreso();
+  const { descubiertos, experiencias, hidratado } = useProgreso();
   const lista = filtro === "todos" ? SITIOS : SITIOS.filter((s) => s.categoria === filtro);
+  const machuMuquHecho = hidratado && experiencias.includes(EXPERIENCIA_MACHU_MUQU_ID);
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
