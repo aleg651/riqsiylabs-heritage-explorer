@@ -37,6 +37,9 @@ function MachuMuqu3DPage() {
   const control = useRef<Control>({ move: { x: 0, y: 0 }, yaw: 0, pitch: 0.15 });
   const teclas = useRef<Record<string, boolean>>({});
   const [calidadBaja, setCalidadBaja] = useState(false);
+  const [montado, setMontado] = useState(false);
+  useEffect(() => setMontado(true), []);
+
   const [puntoCerca, setPuntoCerca] = useState<number | null>(null);
   const [descubiertos, setDescubiertos] = useState<number[]>([]);
   const [abierto, setAbierto] = useState<number | null>(null);
