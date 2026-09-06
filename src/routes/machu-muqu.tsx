@@ -319,6 +319,13 @@ function MachuMuqu() {
               EXPLORAR MACHU MUQU <ArrowRight className="h-4 w-4" />
             </a>
             <Link
+              to="/machu-muqu-3d"
+              className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground"
+            >
+              CAMINAR EN 3D <ArrowRight className="h-4 w-4" />
+            </Link>
+
+            <Link
               to="/investigacion"
               className="inline-flex items-center gap-2 rounded-md border border-white/40 px-5 py-2.5 text-sm font-semibold transition-colors hover:bg-white/10"
             >
