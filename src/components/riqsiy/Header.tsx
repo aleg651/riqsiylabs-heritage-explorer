@@ -7,6 +7,8 @@ import { AUTOR } from "@/lib/riqsiy-gamification";
 
 const NAV = [
   { to: "/descubre", label: "Descubre" },
+  { to: "/machu-muqu-3d", label: "Machu Muqu 3D" },
+
   { to: "/mira-mas-alla", label: "Mira más allá" },
   { to: "/juegos", label: "Minijuegos" },
   { to: "/escanea", label: "Escanea" },

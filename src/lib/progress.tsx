@@ -237,6 +237,9 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
             return state.experiencias.includes("patrimonio-local");
           case "explorador-machu-muqu":
             return state.experiencias.includes("machu-muqu");
+          case "caminante-machu-muqu":
+            return state.experiencias.includes("machu-muqu-3d");
+
           case "diagnostico":
             return !!state.testInicial;
           default: {

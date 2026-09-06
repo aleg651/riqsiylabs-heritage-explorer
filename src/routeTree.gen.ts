@@ -17,6 +17,7 @@ import { Route as FencytRouteImport } from './routes/fencyt'
 import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
 import { Route as MachuMuquRouteImport } from './routes/machu-muqu'
+import { Route as MachuMuqu3dRouteImport } from './routes/machu-muqu-3d'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
 import { Route as PanelInvestigadorRouteImport } from './routes/panel-investigador'
@@ -68,6 +69,11 @@ const InvestigacionRoute = InvestigacionRouteImport.update({
 const MachuMuquRoute = MachuMuquRouteImport.update({
   id: '/machu-muqu',
   path: '/machu-muqu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MachuMuqu3dRoute = MachuMuqu3dRouteImport.update({
+  id: '/machu-muqu-3d',
+  path: '/machu-muqu-3d',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapaRoute = MapaRouteImport.update({
@@ -140,6 +146,7 @@ export interface FileRoutesByFullPath {
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/machu-muqu': typeof MachuMuquRoute
+  '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
@@ -162,6 +169,7 @@ export interface FileRoutesByTo {
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/machu-muqu': typeof MachuMuquRoute
+  '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
@@ -185,6 +193,7 @@ export interface FileRoutesById {
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
   '/machu-muqu': typeof MachuMuquRoute
+  '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
@@ -209,6 +218,7 @@ export interface FileRouteTypes {
     | '/historias'
     | '/investigacion'
     | '/machu-muqu'
+    | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
@@ -231,6 +241,7 @@ export interface FileRouteTypes {
     | '/historias'
     | '/investigacion'
     | '/machu-muqu'
+    | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/historias'
     | '/investigacion'
     | '/machu-muqu'
+    | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
@@ -276,6 +288,7 @@ export interface RootRouteChildren {
   HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
   MachuMuquRoute: typeof MachuMuquRoute
+  MachuMuqu3dRoute: typeof MachuMuqu3dRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
   PanelInvestigadorRoute: typeof PanelInvestigadorRoute
@@ -346,6 +359,13 @@ declare module '@tanstack/react-router' {
       path: '/machu-muqu'
       fullPath: '/machu-muqu'
       preLoaderRoute: typeof MachuMuquRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/machu-muqu-3d': {
+      id: '/machu-muqu-3d'
+      path: '/machu-muqu-3d'
+      fullPath: '/machu-muqu-3d'
+      preLoaderRoute: typeof MachuMuqu3dRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mapa': {
@@ -444,6 +464,7 @@ const rootRouteChildren: RootRouteChildren = {
   HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
   MachuMuquRoute: MachuMuquRoute,
+  MachuMuqu3dRoute: MachuMuqu3dRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
   PanelInvestigadorRoute: PanelInvestigadorRoute,

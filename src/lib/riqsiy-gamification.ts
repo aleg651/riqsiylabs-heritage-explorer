@@ -63,10 +63,18 @@ export const INSIGNIAS_EXPERIENCIAS = [
     icono: "🌙",
     descripcion: "Completaste la experiencia “Machu Muqu: memoria, piedra y territorio”.",
   },
+  {
+    id: "caminante-machu-muqu",
+    nombre: "Caminante de Machu Muqu",
+    icono: "🧭",
+    descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Muqu.",
+  },
 ];
 
 export const EXPERIENCIA_LOCAL_ID = "patrimonio-local";
 export const EXPERIENCIA_MACHU_MUQU_ID = "machu-muqu";
+export const EXPERIENCIA_MACHU_MUQU_3D_ID = "machu-muqu-3d";
+
 
 export const ALL_INSIGNIAS = [...INSIGNIAS, ...INSIGNIAS_JUEGOS, ...INSIGNIAS_EXPERIENCIAS];
 

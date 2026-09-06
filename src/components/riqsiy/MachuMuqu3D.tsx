@@ -29,7 +29,7 @@ function Terreno({ segmentos }: { segmentos: number }) {
   const geo = useMemo(() => {
     const g = new THREE.PlaneGeometry(TAM, TAM, segmentos, segmentos);
     g.rotateX(-Math.PI / 2);
-    const p = g.attributes.position as THREE.BufferAttribute;
+    const p = g.attributes["position"] as THREE.BufferAttribute;
     for (let i = 0; i < p.count; i++) {
       const x = p.getX(i);
       const z = p.getZ(i);
