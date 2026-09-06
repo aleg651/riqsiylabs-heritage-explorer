@@ -11,7 +11,7 @@ import { EXPERIENCIA_MACHU_MUQU_3D_ID } from "@/lib/riqsiy-gamification";
 const Escena3D = lazy(() => import("@/components/riqsiy/MachuMuqu3D"));
 
 export const Route = createFileRoute("/machu-muqu-3d")({
-  ssr: false,
+  
   head: () => ({
     meta: [
       { title: "Explora Machu Muqu en 3D — RIQSIY" },
