@@ -177,22 +177,29 @@ function MachuMuqu3DPage() {
         onPointerUp={onCanvasUp}
         onPointerLeave={onCanvasUp}
       >
-        <Suspense
-          fallback={
-            <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
-              Cargando el terreno de Machu Muqu…
-            </div>
-          }
-        >
-          <Escena3D
-            control={control}
-            calidadBaja={calidadBaja}
-            descubiertos={descubiertos}
-            puntoCerca={puntoCerca}
-            onCerca={setPuntoCerca}
-            onAvance={onAvance}
-          />
-        </Suspense>
+        {montado ? (
+          <Suspense
+            fallback={
+              <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
+                Cargando el terreno de Machu Muqu…
+              </div>
+            }
+          >
+            <Escena3D
+              control={control}
+              calidadBaja={calidadBaja}
+              descubiertos={descubiertos}
+              puntoCerca={puntoCerca}
+              onCerca={setPuntoCerca}
+              onAvance={onAvance}
+            />
+          </Suspense>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
+            Preparando la exploración 3D…
+          </div>
+        )}
+
 
         {/* HUD */}
         <div className="pointer-events-none absolute inset-0 p-3">
