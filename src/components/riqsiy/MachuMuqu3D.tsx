@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Html } from "@react-three/drei";
+import { Environment, Html, Lightformer, Sky, SoftShadows } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { alturaTerreno, PUNTOS_3D } from "@/lib/machu-muqu-3d";
@@ -23,25 +23,155 @@ interface Control {
 
 const TAM = 80; // lado del terreno en metros
 
+/** Pendiente aproximada del terreno en un punto (0 = plano, 1 = muy inclinado). */
+function pendiente(x: number, z: number) {
+  const d = 0.6;
+  const dx = alturaTerreno(x + d, z) - alturaTerreno(x - d, z);
+  const dz = alturaTerreno(x, z + d) - alturaTerreno(x, z - d);
+  return Math.min(1, Math.hypot(dx, dz) / (2 * d));
+}
+
+/** Textura procedural de suelo: granos de tierra, piedrecillas y manchas de pasto. */
+function texturaSuelo(repeticiones: number) {
+  const c = document.createElement("canvas");
+  c.width = c.height = 512;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#8f7f57";
+  ctx.fillRect(0, 0, 512, 512);
+  const rand = rng(991);
+  // manchas amplias
+  for (let i = 0; i < 400; i++) {
+    const x = rand() * 512;
+    const y = rand() * 512;
+    const r = 12 + rand() * 60;
+    const tono = rand();
+    ctx.fillStyle =
+      tono > 0.66
+        ? `rgba(120,116,74,${0.10 + rand() * 0.18})`
+        : tono > 0.33
+          ? `rgba(160,142,96,${0.10 + rand() * 0.18})`
+          : `rgba(96,84,58,${0.10 + rand() * 0.2})`;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // grano fino y piedrecillas
+  for (let i = 0; i < 9000; i++) {
+    const x = rand() * 512;
+    const y = rand() * 512;
+    const s = rand() * 2.2;
+    const v = 60 + Math.floor(rand() * 120);
+    ctx.fillStyle = `rgba(${v},${v - 8},${Math.floor(v * 0.72)},${0.18 + rand() * 0.4})`;
+    ctx.fillRect(x, y, s, s);
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.repeat.set(repeticiones, repeticiones);
+  t.colorSpace = THREE.SRGBColorSpace;
+  t.anisotropy = 4;
+  return t;
+}
+
+/** Textura de piedra para muros y rocas. */
+function texturaPiedra() {
+  const c = document.createElement("canvas");
+  c.width = c.height = 256;
+  const ctx = c.getContext("2d")!;
+  ctx.fillStyle = "#9a9287";
+  ctx.fillRect(0, 0, 256, 256);
+  const rand = rng(4242);
+  for (let i = 0; i < 2600; i++) {
+    const x = rand() * 256;
+    const y = rand() * 256;
+    const s = 1 + rand() * 5;
+    const v = 110 + Math.floor(rand() * 90);
+    ctx.fillStyle = `rgba(${v},${v - 4},${v - 14},${0.16 + rand() * 0.4})`;
+    ctx.beginPath();
+    ctx.arc(x, y, s, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // líquenes verdosos observados en el registro
+  for (let i = 0; i < 90; i++) {
+    ctx.fillStyle = `rgba(122,138,86,${0.12 + rand() * 0.22})`;
+    ctx.beginPath();
+    ctx.arc(rand() * 256, rand() * 256, 3 + rand() * 12, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  const t = new THREE.CanvasTexture(c);
+  t.wrapS = t.wrapT = THREE.RepeatWrapping;
+  t.colorSpace = THREE.SRGBColorSpace;
+  return t;
+}
+
 /* -------------------------------- terreno -------------------------------- */
 
-function Terreno({ segmentos }: { segmentos: number }) {
+function Terreno({ segmentos, mapa }: { segmentos: number; mapa: THREE.Texture }) {
   const geo = useMemo(() => {
     const g = new THREE.PlaneGeometry(TAM, TAM, segmentos, segmentos);
     g.rotateX(-Math.PI / 2);
     const p = g.attributes["position"] as THREE.BufferAttribute;
+    const colores = new Float32Array(p.count * 3);
+    const tierra = new THREE.Color("#96825a");
+    const pastoSeco = new THREE.Color("#b7a169");
+    const roca = new THREE.Color("#8a8377");
+    const verde = new THREE.Color("#6d7b46");
+    const c = new THREE.Color();
+    const rand = rng(555);
     for (let i = 0; i < p.count; i++) {
       const x = p.getX(i);
       const z = p.getZ(i);
-      p.setY(i, alturaTerreno(x, z));
+      const y = alturaTerreno(x, z);
+      p.setY(i, y);
+      const s = pendiente(x, z);
+      c.copy(pastoSeco).lerp(tierra, Math.min(1, s * 1.5));
+      c.lerp(roca, Math.max(0, s - 0.45) * 1.4);
+      // vegetación más viva en el sector alto (z negativo)
+      c.lerp(verde, Math.max(0, (-z / TAM + 0.15)) * 0.55);
+      const ruido = 0.92 + rand() * 0.16;
+      colores[i * 3] = c.r * ruido;
+      colores[i * 3 + 1] = c.g * ruido;
+      colores[i * 3 + 2] = c.b * ruido;
     }
+    g.setAttribute("color", new THREE.BufferAttribute(colores, 3));
     g.computeVertexNormals();
     return g;
   }, [segmentos]);
 
   return (
     <mesh geometry={geo} receiveShadow>
-      <meshStandardMaterial color="#9c8b5e" roughness={0.95} />
+      <meshStandardMaterial map={mapa} vertexColors roughness={0.98} metalness={0} />
+    </mesh>
+  );
+}
+
+/** Cerros lejanos que enmarcan el valle (aproximación visual del entorno). */
+function CerrosLejanos() {
+  const geo = useMemo(() => {
+    const rand = rng(77);
+    const g = new THREE.BufferGeometry();
+    const vert: number[] = [];
+    const radio = 150;
+    const pasos = 96;
+    for (let i = 0; i < pasos; i++) {
+      const a0 = (i / pasos) * Math.PI * 2;
+      const a1 = ((i + 1) / pasos) * Math.PI * 2;
+      const h0 = 16 + Math.sin(a0 * 3) * 8 + rand() * 14;
+      const h1 = 16 + Math.sin(a1 * 3) * 8 + rand() * 14;
+      const x0 = Math.cos(a0) * radio;
+      const z0 = Math.sin(a0) * radio;
+      const x1 = Math.cos(a1) * radio;
+      const z1 = Math.sin(a1) * radio;
+      vert.push(x0, -6, z0, x1, -6, z1, x1, h1, z1);
+      vert.push(x0, -6, z0, x1, h1, z1, x0, h0, z0);
+    }
+    g.setAttribute("position", new THREE.Float32BufferAttribute(vert, 3));
+    g.computeVertexNormals();
+    return g;
+  }, []);
+
+  return (
+    <mesh geometry={geo} frustumCulled={false}>
+      <meshStandardMaterial color="#7d8a92" roughness={1} side={THREE.DoubleSide} flatShading />
     </mesh>
   );
 }
@@ -50,50 +180,91 @@ function Terreno({ segmentos }: { segmentos: number }) {
 function Vegetacion({ cantidad }: { cantidad: number }) {
   const pasto = useRef<THREE.InstancedMesh>(null);
   const arbustos = useRef<THREE.InstancedMesh>(null);
+  const nA = Math.round(cantidad / 5);
 
   useEffect(() => {
     const rand = rng(7);
     const m = new THREE.Matrix4();
     const q = new THREE.Quaternion();
+    const col = new THREE.Color();
     for (let i = 0; i < cantidad; i++) {
-      const x = (rand() - 0.5) * TAM * 0.95;
-      const z = (rand() - 0.5) * TAM * 0.95;
+      const x = (rand() - 0.5) * TAM * 0.97;
+      const z = (rand() - 0.5) * TAM * 0.97;
       const y = alturaTerreno(x, z);
-      const s = 0.6 + rand() * 0.9;
-      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rand() * Math.PI);
-      m.compose(new THREE.Vector3(x, y + 0.35 * s, z), q, new THREE.Vector3(s, s * 1.4, s));
+      const s = 0.5 + rand() * 1.1;
+      q.setFromEuler(new THREE.Euler((rand() - 0.5) * 0.25, rand() * Math.PI, (rand() - 0.5) * 0.25));
+      m.compose(new THREE.Vector3(x, y + 0.3 * s, z), q, new THREE.Vector3(s * 0.8, s * 1.7, s * 0.8));
       pasto.current?.setMatrixAt(i, m);
+      col.setHSL(0.11 + rand() * 0.07, 0.35 + rand() * 0.2, 0.36 + rand() * 0.16);
+      pasto.current?.setColorAt(i, col);
     }
-    if (pasto.current) pasto.current.instanceMatrix.needsUpdate = true;
+    if (pasto.current) {
+      pasto.current.instanceMatrix.needsUpdate = true;
+      if (pasto.current.instanceColor) pasto.current.instanceColor.needsUpdate = true;
+    }
 
-    const nA = Math.round(cantidad / 6);
     for (let i = 0; i < nA; i++) {
-      const x = (rand() - 0.5) * TAM * 0.9;
-      const z = (rand() - 0.5) * TAM * 0.9;
+      const x = (rand() - 0.5) * TAM * 0.92;
+      const z = (rand() - 0.5) * TAM * 0.92;
       const y = alturaTerreno(x, z);
-      const s = 0.7 + rand() * 0.8;
-      q.setFromAxisAngle(new THREE.Vector3(0, 1, 0), rand() * Math.PI);
-      m.compose(new THREE.Vector3(x, y + 0.35 * s, z), q, new THREE.Vector3(s, s * 0.8, s));
+      const s = 0.7 + rand() * 0.9;
+      q.setFromEuler(new THREE.Euler(rand() * 0.4, rand() * Math.PI, rand() * 0.4));
+      m.compose(new THREE.Vector3(x, y + 0.34 * s, z), q, new THREE.Vector3(s, s * 0.75, s));
       arbustos.current?.setMatrixAt(i, m);
+      col.setHSL(0.22 + rand() * 0.07, 0.25 + rand() * 0.2, 0.2 + rand() * 0.14);
+      arbustos.current?.setColorAt(i, col);
     }
-    if (arbustos.current) arbustos.current.instanceMatrix.needsUpdate = true;
-  }, [cantidad]);
+    if (arbustos.current) {
+      arbustos.current.instanceMatrix.needsUpdate = true;
+      if (arbustos.current.instanceColor) arbustos.current.instanceColor.needsUpdate = true;
+    }
+  }, [cantidad, nA]);
 
   return (
     <>
       <instancedMesh ref={pasto} args={[undefined, undefined, cantidad]} frustumCulled={false}>
-        <coneGeometry args={[0.45, 0.9, 5]} />
-        <meshStandardMaterial color="#c4a961" roughness={1} flatShading />
+        <coneGeometry args={[0.4, 0.9, 4]} />
+        <meshStandardMaterial roughness={1} flatShading />
       </instancedMesh>
-      <instancedMesh
-        ref={arbustos}
-        args={[undefined, undefined, Math.round(cantidad / 6)]}
-        frustumCulled={false}
-      >
-        <icosahedronGeometry args={[0.6, 0]} />
-        <meshStandardMaterial color="#5f6b3c" roughness={1} flatShading />
+      <instancedMesh ref={arbustos} args={[undefined, undefined, nA]} frustumCulled={false} castShadow>
+        <icosahedronGeometry args={[0.6, 1]} />
+        <meshStandardMaterial roughness={1} flatShading />
       </instancedMesh>
     </>
+  );
+}
+
+/** Rocas sueltas repartidas en la ladera (evidencia observada en superficie). */
+function Rocas({ cantidad, mapa }: { cantidad: number; mapa: THREE.Texture }) {
+  const ref = useRef<THREE.InstancedMesh>(null);
+
+  useEffect(() => {
+    const rand = rng(313);
+    const m = new THREE.Matrix4();
+    const q = new THREE.Quaternion();
+    const col = new THREE.Color();
+    for (let i = 0; i < cantidad; i++) {
+      const x = (rand() - 0.5) * TAM * 0.95;
+      const z = (rand() - 0.5) * TAM * 0.95;
+      const y = alturaTerreno(x, z);
+      const s = 0.3 + rand() * 0.9;
+      q.setFromEuler(new THREE.Euler(rand() * 3, rand() * 3, rand() * 3));
+      m.compose(new THREE.Vector3(x, y + s * 0.32, z), q, new THREE.Vector3(s, s * 0.7, s * 0.9));
+      ref.current?.setMatrixAt(i, m);
+      col.setHSL(0.09, 0.06 + rand() * 0.06, 0.44 + rand() * 0.18);
+      ref.current?.setColorAt(i, col);
+    }
+    if (ref.current) {
+      ref.current.instanceMatrix.needsUpdate = true;
+      if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true;
+    }
+  }, [cantidad]);
+
+  return (
+    <instancedMesh ref={ref} args={[undefined, undefined, cantidad]} castShadow receiveShadow frustumCulled={false}>
+      <dodecahedronGeometry args={[0.55, 1]} />
+      <meshStandardMaterial map={mapa} roughness={0.95} flatShading />
+    </instancedMesh>
   );
 }
 
@@ -101,58 +272,83 @@ function Vegetacion({ cantidad }: { cantidad: number }) {
 function Arboles({ cantidad }: { cantidad: number }) {
   const troncos = useRef<THREE.InstancedMesh>(null);
   const copas = useRef<THREE.InstancedMesh>(null);
+  const copas2 = useRef<THREE.InstancedMesh>(null);
 
   useEffect(() => {
     const rand = rng(23);
     const m = new THREE.Matrix4();
     const q = new THREE.Quaternion();
+    const col = new THREE.Color();
     for (let i = 0; i < cantidad; i++) {
       // los árboles se concentran en el sector alto y en los bordes
-      const x = (rand() - 0.5) * TAM * 0.92;
+      const x = (rand() - 0.5) * TAM * 0.94;
       const z = -TAM * 0.5 + rand() * TAM * 0.62;
       const y = alturaTerreno(x, z);
-      const h = 4 + rand() * 4;
+      const h = 5 + rand() * 5;
+      const giro = rand() * Math.PI;
+      q.setFromEuler(new THREE.Euler((rand() - 0.5) * 0.06, giro, (rand() - 0.5) * 0.06));
       m.compose(new THREE.Vector3(x, y + h / 2, z), q, new THREE.Vector3(1, h / 6, 1));
       troncos.current?.setMatrixAt(i, m);
+
+      const anchoCopa = 0.75 + rand() * 0.5;
+      col.setHSL(0.27 + rand() * 0.05, 0.28 + rand() * 0.16, 0.16 + rand() * 0.12);
+
       m.compose(
-        new THREE.Vector3(x, y + h * 0.85, z),
+        new THREE.Vector3(x, y + h * 0.66, z),
         q,
-        new THREE.Vector3(0.9 + rand() * 0.5, 1 + rand() * 0.6, 0.9 + rand() * 0.5),
+        new THREE.Vector3(anchoCopa * 1.15, 0.85 + rand() * 0.3, anchoCopa * 1.15),
       );
       copas.current?.setMatrixAt(i, m);
+      copas.current?.setColorAt(i, col);
+
+      m.compose(
+        new THREE.Vector3(x, y + h * 0.95, z),
+        q,
+        new THREE.Vector3(anchoCopa * 0.75, 0.8 + rand() * 0.3, anchoCopa * 0.75),
+      );
+      copas2.current?.setMatrixAt(i, m);
+      copas2.current?.setColorAt(i, col.offsetHSL(0, 0, 0.06));
     }
-    if (troncos.current) troncos.current.instanceMatrix.needsUpdate = true;
-    if (copas.current) copas.current.instanceMatrix.needsUpdate = true;
+    for (const r of [troncos, copas, copas2]) {
+      if (r.current) {
+        r.current.instanceMatrix.needsUpdate = true;
+        if (r.current.instanceColor) r.current.instanceColor.needsUpdate = true;
+      }
+    }
   }, [cantidad]);
 
   return (
     <>
       <instancedMesh ref={troncos} args={[undefined, undefined, cantidad]} frustumCulled={false} castShadow>
-        <cylinderGeometry args={[0.16, 0.22, 6, 6]} />
-        <meshStandardMaterial color="#6b5a45" roughness={1} />
+        <cylinderGeometry args={[0.14, 0.24, 6, 7]} />
+        <meshStandardMaterial color="#5d4c39" roughness={1} />
       </instancedMesh>
-      <instancedMesh ref={copas} args={[undefined, undefined, cantidad]} frustumCulled={false}>
-        <coneGeometry args={[1.5, 4.5, 7]} />
-        <meshStandardMaterial color="#3f5233" roughness={1} flatShading />
+      <instancedMesh ref={copas} args={[undefined, undefined, cantidad]} frustumCulled={false} castShadow>
+        <coneGeometry args={[1.7, 4.6, 8]} />
+        <meshStandardMaterial roughness={1} flatShading />
+      </instancedMesh>
+      <instancedMesh ref={copas2} args={[undefined, undefined, cantidad]} frustumCulled={false} castShadow>
+        <coneGeometry args={[1.7, 4.2, 8]} />
+        <meshStandardMaterial roughness={1} flatShading />
       </instancedMesh>
     </>
   );
 }
 
 /** Muros de piedra sin argamasa, escalonados en la ladera (aproximación referencial). */
-function Muros() {
+function Muros({ mapa }: { mapa: THREE.Texture }) {
   const ref = useRef<THREE.InstancedMesh>(null);
   const TRAZOS: { x: number; z: number; largo: number; dir: number; hiladas: number }[] = [
-    { x: 4, z: 6, largo: 22, dir: 0, hiladas: 3 },
-    { x: 8, z: 0, largo: 18, dir: 0.15, hiladas: 4 },
-    { x: 12, z: -6, largo: 14, dir: -0.1, hiladas: 3 },
-    { x: -14, z: 12, largo: 12, dir: 1.4, hiladas: 2 },
-    { x: 22, z: 12, largo: 10, dir: 1.2, hiladas: 2 },
-    { x: -4, z: -20, largo: 9, dir: 0.2, hiladas: 2 },
+    { x: 4, z: 6, largo: 22, dir: 0, hiladas: 4 },
+    { x: 8, z: 0, largo: 18, dir: 0.15, hiladas: 5 },
+    { x: 12, z: -6, largo: 14, dir: -0.1, hiladas: 4 },
+    { x: -14, z: 12, largo: 12, dir: 1.4, hiladas: 3 },
+    { x: 22, z: 12, largo: 10, dir: 1.2, hiladas: 3 },
+    { x: -4, z: -20, largo: 9, dir: 0.2, hiladas: 3 },
   ];
 
   const total = useMemo(
-    () => TRAZOS.reduce((acc, t) => acc + t.hiladas * Math.round(t.largo / 0.75), 0),
+    () => TRAZOS.reduce((acc, t) => acc + t.hiladas * Math.round(t.largo / 0.7), 0),
     [],
   );
 
@@ -160,31 +356,41 @@ function Muros() {
     const rand = rng(101);
     const m = new THREE.Matrix4();
     const q = new THREE.Quaternion();
+    const col = new THREE.Color();
     let i = 0;
     for (const t of TRAZOS) {
-      const pasos = Math.round(t.largo / 0.75);
+      const pasos = Math.round(t.largo / 0.7);
       for (let h = 0; h < t.hiladas; h++) {
         for (let s = 0; s < pasos; s++) {
-          const d = (s - pasos / 2) * 0.75 + (rand() - 0.5) * 0.12;
+          const desfase = h % 2 === 0 ? 0 : 0.35;
+          const d = (s - pasos / 2) * 0.7 + desfase + (rand() - 0.5) * 0.08;
           const x = t.x + Math.cos(t.dir) * d;
           const z = t.z + Math.sin(t.dir) * d;
           const base = alturaTerreno(x, z);
-          const ax = 0.55 + rand() * 0.35;
-          const ay = 0.32 + rand() * 0.2;
-          const az = 0.45 + rand() * 0.25;
-          q.setFromEuler(new THREE.Euler((rand() - 0.5) * 0.12, t.dir + (rand() - 0.5) * 0.25, (rand() - 0.5) * 0.1));
-          m.compose(new THREE.Vector3(x, base + 0.15 + h * 0.36, z), q, new THREE.Vector3(ax, ay, az));
-          ref.current?.setMatrixAt(i++, m);
+          const ax = 0.6 + rand() * 0.3;
+          const ay = 0.3 + rand() * 0.16;
+          const az = 0.5 + rand() * 0.22;
+          q.setFromEuler(
+            new THREE.Euler((rand() - 0.5) * 0.08, t.dir + (rand() - 0.5) * 0.16, (rand() - 0.5) * 0.06),
+          );
+          m.compose(new THREE.Vector3(x, base + 0.12 + h * 0.34, z), q, new THREE.Vector3(ax, ay, az));
+          ref.current?.setMatrixAt(i, m);
+          col.setHSL(0.08, 0.05 + rand() * 0.05, 0.46 + rand() * 0.16);
+          ref.current?.setColorAt(i, col);
+          i++;
         }
       }
     }
-    if (ref.current) ref.current.instanceMatrix.needsUpdate = true;
+    if (ref.current) {
+      ref.current.instanceMatrix.needsUpdate = true;
+      if (ref.current.instanceColor) ref.current.instanceColor.needsUpdate = true;
+    }
   }, []);
 
   return (
     <instancedMesh ref={ref} args={[undefined, undefined, total]} castShadow receiveShadow frustumCulled={false}>
-      <dodecahedronGeometry args={[0.5, 0]} />
-      <meshStandardMaterial color="#8d8478" roughness={0.9} flatShading />
+      <boxGeometry args={[1, 1, 1, 1, 1, 1]} />
+      <meshStandardMaterial map={mapa} roughness={0.92} flatShading />
     </instancedMesh>
   );
 }
@@ -201,10 +407,16 @@ function Personaje({
   onAvance: (pos: THREE.Vector3) => void;
 }) {
   const grupo = useRef<THREE.Group>(null);
+  const piernaIzq = useRef<THREE.Mesh>(null);
+  const piernaDer = useRef<THREE.Mesh>(null);
+  const brazoIzq = useRef<THREE.Mesh>(null);
+  const brazoDer = useRef<THREE.Mesh>(null);
+  const torso = useRef<THREE.Group>(null);
   const { camera } = useThree();
   const vel = useRef(new THREE.Vector3());
   const cercaActual = useRef<number | null>(null);
   const acumulado = useRef(0);
+  const ciclo = useRef(0);
 
   useFrame((_, rawDelta) => {
     const dt = Math.min(rawDelta, 0.05);
@@ -234,9 +446,19 @@ function Personaje({
       g.rotation.y += ((objetivoYaw - g.rotation.y + Math.PI * 3) % (Math.PI * 2) - Math.PI) * Math.min(1, 10 * dt);
     }
 
+    /* animación de caminata */
+    const rapidez = Math.hypot(vel.current.x, vel.current.z);
+    ciclo.current += rapidez * dt * 2.4;
+    const balanceo = Math.sin(ciclo.current) * Math.min(1, rapidez / 5);
+    if (piernaIzq.current) piernaIzq.current.rotation.x = balanceo * 0.8;
+    if (piernaDer.current) piernaDer.current.rotation.x = -balanceo * 0.8;
+    if (brazoIzq.current) brazoIzq.current.rotation.x = -balanceo * 0.6;
+    if (brazoDer.current) brazoDer.current.rotation.x = balanceo * 0.6;
+    if (torso.current) torso.current.position.y = Math.abs(Math.cos(ciclo.current)) * 0.05 * Math.min(1, rapidez / 5);
+
     // cámara en tercera persona
-    const dist = 8;
-    const alto = 3.4 + c.pitch * 6;
+    const dist = 7.5;
+    const alto = 3.2 + c.pitch * 6;
     const camObj = new THREE.Vector3(
       g.position.x + Math.sin(yaw) * dist,
       g.position.y + alto,
@@ -245,7 +467,7 @@ function Personaje({
     const sueloCam = alturaTerreno(camObj.x, camObj.z) + 1.6;
     camObj.y = Math.max(camObj.y, sueloCam);
     camera.position.lerp(camObj, 1 - Math.exp(-7 * dt));
-    camera.lookAt(g.position.x, g.position.y + 1.6, g.position.z);
+    camera.lookAt(g.position.x, g.position.y + 1.5, g.position.z);
 
     // puntos de interés cercanos
     let cerca: number | null = null;
@@ -272,21 +494,50 @@ function Personaje({
   return (
     <group ref={grupo} position={[0, alturaTerreno(0, 30), 30]}>
       {/* Figura estilizada; no representa a un personaje histórico. */}
-      <mesh position={[0, 0.55, 0]} castShadow>
-        <capsuleGeometry args={[0.26, 0.5, 4, 8]} />
-        <meshStandardMaterial color="#8c3b2a" roughness={0.8} />
+      <group ref={torso}>
+        <mesh position={[0, 1.05, 0]} castShadow>
+          <capsuleGeometry args={[0.24, 0.46, 6, 12]} />
+          <meshStandardMaterial color="#8c3b2a" roughness={0.75} />
+        </mesh>
+        {/* mochila de registro */}
+        <mesh position={[0, 1.05, -0.22]} castShadow>
+          <boxGeometry args={[0.34, 0.42, 0.18]} />
+          <meshStandardMaterial color="#3f4a3a" roughness={0.9} />
+        </mesh>
+        <mesh position={[0, 1.5, 0]} castShadow>
+          <sphereGeometry args={[0.2, 16, 14]} />
+          <meshStandardMaterial color="#a9744f" roughness={0.85} />
+        </mesh>
+        {/* sombrero */}
+        <mesh position={[0, 1.63, 0]} castShadow>
+          <cylinderGeometry args={[0.36, 0.36, 0.05, 16]} />
+          <meshStandardMaterial color="#c9a227" roughness={0.7} />
+        </mesh>
+        <mesh position={[0, 1.7, 0]} castShadow>
+          <cylinderGeometry args={[0.19, 0.21, 0.16, 16]} />
+          <meshStandardMaterial color="#b8912a" roughness={0.7} />
+        </mesh>
+        <mesh ref={brazoIzq} position={[-0.3, 1.16, 0]} castShadow>
+          <capsuleGeometry args={[0.075, 0.44, 4, 8]} />
+          <meshStandardMaterial color="#8c3b2a" roughness={0.8} />
+        </mesh>
+        <mesh ref={brazoDer} position={[0.3, 1.16, 0]} castShadow>
+          <capsuleGeometry args={[0.075, 0.44, 4, 8]} />
+          <meshStandardMaterial color="#8c3b2a" roughness={0.8} />
+        </mesh>
+      </group>
+      <mesh ref={piernaIzq} position={[-0.12, 0.42, 0]} castShadow>
+        <capsuleGeometry args={[0.095, 0.5, 4, 8]} />
+        <meshStandardMaterial color="#2f3742" roughness={0.9} />
       </mesh>
-      <mesh position={[0, 1.15, 0]} castShadow>
-        <sphereGeometry args={[0.22, 12, 10]} />
-        <meshStandardMaterial color="#a9744f" roughness={0.9} />
+      <mesh ref={piernaDer} position={[0.12, 0.42, 0]} castShadow>
+        <capsuleGeometry args={[0.095, 0.5, 4, 8]} />
+        <meshStandardMaterial color="#2f3742" roughness={0.9} />
       </mesh>
-      <mesh position={[0, 1.32, 0]}>
-        <cylinderGeometry args={[0.34, 0.34, 0.06, 10]} />
-        <meshStandardMaterial color="#c9a227" roughness={0.7} />
-      </mesh>
-      <mesh position={[0, 0.16, 0]}>
-        <cylinderGeometry args={[0.3, 0.34, 0.3, 8]} />
-        <meshStandardMaterial color="#3a3a3a" roughness={1} />
+      {/* sombra de contacto simple */}
+      <mesh position={[0, 0.03, 0]} rotation-x={-Math.PI / 2}>
+        <circleGeometry args={[0.42, 16]} />
+        <meshBasicMaterial color="#000000" transparent opacity={0.22} />
       </mesh>
     </group>
   );
@@ -357,36 +608,57 @@ export interface Escena3DProps {
   onAvance: (pos: THREE.Vector3) => void;
 }
 
-export function Escena3D({
-  control,
+function Mundo({
   calidadBaja,
   descubiertos,
   puntoCerca,
+  control,
   onCerca,
   onAvance,
 }: Escena3DProps) {
+  const suelo = useMemo(() => texturaSuelo(calidadBaja ? 18 : 34), [calidadBaja]);
+  const piedra = useMemo(() => texturaPiedra(), []);
+
+  useEffect(
+    () => () => {
+      suelo.dispose();
+      piedra.dispose();
+    },
+    [suelo, piedra],
+  );
+
   return (
-    <Canvas
-      shadows={!calidadBaja}
-      dpr={calidadBaja ? 1 : [1, 1.6]}
-      camera={{ position: [0, 8, 40], fov: 62, near: 0.1, far: 300 }}
-      gl={{ antialias: !calidadBaja, powerPreference: "high-performance" }}
-    >
-      <color attach="background" args={["#c9d6e3"]} />
-      <fog attach="fog" args={["#c9d6e3", 45, 130]} />
-      <hemisphereLight args={["#dfe8f0", "#6b5a3c", 0.75]} />
+    <>
+      <Sky sunPosition={[26, 18, 14]} turbidity={6} rayleigh={1.4} mieCoefficient={0.008} mieDirectionalG={0.85} />
+      <fog attach="fog" args={["#cbd7de", 55, 190]} />
+      <hemisphereLight args={["#dfe8f0", "#71603f", 0.55]} />
       <directionalLight
-        position={[26, 34, 18]}
-        intensity={1.9}
-        color="#ffe9c2"
+        position={[30, 40, 20]}
+        intensity={2.6}
+        color="#ffefd2"
         castShadow={!calidadBaja}
-        shadow-mapSize-width={calidadBaja ? 512 : 1024}
-        shadow-mapSize-height={calidadBaja ? 512 : 1024}
+        shadow-mapSize-width={calidadBaja ? 512 : 2048}
+        shadow-mapSize-height={calidadBaja ? 512 : 2048}
+        shadow-bias={-0.0004}
+        shadow-camera-left={-45}
+        shadow-camera-right={45}
+        shadow-camera-top={45}
+        shadow-camera-bottom={-45}
+        shadow-camera-far={140}
       />
-      <Terreno segmentos={calidadBaja ? 40 : 96} />
-      <Vegetacion cantidad={calidadBaja ? 180 : 520} />
-      <Arboles cantidad={calidadBaja ? 28 : 70} />
-      <Muros />
+      {!calidadBaja && (
+        <Environment resolution={128}>
+          <Lightformer intensity={1.6} color="#eaf2ff" position={[0, 12, 0]} scale={[24, 24, 1]} rotation-x={Math.PI / 2} />
+          <Lightformer intensity={0.7} color="#b8a377" position={[0, -6, 0]} scale={[30, 30, 1]} rotation-x={-Math.PI / 2} />
+          <Lightformer intensity={0.6} color="#ffe2b0" position={[12, 3, -8]} scale={[16, 6, 1]} />
+        </Environment>
+      )}
+      <CerrosLejanos />
+      <Terreno segmentos={calidadBaja ? 48 : 140} mapa={suelo} />
+      <Vegetacion cantidad={calidadBaja ? 220 : 900} />
+      <Rocas cantidad={calidadBaja ? 60 : 180} mapa={piedra} />
+      <Arboles cantidad={calidadBaja ? 30 : 80} />
+      <Muros mapa={piedra} />
       {PUNTOS_3D.map((p) => (
         <Marcador
           key={p.id}
@@ -399,6 +671,25 @@ export function Escena3D({
         />
       ))}
       <Personaje control={control} onCerca={onCerca} onAvance={onAvance} />
+    </>
+  );
+}
+
+export function Escena3D(props: Escena3DProps) {
+  const { calidadBaja } = props;
+  return (
+    <Canvas
+      shadows={!calidadBaja}
+      dpr={calidadBaja ? 1 : [1, 1.8]}
+      camera={{ position: [0, 8, 40], fov: 58, near: 0.1, far: 400 }}
+      gl={{ antialias: !calidadBaja, powerPreference: "high-performance" }}
+      onCreated={({ gl }) => {
+        gl.toneMapping = THREE.ACESFilmicToneMapping;
+        gl.toneMappingExposure = 1.05;
+      }}
+    >
+      {!calidadBaja && <SoftShadows size={22} samples={10} focus={0.7} />}
+      <Mundo {...props} />
     </Canvas>
   );
 }
