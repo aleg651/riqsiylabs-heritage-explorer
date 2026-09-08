@@ -1,5 +1,5 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Environment, Html, Lightformer, Sky, SoftShadows } from "@react-three/drei";
+import { Environment, Html, Lightformer, Sky } from "@react-three/drei";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { alturaTerreno, PUNTOS_3D } from "@/lib/machu-muqu-3d";
@@ -679,7 +679,7 @@ export function Escena3D(props: Escena3DProps) {
   const { calidadBaja } = props;
   return (
     <Canvas
-      shadows={!calidadBaja}
+      shadows={calidadBaja ? false : "soft"}
       dpr={calidadBaja ? 1 : [1, 1.8]}
       camera={{ position: [0, 8, 40], fov: 58, near: 0.1, far: 400 }}
       gl={{ antialias: !calidadBaja, powerPreference: "high-performance" }}
@@ -688,7 +688,7 @@ export function Escena3D(props: Escena3DProps) {
         gl.toneMappingExposure = 1.05;
       }}
     >
-      {!calidadBaja && <SoftShadows size={22} samples={10} focus={0.7} />}
+
       <Mundo {...props} />
     </Canvas>
   );
