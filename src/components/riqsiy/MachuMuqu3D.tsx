@@ -771,6 +771,15 @@ function Mundo({
         />
       ))}
       <Personaje control={control} onCerca={onCerca} onAvance={onAvance} />
+      {!calidadBaja && (
+        <EffectComposer multisampling={0}>
+          <Bloom intensity={0.55} luminanceThreshold={0.72} luminanceSmoothing={0.3} mipmapBlur radius={0.75} />
+          <HueSaturation saturation={0.16} />
+          <BrightnessContrast brightness={-0.02} contrast={0.14} />
+          <Vignette offset={0.24} darkness={0.7} eskil={false} />
+          <SMAA />
+        </EffectComposer>
+      )}
     </>
   );
 }
