@@ -727,13 +727,13 @@ function Mundo({
 
   return (
     <>
-      <Sky sunPosition={[26, 18, 14]} turbidity={6} rayleigh={1.4} mieCoefficient={0.008} mieDirectionalG={0.85} />
-      <fog attach="fog" args={["#cbd7de", 55, 190]} />
-      <hemisphereLight args={["#dfe8f0", "#71603f", 0.55]} />
+      <Sky sunPosition={[38, 12, 22]} turbidity={9} rayleigh={2.2} mieCoefficient={0.012} mieDirectionalG={0.92} />
+      <fog attach="fog" args={["#d8c7a6", 40, 210]} />
+      <hemisphereLight args={["#cfe0f2", "#6b5738", 0.45]} />
       <directionalLight
-        position={[30, 40, 20]}
-        intensity={2.6}
-        color="#ffefd2"
+        position={[38, 26, 22]}
+        intensity={3.2}
+        color="#ffd9a0"
         castShadow={!calidadBaja}
         shadow-mapSize-width={calidadBaja ? 512 : 2048}
         shadow-mapSize-height={calidadBaja ? 512 : 2048}
