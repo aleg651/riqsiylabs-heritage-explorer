@@ -395,6 +395,104 @@ function Muros({ mapa }: { mapa: THREE.Texture }) {
   );
 }
 
+/* -------------------------------- chullpas -------------------------------- */
+/**
+ * Torres de piedra tipo chullpa. Aproximación visual referencial:
+ * la reseña menciona posibles chullpas, pero su presencia, forma y función
+ * son un elemento por investigar. No es una reconstrucción definitiva.
+ */
+function Chullpas({ mapa, detalle }: { mapa: THREE.Texture; detalle: boolean }) {
+  const UBICACIONES: { x: number; z: number; alto: number; radio: number; giro: number }[] = [
+    { x: 18, z: -14, alto: 3.2, radio: 1.15, giro: 0.3 },
+    { x: 22.5, z: -18.5, alto: 2.6, radio: 1.0, giro: 1.1 },
+    { x: -18, z: -18, alto: 2.9, radio: 1.05, giro: -0.5 },
+    { x: -22, z: -14, alto: 2.2, radio: 0.9, giro: 0.8 },
+  ];
+
+  return (
+    <group>
+      {UBICACIONES.map((c, idx) => {
+        const base = alturaTerreno(c.x, c.z);
+        const hiladas = Math.max(4, Math.round(c.alto / 0.42));
+        const rand = rng(700 + idx * 37);
+        return (
+          <group key={idx} position={[c.x, base, c.z]} rotation-y={c.giro}>
+            {/* cuerpo por hiladas de piedra */}
+            {Array.from({ length: hiladas }).map((_, h) => {
+              const t = h / (hiladas - 1);
+              const r = c.radio * (1 - t * 0.18);
+              const bloques = detalle ? Math.max(8, Math.round(r * 12)) : 1;
+              if (!detalle) {
+                return (
+                  <mesh key={h} position={[0, 0.2 + h * 0.42, 0]} castShadow receiveShadow>
+                    <cylinderGeometry args={[r, r * 1.03, 0.42, 10, 1, true]} />
+                    <meshStandardMaterial map={mapa} color="#9a8f7d" roughness={0.95} flatShading side={THREE.DoubleSide} />
+                  </mesh>
+                );
+              }
+              return Array.from({ length: bloques }).map((__, b) => {
+                const ang = (b / bloques) * Math.PI * 2 + (h % 2 ? Math.PI / bloques : 0);
+                const jit = (rand() - 0.5) * 0.05;
+                const ancho = (Math.PI * 2 * r) / bloques + 0.04;
+                return (
+                  <mesh
+                    key={`${h}-${b}`}
+                    position={[Math.cos(ang) * (r + jit), 0.2 + h * 0.42, Math.sin(ang) * (r + jit)]}
+                    rotation-y={-ang}
+                    castShadow
+                    receiveShadow
+                  >
+                    <boxGeometry args={[0.3, 0.38 + rand() * 0.05, ancho]} />
+                    <meshStandardMaterial
+                      map={mapa}
+                      color={new THREE.Color().setHSL(0.09, 0.06, 0.44 + rand() * 0.16)}
+                      roughness={0.94}
+                      flatShading
+                    />
+                  </mesh>
+                );
+              });
+            })}
+            {/* vano bajo (acceso pequeño observado en torres de este tipo) */}
+            <mesh position={[c.radio * 0.98, 0.5, 0]} rotation-y={Math.PI / 2}>
+              <boxGeometry args={[0.5, 0.66, 0.34]} />
+              <meshStandardMaterial color="#2b241d" roughness={1} />
+            </mesh>
+            {/* cubierta por aproximación de falsa bóveda */}
+            <mesh position={[0, 0.2 + hiladas * 0.42 + 0.18, 0]} castShadow>
+              <cylinderGeometry args={[c.radio * 0.28, c.radio * 0.92, 0.5, 9]} />
+              <meshStandardMaterial map={mapa} color="#8d8271" roughness={0.95} flatShading />
+            </mesh>
+            <mesh position={[0, 0.2 + hiladas * 0.42 + 0.48, 0]} castShadow>
+              <sphereGeometry args={[c.radio * 0.3, 8, 6]} />
+              <meshStandardMaterial map={mapa} color="#877c6b" roughness={0.95} flatShading />
+            </mesh>
+            {/* piedras caídas al pie */}
+            {Array.from({ length: detalle ? 6 : 3 }).map((_, s) => {
+              const a = rand() * Math.PI * 2;
+              const d = c.radio + 0.4 + rand() * 1.4;
+              return (
+                <mesh
+                  key={`s${s}`}
+                  position={[Math.cos(a) * d, 0.12, Math.sin(a) * d]}
+                  rotation={[rand(), rand(), rand()]}
+                  castShadow
+                  receiveShadow
+                >
+                  <dodecahedronGeometry args={[0.16 + rand() * 0.14, 0]} />
+                  <meshStandardMaterial map={mapa} color="#94897a" roughness={0.95} flatShading />
+                </mesh>
+              );
+            })}
+          </group>
+        );
+      })}
+    </group>
+  );
+}
+
+
+
 /* ------------------------------- personaje ------------------------------- */
 
 function Personaje({
@@ -659,6 +757,8 @@ function Mundo({
       <Rocas cantidad={calidadBaja ? 60 : 180} mapa={piedra} />
       <Arboles cantidad={calidadBaja ? 30 : 80} />
       <Muros mapa={piedra} />
+      <Chullpas mapa={piedra} detalle={!calidadBaja} />
+
       {PUNTOS_3D.map((p) => (
         <Marcador
           key={p.id}
