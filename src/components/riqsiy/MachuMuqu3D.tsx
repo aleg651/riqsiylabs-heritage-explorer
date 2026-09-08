@@ -1,5 +1,13 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Html, Lightformer, Sky } from "@react-three/drei";
+import {
+  Bloom,
+  BrightnessContrast,
+  EffectComposer,
+  HueSaturation,
+  SMAA,
+  Vignette,
+} from "@react-three/postprocessing";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { alturaTerreno, PUNTOS_3D } from "@/lib/machu-muqu-3d";
@@ -727,13 +735,13 @@ function Mundo({
 
   return (
     <>
-      <Sky sunPosition={[26, 18, 14]} turbidity={6} rayleigh={1.4} mieCoefficient={0.008} mieDirectionalG={0.85} />
-      <fog attach="fog" args={["#cbd7de", 55, 190]} />
-      <hemisphereLight args={["#dfe8f0", "#71603f", 0.55]} />
+      <Sky sunPosition={[38, 12, 22]} turbidity={9} rayleigh={2.2} mieCoefficient={0.012} mieDirectionalG={0.92} />
+      <fog attach="fog" args={["#d8c7a6", 40, 210]} />
+      <hemisphereLight args={["#cfe0f2", "#6b5738", 0.45]} />
       <directionalLight
-        position={[30, 40, 20]}
-        intensity={2.6}
-        color="#ffefd2"
+        position={[38, 26, 22]}
+        intensity={3.2}
+        color="#ffd9a0"
         castShadow={!calidadBaja}
         shadow-mapSize-width={calidadBaja ? 512 : 2048}
         shadow-mapSize-height={calidadBaja ? 512 : 2048}
@@ -771,6 +779,15 @@ function Mundo({
         />
       ))}
       <Personaje control={control} onCerca={onCerca} onAvance={onAvance} />
+      {!calidadBaja && (
+        <EffectComposer multisampling={0}>
+          <Bloom intensity={0.55} luminanceThreshold={0.72} luminanceSmoothing={0.3} mipmapBlur radius={0.75} />
+          <HueSaturation saturation={0.16} />
+          <BrightnessContrast brightness={-0.02} contrast={0.14} />
+          <Vignette offset={0.24} darkness={0.7} eskil={false} />
+          <SMAA />
+        </EffectComposer>
+      )}
     </>
   );
 }
@@ -785,7 +802,7 @@ export function Escena3D(props: Escena3DProps) {
       gl={{ antialias: !calidadBaja, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.05;
+        gl.toneMappingExposure = 1.15;
       }}
     >
 
