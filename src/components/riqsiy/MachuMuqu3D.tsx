@@ -679,7 +679,7 @@ export function Escena3D(props: Escena3DProps) {
   const { calidadBaja } = props;
   return (
     <Canvas
-      shadows={!calidadBaja}
+      shadows={calidadBaja ? false : "soft"}
       dpr={calidadBaja ? 1 : [1, 1.8]}
       camera={{ position: [0, 8, 40], fov: 58, near: 0.1, far: 400 }}
       gl={{ antialias: !calidadBaja, powerPreference: "high-performance" }}
@@ -688,7 +688,7 @@ export function Escena3D(props: Escena3DProps) {
         gl.toneMappingExposure = 1.05;
       }}
     >
-      {!calidadBaja && <SoftShadows size={22} samples={10} focus={0.7} />}
+
       <Mundo {...props} />
     </Canvas>
   );
