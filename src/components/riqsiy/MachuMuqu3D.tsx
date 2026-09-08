@@ -757,6 +757,8 @@ function Mundo({
       <Rocas cantidad={calidadBaja ? 60 : 180} mapa={piedra} />
       <Arboles cantidad={calidadBaja ? 30 : 80} />
       <Muros mapa={piedra} />
+      <Chullpas mapa={piedra} detalle={!calidadBaja} />
+
       {PUNTOS_3D.map((p) => (
         <Marcador
           key={p.id}
