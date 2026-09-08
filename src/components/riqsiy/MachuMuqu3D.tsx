@@ -802,7 +802,7 @@ export function Escena3D(props: Escena3DProps) {
       gl={{ antialias: !calidadBaja, powerPreference: "high-performance" }}
       onCreated={({ gl }) => {
         gl.toneMapping = THREE.ACESFilmicToneMapping;
-        gl.toneMappingExposure = 1.05;
+        gl.toneMappingExposure = 1.15;
       }}
     >
 
