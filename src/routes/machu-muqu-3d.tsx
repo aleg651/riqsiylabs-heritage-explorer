@@ -169,6 +169,13 @@ function MachuMuqu3DPage() {
         ⚠️ {AVISO_REFERENCIAL}
       </p>
 
+      <p className="mt-2 rounded-lg border border-dashed border-muted-foreground/50 bg-muted p-3 text-xs text-muted-foreground">
+        ❓ En el sector alto del recorrido se incluyen torres de piedra tipo chullpa como aproximación visual. La reseña de la
+        comunidad menciona posibles chullpas, pero su presencia, forma, antigüedad y función son un elemento por investigar: no
+        se presentan como hecho comprobado.
+      </p>
+
+
       {/* Lienzo 3D */}
       <div
         className="relative mt-5 aspect-[4/3] w-full touch-none overflow-hidden rounded-2xl border border-border shadow-stone sm:aspect-[16/9]"
