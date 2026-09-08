@@ -1,5 +1,13 @@
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Environment, Html, Lightformer, Sky } from "@react-three/drei";
+import {
+  Bloom,
+  BrightnessContrast,
+  EffectComposer,
+  HueSaturation,
+  SMAA,
+  Vignette,
+} from "@react-three/postprocessing";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { alturaTerreno, PUNTOS_3D } from "@/lib/machu-muqu-3d";
