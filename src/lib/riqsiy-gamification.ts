@@ -59,15 +59,15 @@ export const INSIGNIAS_EXPERIENCIAS = [
   },
   {
     id: "explorador-machu-muqu",
-    nombre: "Guardián de la memoria de Machu Muqu",
+    nombre: "Guardián de la memoria de Machu Moqo",
     icono: "🌙",
-    descripcion: "Completaste la experiencia “Machu Muqu: memoria, piedra y territorio”.",
+    descripcion: "Completaste la experiencia “Machu Moqo: memoria, piedra y territorio”.",
   },
   {
     id: "caminante-machu-muqu",
-    nombre: "Caminante de Machu Muqu",
-    icono: "🧭",
-    descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Muqu.",
+    nombre: "Explorador del Patrimonio Local",
+    icono: "🏔️",
+    descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Moqo.",
   },
 ];
 
@@ -142,7 +142,7 @@ export interface PreguntaTest {
 }
 
 export const TEST_INICIAL: PreguntaTest[] = [
-  { id: "i1", dimension: "conocimiento", texto: "Puedo explicar para qué servía un centro arqueológico cercano a mi casa." },
+  { id: "i1", dimension: "conocimiento", texto: "Puedo distinguir entre una observación y una interpretación sobre un sitio patrimonial cercano." },
   { id: "i2", dimension: "conocimiento", texto: "Conozco cómo se construían los muros incas y por qué resisten sismos." },
   { id: "i3", dimension: "valoracion", texto: "Considero que el patrimonio arqueológico del Cusco es muy valioso para mi vida." },
   { id: "i4", dimension: "valoracion", texto: "Creo que las estructuras antiguas de mi entorno merecen ser cuidadas y estudiadas." },
@@ -155,7 +155,7 @@ export const TEST_INICIAL: PreguntaTest[] = [
 ];
 
 export const TEST_FINAL: PreguntaTest[] = [
-  { id: "f1", dimension: "conocimiento", texto: "Ahora puedo describir la función original de una estructura arqueológica de mi entorno." },
+  { id: "f1", dimension: "conocimiento", texto: "Ahora puedo describir una estructura patrimonial sin afirmar como hecho una función que no está verificada." },
   { id: "f2", dimension: "conocimiento", texto: "Sé explicar técnicas incas como el encaje poligonal, los andenes o los canales." },
   { id: "f3", dimension: "valoracion", texto: "Reconozco un valor importante en el patrimonio arqueológico que me rodea." },
   { id: "f4", dimension: "valoracion", texto: "Pienso que cuidar estas estructuras es una responsabilidad compartida." },

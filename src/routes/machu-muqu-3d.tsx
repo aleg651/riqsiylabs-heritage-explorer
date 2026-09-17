@@ -14,16 +14,16 @@ export const Route = createFileRoute("/machu-muqu-3d")({
   
   head: () => ({
     meta: [
-      { title: "Explora Machu Muqu en 3D — RIQSIY" },
+      { title: "Explora Machu Moqo en 3D — RIQSIY" },
       {
         name: "description",
         content:
-          "Recorrido 3D referencial de Machu Muqu, sitio arqueológico de nuestra comunidad, basado en nuestro propio registro fotográfico y audiovisual.",
+          "Recorrido 3D referencial de Machu Moqo, lugar patrimonial de nuestra comunidad, basado en nuestro propio registro fotográfico y audiovisual.",
       },
-      { property: "og:title", content: "Explora Machu Muqu en 3D — RIQSIY" },
+      { property: "og:title", content: "Explora Machu Moqo en 3D — RIQSIY" },
       {
         property: "og:description",
-        content: "Camina una representación digital de Machu Muqu y descubre sus evidencias observadas.",
+        content: "Camina una representación digital de Machu Moqo y descubre sus evidencias observadas.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -139,7 +139,8 @@ function MachuMuqu3DPage() {
   const onCanvasUp = () => { arrastre.current = null; };
 
   const onAvance = useCallback((pos: THREE.Vector3) => {
-    if (ultima.current) setMetros((m) => m + pos.distanceTo(ultima.current!));
+    const posicionAnterior = ultima.current;
+    if (posicionAnterior) setMetros((m) => m + pos.distanceTo(posicionAnterior));
     ultima.current = pos;
   }, []);
 
@@ -161,7 +162,7 @@ function MachuMuqu3DPage() {
     <div className="mx-auto max-w-6xl px-4 py-8">
       <SectionTitle
         eyebrow="Patrimonio de nuestra comunidad"
-        title="EXPLORA MACHU MUQU"
+        title="EXPLORA MACHU MOQO"
         description="Camina una representación digital referencial construida a partir de nuestras fotografías y videos. Observa, pregunta e investiga."
       />
 
@@ -188,7 +189,7 @@ function MachuMuqu3DPage() {
           <Suspense
             fallback={
               <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
-                Cargando el terreno de Machu Muqu…
+                Cargando el terreno de Machu Moqo…
               </div>
             }
           >
@@ -309,7 +310,7 @@ function MachuMuqu3DPage() {
             <figure className="mt-3">
               <img
                 src={punto.foto}
-                alt={`Registro propio del sector ${punto.titulo} en Machu Muqu`}
+                alt={`Registro propio del sector ${punto.titulo} en Machu Moqo`}
                 className="w-full rounded-xl border border-border object-cover"
                 loading="lazy"
               />
@@ -400,9 +401,9 @@ function MachuMuqu3DPage() {
       {/* completado */}
       {completo && (
         <section className="mt-8 rounded-2xl border border-accent/50 bg-accent/10 p-5">
-          <h2 className="font-display text-xl font-semibold">¡Recorriste Machu Muqu!</h2>
+          <h2 className="font-display text-xl font-semibold">¡EXPLORACIÓN COMPLETADA!</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Observaste los 7 puntos y ganaste 200 RIQSI-COINS junto con la insignia 🧭 “Caminante de Machu Muqu”.
+            Recorriste Machu Moqo, observaste los 7 puntos y ganaste 200 RIQSI-COINS junto con la insignia 🏔️ “Explorador del Patrimonio Local”.
             Recuerda: observar no es lo mismo que conocer; lo que sigue es investigar con fuentes verificables.
           </p>
         </section>
@@ -430,7 +431,7 @@ function MachuMuqu3DPage() {
             to="/machu-muqu"
             className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-semibold"
           >
-            <Compass className="h-4 w-4" /> Volver a la experiencia Machu Muqu
+            <Compass className="h-4 w-4" /> Volver a la experiencia Machu Moqo
           </Link>
           <Link
             to="/juegos/$id"

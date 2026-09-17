@@ -27,19 +27,19 @@ const ETAPAS = [
     nombre: "Antes",
     detalle:
       "Se aplica un cuestionario de línea base a los estudiantes: cuánto conocen los sitios de su distrito, cuánto los valoran y qué intención de conservación declaran.",
-    instrumento: "Cuestionario de 20 ítems (escala Likert 1–5) + 3 preguntas abiertas.",
+    instrumento: "Cuestionario de 10 ítems (escala Likert 1–5). Instrumento escolar pendiente de validación psicométrica.",
   },
   {
     nombre: "Intervención",
     detalle:
       "Los estudiantes usan RIQSIY durante las sesiones: exploran Descubre, Mira más allá, Escanea y descubre, resuelven Retos RIQSIY y asumen un compromiso.",
-    instrumento: "Sesiones guiadas de 45 minutos + registro de Puntos de Identidad dentro de la app.",
+    instrumento: "Sesiones guiadas con duración pendiente de definir + registro de RIQSI-COINS dentro de la app.",
   },
   {
     nombre: "Después",
     detalle:
       "Se vuelve a medir conocimiento, valoración, interés e intención de conservación con el mismo instrumento, más una reflexión escrita.",
-    instrumento: "Post-test idéntico + comparación de medias por dimensión.",
+    instrumento: "Postest equivalente de 10 ítems + comparación descriptiva por dimensión.",
   },
 ];
 
@@ -72,10 +72,11 @@ function Investigacion() {
       </section>
 
       <section className="mt-12 rounded-lg border border-border bg-card p-6">
-        <h2 className="font-display text-2xl">Resultados (datos de ejemplo)</h2>
+        <span className="inline-flex rounded-full border border-accent/60 bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]">Datos de demostración · no son resultados reales</span>
+        <h2 className="mt-3 font-display text-2xl">Ejemplo de visualización de resultados</h2>
         <p className="mt-1 text-sm text-muted-foreground">
           Puntaje promedio sobre 100 en cada dimensión, antes y después de usar RIQSIY. Muestra piloto
-          simulada: 32 estudiantes de secundaria.
+          ficticia para comprobar la gráfica: 32 estudiantes de secundaria. No corresponde a una aplicación real.
         </p>
         <div className="mt-6 h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
@@ -114,10 +115,9 @@ function Investigacion() {
       <section className="mt-8 rounded-lg border border-accent/40 bg-accent/10 p-6">
         <h2 className="font-display text-xl">Hipótesis y siguientes pasos</h2>
         <p className="mt-2 text-muted-foreground">
-          Hipótesis: la experiencia interactiva incrementa significativamente la valoración y la intención de
-          conservación frente a una clase expositiva tradicional. Siguientes pasos: aplicar el estudio con
-          grupo control, ampliar la muestra a tres instituciones educativas y medir la retención a los tres
-          meses.
+          Hipótesis por contrastar: la experiencia interactiva podría incrementar la valoración y la intención de
+          conservación. La aplicación, muestra, comparación y seguimiento permanecen pendientes de ejecución;
+          todavía no existen resultados para aceptar o rechazar esta hipótesis.
         </p>
       </section>
     </div>

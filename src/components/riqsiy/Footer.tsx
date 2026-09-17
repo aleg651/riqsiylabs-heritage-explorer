@@ -16,6 +16,9 @@ export function Footer() {
           <p className="font-semibold">Experiencia</p>
           <ul className="mt-2 space-y-1 opacity-80">
             <li>
+              <Link to="/aventura">Aventura RIQSIY</Link>
+            </li>
+            <li>
               <Link to="/descubre">Descubre</Link>
             </li>
             <li>
@@ -37,6 +40,9 @@ export function Footer() {
             </li>
             <li>
               <Link to="/investigacion">Nuestra investigación</Link>
+            </li>
+            <li>
+              <Link to="/evidencia-campo">Evidencia de campo</Link>
             </li>
             <li>
               <Link to="/progreso">Mi progreso</Link>
