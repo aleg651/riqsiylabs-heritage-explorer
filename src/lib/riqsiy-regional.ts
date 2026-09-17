@@ -64,7 +64,8 @@ export interface EtapaAventura {
     | "/historias"
     | "/antes-y-despues"
     | "/compromiso"
-    | "/progreso";
+    | "/progreso"
+    | "/yachay";
   juegoId?: "encaja-la-piedra" | "salva-el-agua";
   estado?: "disponible" | "proxima-fase";
 }
@@ -77,7 +78,7 @@ export const AVENTURA_RIQSIY: EtapaAventura[] = [
   { n: 5, titulo: "Aprende", descripcion: "Conoce sitios, técnicas y memorias del patrimonio cusqueño.", icono: BookOpenCheck, to: "/descubre" },
   { n: 6, titulo: "Juega PIRQA", descripcion: "Resuelve el reto de construcción en piedra.", icono: Boxes, juegoId: "encaja-la-piedra" },
   { n: 7, titulo: "Juega Salva el Agua", descripcion: "Experimenta con el recorrido y manejo del agua.", icono: Gamepad2, juegoId: "salva-el-agua" },
-  { n: 8, titulo: "Aprende quechua", descripcion: "RIQSIY Yachay usará quechua Cusco-Collao validado.", icono: Languages, estado: "proxima-fase" },
+  { n: 8, titulo: "Aprende quechua", descripcion: "RIQSIY Yachay usa quechua Cusco-Collao con fuente de referencia y límites explícitos.", icono: Languages, to: "/yachay" },
   { n: 9, titulo: "Investiga", descripcion: "Formula preguntas, hipótesis y un método verificable.", icono: Microscope, to: "/investigacion" },
   { n: 10, titulo: "Conoce a tu comunidad", descripcion: "Escucha y registra únicamente voces reales autorizadas.", icono: HeartHandshake, to: "/historias" },
   { n: 11, titulo: "Valora", descripcion: "Compara cambios y reconoce lo que debe permanecer.", icono: FlaskConical, to: "/antes-y-despues" },

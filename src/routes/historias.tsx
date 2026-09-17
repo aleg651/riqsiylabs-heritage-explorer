@@ -8,7 +8,7 @@ import { AUTOR } from "@/lib/riqsiy-gamification";
 export const Route = createFileRoute("/historias")({
   head: () => ({
     meta: [
-      { title: `Historias de la comunidad — RIQSIY | Autor: ${AUTOR}` },
+      { title: `Voces de mi comunidad — RIQSIY | Autor: ${AUTOR}` },
       {
         name: "description",
         content:
@@ -19,6 +19,8 @@ export const Route = createFileRoute("/historias")({
         property: "og:description",
         content: "Archivo colaborativo de memoria oral sobre el patrimonio cusqueño.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Historias,
@@ -41,9 +43,13 @@ function Historias() {
     <div className="mx-auto max-w-4xl px-4 py-14">
       <SectionTitle
         eyebrow="Memoria viva"
-        title="Historias de la comunidad"
-        description="El patrimonio no solo es piedra: también son los relatos que las familias cusqueñas guardan. Registra una historia escuchada en tu barrio o comunidad, siempre con autorización de quien la comparte."
+        title="Voces de mi comunidad"
+        description="Registra únicamente testimonios reales y autorizados sobre cómo la comunidad recuerda y valora su patrimonio. Protege la identidad de menores y evita datos personales innecesarios."
       />
+
+      <div className="mt-6 rounded-lg border border-accent/50 bg-accent/10 p-4 text-sm">
+        <strong>Preguntas guía:</strong> ¿Qué significa este lugar para nuestra comunidad? ¿Qué recuerdas? ¿Por qué debemos cuidarlo? ¿Qué ha cambiado? ¿Qué te gustaría que aprendieran los jóvenes?
+      </div>
 
       <form
         className="mt-8 grid gap-4 rounded-xl border border-border bg-card p-6"
@@ -109,6 +115,16 @@ function Historias() {
             />
           </label>
         </div>
+
+        <label className="grid gap-1.5 text-sm">
+          <span className="font-medium">Rol de la persona en la comunidad (opcional)</span>
+          <input className="rounded-md border border-border bg-background px-3 py-2" placeholder="Vecina, agricultor, docente, autoridad comunal…" />
+        </label>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          {['Fotografía autorizada','Audio autorizado','Video autorizado'].map((tipo)=><label key={tipo} className="grid gap-1.5 text-sm"><span className="font-medium">{tipo}</span><input type="file" accept={tipo.startsWith('Audio')?'audio/*':tipo.startsWith('Video')?'video/*':'image/*'} /></label>)}
+        </div>
+        <p className="text-xs text-muted-foreground">Los archivos seleccionados no se publican ni se guardan en esta demostración. Solo se incorporarán materiales reales con autorización documentada.</p>
 
         <label className="flex items-start gap-2 text-xs text-muted-foreground">
           <input

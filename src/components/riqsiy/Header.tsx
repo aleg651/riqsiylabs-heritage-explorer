@@ -12,6 +12,8 @@ const NAV = [
 
   { to: "/mira-mas-alla", label: "Mira más allá" },
   { to: "/juegos", label: "Minijuegos" },
+  { to: "/yachay", label: "Yachay" },
+  { to: "/pasaporte", label: "Pasaporte" },
   { to: "/escanea", label: "Escanea" },
   { to: "/mapa", label: "Mapa" },
   { to: "/antes-y-despues", label: "Antes y ahora" },
@@ -20,6 +22,7 @@ const NAV = [
   { to: "/recompensas", label: "Recompensas" },
   { to: "/test", label: "Test" },
   { to: "/investigacion", label: "Investigación" },
+  { to: "/modo-jurado", label: "Modo Jurado" },
   { to: "/fencyt", label: "FENCYT" },
   { to: "/progreso", label: "Mi progreso" },
 ] as const;

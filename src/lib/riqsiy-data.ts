@@ -712,9 +712,10 @@ export const COMPROMISOS = [
   { id: "respetar", texto: "Respetar los sitios arqueológicos", icono: "🏛️" },
   { id: "basura", texto: "No arrojar basura", icono: "🚯" },
   { id: "estructuras", texto: "No dañar las estructuras", icono: "🧱" },
-  { id: "compartir", texto: "Compartir la historia con otra persona", icono: "🗣️" },
-  { id: "conservacion", texto: "Participar en actividades de conservación", icono: "🤝" },
-  { id: "investigar", texto: "Investigar sobre otro sitio arqueológico", icono: "🔍" },
+  { id: "compartir", texto: "Compartir información correcta", icono: "🗣️" },
+  { id: "entorno", texto: "Cuidar el entorno del sitio", icono: "🌿" },
+  { id: "comunicar", texto: "Comunicar posibles daños a una persona adulta o autoridad responsable", icono: "📣" },
+  { id: "ensenar", texto: "Enseñar a otras personas a respetar el patrimonio", icono: "🤝" },
 ];
 
 export const INSIGNIAS = [

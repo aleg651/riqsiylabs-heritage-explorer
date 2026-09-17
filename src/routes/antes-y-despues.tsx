@@ -14,6 +14,8 @@ export const Route = createFileRoute("/antes-y-despues")({
       },
       { property: "og:title", content: "Antes y ahora | RIQSIY" },
       { property: "og:description", content: "ANTES → AHORA → ¿QUÉ PODEMOS HACER?" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AntesDespues,
@@ -24,6 +26,7 @@ function AntesDespues() {
   const sitio = SITIOS.find((s) => s.slug === slug)!;
 
   const [fase, setFase] = useState<0 | 1 | 2>(0);
+  const [comparacion, setComparacion] = useState(50);
 
   const fases = [
     { label: "Antes", texto: sitio.antesDespues.antes, clase: "bg-secondary" },
@@ -56,14 +59,15 @@ function AntesDespues() {
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-[1fr_1.2fr]">
-        <img
-          src={sitio.imagen}
-          alt={sitio.nombre}
-          loading="lazy"
-          width={1280}
-          height={853}
-          className="shadow-stone h-64 w-full rounded-lg object-cover md:h-full"
-        />
+        <div>
+          <div className="shadow-stone relative h-72 overflow-hidden rounded-lg" aria-label="Comparación interactiva antes y ahora">
+            <img src={sitio.imagen} alt={`${sitio.nombre}, registro actual`} className="absolute inset-0 h-full w-full object-cover saturate-50"/>
+            <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-accent" style={{width:`${comparacion}%`}}><img src={sitio.imagen} alt="Representación visual para comparación" className="h-full max-w-none object-cover sepia" style={{width:'500px'}}/></div>
+            <span className="absolute left-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">ANTES · referencia visual</span><span className="absolute right-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">AHORA · fotografía</span>
+          </div>
+          <label className="mt-3 grid gap-2 text-xs"><span>Desliza para comparar ANTES ←→ AHORA</span><input aria-label="Control de comparación" type="range" min="10" max="90" value={comparacion} onChange={e=>setComparacion(Number(e.target.value))}/></label>
+          <p className="mt-2 text-xs text-muted-foreground">La vista “antes” es un tratamiento visual para observar cambios; no es una reconstrucción histórica.</p>
+        </div>
 
         <div>
           <div className="flex gap-2">
@@ -92,6 +96,8 @@ function AntesDespues() {
             <p className="font-semibold">Estado actual: {sitio.estadoActual.nivel}</p>
             <p className="mt-1 text-muted-foreground">{sitio.estadoActual.detalle}</p>
           </div>
+
+          <div className="mt-4 rounded-lg border border-accent/40 bg-accent/10 p-5 text-sm"><p className="font-semibold">Preguntas para comparar</p><ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground"><li>¿Qué cambió?</li><li>¿Qué permanece?</li><li>¿Qué debemos proteger?</li></ul></div>
 
           <Link
             to="/compromiso"

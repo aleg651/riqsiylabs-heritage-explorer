@@ -44,6 +44,13 @@ export interface ProgresoState {
   testFinal: ResultadoTest | null;
   testimonios: Testimonio[];
   canjeadas: string[];
+  sellos: string[];
+  palabrasAprendidas: string[];
+  casosResueltos: string[];
+  aportesComunidad: string[];
+  laboratoriosCompletados: string[];
+  racha: number;
+  ultimaActividad: string | null;
 }
 
 function nuevoCodigo() {
@@ -65,6 +72,13 @@ const VACIO: ProgresoState = {
   testFinal: null,
   testimonios: [],
   canjeadas: [],
+  sellos: [],
+  palabrasAprendidas: [],
+  casosResueltos: [],
+  aportesComunidad: [],
+  laboratoriosCompletados: [],
+  racha: 0,
+  ultimaActividad: null,
 };
 
 const KEY = "riqsiy-progreso-v2";
@@ -80,6 +94,7 @@ interface Ctx extends ProgresoState {
   completarReto: (slug: string, index: number, puntos: number) => void;
   completarJuego: (id: JuegoId, puntos: number) => void;
   completarExperiencia: (id: string, puntos: number) => void;
+  registrarHito: (tipo: "sello" | "palabra" | "caso" | "aporte" | "laboratorio", id: string, puntos: number) => void;
   toggleCompromiso: (id: string) => void;
   confirmarCompromisos: () => void;
   guardarTest: (fase: "inicial" | "final", respuestas: Record<string, number>) => void;
@@ -103,7 +118,23 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
       const raw = localStorage.getItem(KEY);
       if (raw) {
         const parsed = JSON.parse(raw) as Partial<ProgresoState>;
-        setState({ ...VACIO, ...parsed, codigo: parsed.codigo || nuevoCodigo() });
+        setState({
+          ...VACIO,
+          ...parsed,
+          codigo: parsed.codigo || nuevoCodigo(),
+          descubiertos: parsed.descubiertos ?? [],
+          retosCompletados: parsed.retosCompletados ?? [],
+          juegosCompletados: parsed.juegosCompletados ?? [],
+          experiencias: parsed.experiencias ?? [],
+          compromisos: parsed.compromisos ?? [],
+          testimonios: parsed.testimonios ?? [],
+          canjeadas: parsed.canjeadas ?? [],
+          sellos: parsed.sellos ?? [],
+          palabrasAprendidas: parsed.palabrasAprendidas ?? [],
+          casosResueltos: parsed.casosResueltos ?? [],
+          aportesComunidad: parsed.aportesComunidad ?? [],
+          laboratoriosCompletados: parsed.laboratoriosCompletados ?? [],
+        });
       } else {
         setState({ ...VACIO, codigo: nuevoCodigo() });
       }
@@ -152,6 +183,24 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
       if (s.experiencias.includes(id)) return s;
       ganar(puntos, "Experiencia RIQSIY completada");
       return { ...s, experiencias: [...s.experiencias, id], puntos: s.puntos + puntos };
+    });
+  }, []);
+
+  const registrarHito = useCallback((tipo: "sello" | "palabra" | "caso" | "aporte" | "laboratorio", id: string, puntos: number) => {
+    const campo = {
+      sello: "sellos",
+      palabra: "palabrasAprendidas",
+      caso: "casosResueltos",
+      aporte: "aportesComunidad",
+      laboratorio: "laboratoriosCompletados",
+    }[tipo] as "sellos" | "palabrasAprendidas" | "casosResueltos" | "aportesComunidad" | "laboratoriosCompletados";
+    setState((s) => {
+      if (s[campo].includes(id)) return s;
+      const hoy = new Date().toISOString().slice(0, 10);
+      const ayer = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+      const racha = s.ultimaActividad === hoy ? s.racha : s.ultimaActividad === ayer ? s.racha + 1 : 1;
+      ganar(puntos, "Nuevo logro regional registrado");
+      return { ...s, [campo]: [...s[campo], id], puntos: s.puntos + puntos, racha, ultimaActividad: hoy };
     });
   }, []);
 
@@ -239,6 +288,16 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
             return state.experiencias.includes("machu-muqu");
           case "caminante-machu-muqu":
             return state.experiencias.includes("machu-muqu-3d");
+          case "aprendiz-quechua":
+            return state.palabrasAprendidas.length >= 5;
+          case "detective-patrimonio":
+            return state.casosResueltos.length >= 1;
+          case "voz-comunidad":
+            return state.testimonios.length >= 1 || state.aportesComunidad.length >= 1;
+          case "investigador-riqsiy":
+            return !!state.testInicial && !!state.testFinal;
+          case "guardian-patrimonio":
+            return state.compromisos.length >= 2 && !!state.fechaCompromiso;
 
           case "diagnostico":
             return !!state.testInicial;
@@ -254,14 +313,15 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
   );
 
   const avance = useMemo(() => {
-    const total = TOTAL_SITIOS + TOTAL_RETOS + JUEGOS.length + 2 + 1;
+    const total = TOTAL_SITIOS + TOTAL_RETOS + JUEGOS.length + 2 + 1 + 8;
     const hecho =
       state.descubiertos.length +
       state.retosCompletados.length +
       state.juegosCompletados.length +
       (state.testInicial ? 1 : 0) +
       (state.testFinal ? 1 : 0) +
-      (state.fechaCompromiso ? 1 : 0);
+      (state.fechaCompromiso ? 1 : 0) +
+      Math.min(8, state.sellos.length + state.casosResueltos.length + state.laboratoriosCompletados.length);
     return Math.min(100, Math.round((hecho / total) * 100));
   }, [state]);
 
@@ -277,6 +337,7 @@ export function ProgresoProvider({ children }: { children: ReactNode }) {
     completarReto,
     completarJuego,
     completarExperiencia,
+    registrarHito,
     toggleCompromiso,
     confirmarCompromisos,
     guardarTest,

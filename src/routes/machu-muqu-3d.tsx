@@ -1,17 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type * as THREE from "three";
 import { ArrowRight, Eye, Compass, Gamepad2 } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { AVISO_REFERENCIAL, FUENTES, PUNTOS_3D } from "@/lib/machu-muqu-3d";
-import type { Control } from "@/components/riqsiy/MachuMuqu3D";
+import Escena3D, { type Control } from "@/components/riqsiy/MachuMuqu3D";
 import { useProgreso } from "@/lib/progress";
 import { EXPERIENCIA_MACHU_MUQU_3D_ID } from "@/lib/riqsiy-gamification";
 
-const Escena3D = lazy(() => import("@/components/riqsiy/MachuMuqu3D"));
-
 export const Route = createFileRoute("/machu-muqu-3d")({
-  
   head: () => ({
     meta: [
       { title: "Explora Machu Moqo en 3D — RIQSIY" },
@@ -33,12 +30,10 @@ export const Route = createFileRoute("/machu-muqu-3d")({
 });
 
 function MachuMuqu3DPage() {
-  const { experiencias, completarExperiencia } = useProgreso();
+  const { experiencias, completarExperiencia, sellos, registrarHito } = useProgreso();
   const control = useRef<Control>({ move: { x: 0, y: 0 }, yaw: 0, pitch: 0.15 });
   const teclas = useRef<Record<string, boolean>>({});
   const [calidadBaja, setCalidadBaja] = useState(false);
-  const [montado, setMontado] = useState(false);
-  useEffect(() => setMontado(true), []);
 
   const [puntoCerca, setPuntoCerca] = useState<number | null>(null);
   const [descubiertos, setDescubiertos] = useState<number[]>([]);
@@ -148,6 +143,8 @@ function MachuMuqu3DPage() {
     if (!puntoCerca) return;
     setAbierto(puntoCerca);
     setDescubiertos((d) => (d.includes(puntoCerca) ? d : [...d, puntoCerca]));
+    const hallado = PUNTOS_3D.find((p) => p.n === puntoCerca);
+    if (hallado) registrarHito("sello", `punto-3d-${hallado.id}`, hallado.recompensa);
   };
 
   const completo = descubiertos.length >= PUNTOS_3D.length;
@@ -185,28 +182,14 @@ function MachuMuqu3DPage() {
         onPointerUp={onCanvasUp}
         onPointerLeave={onCanvasUp}
       >
-        {montado ? (
-          <Suspense
-            fallback={
-              <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
-                Cargando el terreno de Machu Moqo…
-              </div>
-            }
-          >
-            <Escena3D
-              control={control}
-              calidadBaja={calidadBaja}
-              descubiertos={descubiertos}
-              puntoCerca={puntoCerca}
-              onCerca={setPuntoCerca}
-              onAvance={onAvance}
-            />
-          </Suspense>
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
-            Preparando la exploración 3D…
-          </div>
-        )}
+        <Escena3D
+          control={control}
+          calidadBaja={calidadBaja}
+          descubiertos={descubiertos}
+          puntoCerca={puntoCerca}
+          onCerca={setPuntoCerca}
+          onAvance={onAvance}
+        />
 
 
         {/* HUD */}
@@ -338,6 +321,15 @@ function MachuMuqu3DPage() {
               </dt>
               <dd className="mt-1 text-sm">{punto.info}</dd>
             </div>
+            <div className="rounded-xl border border-accent/40 bg-accent/10 p-3">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Reto de observación</dt>
+              <dd className="mt-1 text-sm">{punto.reto}</dd>
+            </div>
+            <div className="rounded-xl border border-primary/40 bg-primary/5 p-3">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Palabra en quechua Cusco-Collao</dt>
+              <dd className="mt-1 text-sm"><strong>{punto.palabra.quechua}</strong> · {punto.palabra.significado}</dd>
+              <dd className="mt-1 text-xs text-muted-foreground">Referencia: Diccionario Quechua Sureño, Ministerio de Educación del Perú.</dd>
+            </div>
             {modoInvestigador && (
               <>
                 {punto.memoriaOral && (
@@ -386,7 +378,7 @@ function MachuMuqu3DPage() {
                   }`}
                 >
                   <span className="font-semibold">
-                    {hecho ? "✅" : "📍"} {p.n}. {p.titulo}
+                    {hecho || sellos.includes(`punto-3d-${p.id}`) ? "✅" : "📍"} {p.n}. {p.titulo}
                   </span>
                   <span className="mt-1 block text-xs text-muted-foreground">
                     {FUENTES[p.fuenteInfo].icono} {FUENTES[p.fuenteInfo].label}

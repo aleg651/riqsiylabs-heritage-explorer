@@ -16,7 +16,7 @@ export function SectionTitle({
       {eyebrow && (
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent-foreground/70">{eyebrow}</p>
       )}
-      <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{title}</h2>
+      <h1 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">{title}</h1>
       {description && <p className="mt-3 text-muted-foreground">{description}</p>}
     </div>
   );

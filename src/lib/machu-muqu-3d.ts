@@ -43,6 +43,9 @@ export interface Punto3D {
   /** Fotografía real del sector (registro propio) para la comparación REAL / 3D. */
   foto: string;
   pieFoto: string;
+  reto: string;
+  palabra: { quechua: string; significado: string };
+  recompensa: number;
 }
 
 export const PUNTOS_3D: Punto3D[] = [
@@ -60,6 +63,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "No contamos con documentación oficial del acceso. Elemento en investigación.",
     foto: MEDIA_MACHU_MUQU.terrazas,
     pieFoto: "Fotograma de nuestro video de recorrido: acceso y pendiente del terreno.",
+    reto: "Compara la inclinación visible en la foto con la representación 3D.",
+    palabra: { quechua: "ñan", significado: "camino" }, recompensa: 15,
   },
   {
     n: 2,
@@ -75,6 +80,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "Sin publicaciones conocidas sobre este sector. Elemento en investigación.",
     foto: MEDIA_MACHU_MUQU.sector,
     pieFoto: "Fotograma propio: piedras en superficie entre pasto seco.",
+    reto: "Distingue una piedra aislada de una posible alineación sin afirmar su origen.",
+    palabra: { quechua: "rumi", significado: "piedra" }, recompensa: 15,
   },
   {
     n: 3,
@@ -90,6 +97,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "Los muros escalonados de la región se estudian con levantamiento y prospección autorizada.",
     foto: MEDIA_MACHU_MUQU.muro,
     pieFoto: "Fotografía propia: muros escalonados de piedra con líquenes.",
+    reto: "Identifica dos rasgos visibles sin asignar una función a la estructura.",
+    palabra: { quechua: "pirqa", significado: "muro" }, recompensa: 15,
   },
   {
     n: 4,
@@ -105,6 +114,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "La forestación reciente no está documentada en fuentes escritas que hayamos consultado.",
     foto: MEDIA_MACHU_MUQU.bosque,
     pieFoto: "Fotograma propio: bosque y pasto que cubren el sector.",
+    reto: "Señala qué evidencia queda oculta por la vegetación.",
+    palabra: { quechua: "sach'a", significado: "árbol o monte según contexto" }, recompensa: 15,
   },
   {
     n: 5,
@@ -120,6 +131,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "La región cuenta con referencias regionales (Pinahua, Muyna, influencia Lucre) por contrastar.",
     foto: MEDIA_MACHU_MUQU.terrazas,
     pieFoto: "Fotograma propio: relación del sitio con el paisaje circundante.",
+    reto: "Describe el paisaje sin convertir la visibilidad en una función comprobada.",
+    palabra: { quechua: "urqu", significado: "cerro" }, recompensa: 15,
   },
   {
     n: 6,
@@ -136,6 +149,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "No existe verificación arqueológica de estos relatos. Se presentan como memoria cultural.",
     foto: MEDIA_MACHU_MUQU.sector,
     pieFoto: "Fotograma propio del sector donde se comparten los relatos.",
+    reto: "Clasifica el relato como memoria oral y no como evidencia material.",
+    palabra: { quechua: "yuyay", significado: "memoria, pensamiento o recuerdo según contexto" }, recompensa: 15,
   },
   {
     n: 7,
@@ -151,6 +166,8 @@ export const PUNTOS_3D: Punto3D[] = [
     historica: "Referencia temporal 1000–1400 d.C. mencionada en la reseña del proyecto: por contrastar.",
     foto: MEDIA_MACHU_MUQU.muro,
     pieFoto: "Fotografía propia del sector con mayor cantidad de piedra visible.",
+    reto: "Propón una fuente o método que ayude a responder una pregunta abierta.",
+    palabra: { quechua: "yachay", significado: "saber o aprendizaje" }, recompensa: 15,
   },
 ];
 
