@@ -119,7 +119,13 @@ export function MuroPuzzle() {
 
   const [tablero, setTablero] = useState<Tablero>(tableroInicial);
   const [bandeja, setBandeja] = useState<Pieza[]>(bandejaInicial);
-  const [arrastre, setArrastre] = useState<{ pieza: Pieza; x: number; y: number } | null>(null);
+  const [arrastre, setArrastre] = useState<{
+    pieza: Pieza;
+    x: number;
+    y: number;
+    inicioX: number;
+    inicioY: number;
+  } | null>(null);
   const [seleccion, setSeleccion] = useState<Pieza | null>(null);
   const [preview, setPreview] = useState<{ r: number; c: number; ok: boolean } | null>(null);
   const [puntos, setPuntos] = useState(0);
@@ -340,7 +346,7 @@ export function MuroPuzzle() {
                       esFlash ? "animate-[pulse_.45s_ease-in-out]" : ""
                     } ${seleccion && !v ? "cursor-pointer" : ""}`}
                     style={{
-                      background: v
+                      backgroundImage: v
                         ? esFlash
                           ? "linear-gradient(150deg, hsl(48 90% 70%), hsl(40 80% 55%))"
                           : `${v}, url(${stoneImg})`
@@ -397,12 +403,18 @@ export function MuroPuzzle() {
                   tabIndex={0}
                   aria-label="Sillar de piedra"
                   onPointerDown={(e) => {
-                    (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
-                    setArrastre({ pieza: p, x: e.clientX, y: e.clientY });
+                     e.currentTarget.setPointerCapture(e.pointerId);
+                     setArrastre({
+                       pieza: p,
+                       x: e.clientX,
+                       y: e.clientY,
+                       inicioX: e.clientX,
+                       inicioY: e.clientY,
+                     });
                   }}
                   onPointerMove={(e) => {
                     if (arrastre?.pieza.id !== p.id) return;
-                    setArrastre({ pieza: p, x: e.clientX, y: e.clientY });
+                     setArrastre({ ...arrastre, x: e.clientX, y: e.clientY });
                     const d = celdaDesdePunto(e.clientX, e.clientY, p);
                     if (d) setPreview({ ...d, ok: cabePieza(tablero, p.celdas, d.r, d.c) });
                     else setPreview(null);
@@ -410,8 +422,8 @@ export function MuroPuzzle() {
                   onPointerUp={(e) => {
                     if (arrastre?.pieza.id !== p.id) return;
                     // si casi no se movió, es un toque: seleccionar en vez de soltar
-                    const dx = Math.abs(e.clientX - arrastre.x);
-                    const dy = Math.abs(e.clientY - arrastre.y);
+                     const dx = Math.abs(e.clientX - arrastre.inicioX);
+                     const dy = Math.abs(e.clientY - arrastre.inicioY);
                     if (dx < 8 && dy < 8) {
                       setArrastre(null);
                       setPreview(null);
@@ -488,7 +500,13 @@ function Ghost({
   arrastre,
   boardRef,
 }: {
-  arrastre: { pieza: Pieza; x: number; y: number };
+  arrastre: {
+    pieza: Pieza;
+    x: number;
+    y: number;
+    inicioX: number;
+    inicioY: number;
+  };
   boardRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { pieza, x, y } = arrastre;
