@@ -34,8 +34,6 @@ function MachuMuqu3DPage() {
   const control = useRef<Control>({ move: { x: 0, y: 0 }, yaw: 0, pitch: 0.15 });
   const teclas = useRef<Record<string, boolean>>({});
   const [calidadBaja, setCalidadBaja] = useState(false);
-  const [montado, setMontado] = useState(false);
-  useEffect(() => setMontado(true), []);
 
   const [puntoCerca, setPuntoCerca] = useState<number | null>(null);
   const [descubiertos, setDescubiertos] = useState<number[]>([]);
@@ -184,20 +182,14 @@ function MachuMuqu3DPage() {
         onPointerUp={onCanvasUp}
         onPointerLeave={onCanvasUp}
       >
-        {montado ? (
-          <Escena3D
-            control={control}
-            calidadBaja={calidadBaja}
-            descubiertos={descubiertos}
-            puntoCerca={puntoCerca}
-            onCerca={setPuntoCerca}
-            onAvance={onAvance}
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
-            Preparando la exploración 3D…
-          </div>
-        )}
+        <Escena3D
+          control={control}
+          calidadBaja={calidadBaja}
+          descubiertos={descubiertos}
+          puntoCerca={puntoCerca}
+          onCerca={setPuntoCerca}
+          onAvance={onAvance}
+        />
 
 
         {/* HUD */}
