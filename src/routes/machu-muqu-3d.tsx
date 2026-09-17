@@ -9,7 +9,6 @@ import { useProgreso } from "@/lib/progress";
 import { EXPERIENCIA_MACHU_MUQU_3D_ID } from "@/lib/riqsiy-gamification";
 
 export const Route = createFileRoute("/machu-muqu-3d")({
-  ssr: false,
   head: () => ({
     meta: [
       { title: "Explora Machu Moqo en 3D — RIQSIY" },
