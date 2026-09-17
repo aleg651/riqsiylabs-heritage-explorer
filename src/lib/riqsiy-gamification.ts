@@ -59,15 +59,15 @@ export const INSIGNIAS_EXPERIENCIAS = [
   },
   {
     id: "explorador-machu-muqu",
-    nombre: "Guardián de la memoria de Machu Muqu",
+    nombre: "Guardián de la memoria de Machu Moqo",
     icono: "🌙",
-    descripcion: "Completaste la experiencia “Machu Muqu: memoria, piedra y territorio”.",
+    descripcion: "Completaste la experiencia “Machu Moqo: memoria, piedra y territorio”.",
   },
   {
     id: "caminante-machu-muqu",
-    nombre: "Caminante de Machu Muqu",
+    nombre: "Caminante de Machu Moqo",
     icono: "🧭",
-    descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Muqu.",
+    descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Moqo.",
   },
 ];
 

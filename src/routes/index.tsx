@@ -54,8 +54,14 @@ function Inicio() {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
-                to="/descubre"
+                to="/aventura"
                 className="shadow-gold inline-flex items-center gap-2 rounded-md bg-accent px-6 py-3 font-semibold text-accent-foreground transition-transform hover:-translate-y-0.5"
+              >
+                Comenzar Aventura RIQSIY <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/descubre"
+                className="inline-flex items-center gap-2 rounded-md border border-white/40 px-6 py-3 font-semibold backdrop-blur-sm transition-colors hover:bg-white/10"
               >
                 Comenzar a descubrir <ArrowRight className="h-4 w-4" />
               </Link>

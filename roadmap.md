@@ -1,6 +1,6 @@
 # RIQSIY Regional 2.0
 
-- [ ] Fase 0 — Proteger la base actual y normalizar el nombre visible “Machu Moqo” sin romper rutas guardadas.
+- [ ] Fase 0 — Proteger la base actual y normalizar el nombre visible “Machu Moqo” sin romper rutas guardadas; mantener **RIQSIY** como nombre principal.
 - [ ] Fase 1 — Consolidar Machu Moqo, evidencia de campo y aventura educativa central.
 - [ ] Fase 2 — Mejorar la exploración 3D y sus descubrimientos educativos.
 - [ ] Fase 3 — Crear RIQSIY Yachay en quechua Cusco-Collao con contenido previamente validado.

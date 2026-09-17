@@ -64,7 +64,7 @@ function Descubre() {
         ))}
       </div>
 
-      {/* Machu Muqu — patrimonio de nuestra comunidad */}
+      {/* Machu Moqo — patrimonio de nuestra comunidad */}
       <Link
         to="/machu-muqu"
         className="shadow-stone group mt-8 grid overflow-hidden rounded-lg border border-accent/70 bg-card transition-all hover:-translate-y-1 hover:border-accent sm:grid-cols-[1.1fr_1fr]"
@@ -72,7 +72,7 @@ function Descubre() {
         <div className="relative flex min-h-52 items-end overflow-hidden text-stone-deep-foreground">
           <img
             src={machuMuquMiniatura.url}
-            alt="Estructuras de piedra y vegetación registradas en Machu Muqu"
+            alt="Estructuras de piedra y vegetación registradas en Machu Moqo"
             width={1600}
             height={897}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -83,7 +83,7 @@ function Descubre() {
               Patrimonio de nuestra comunidad
             </p>
             <span className="mt-2 block font-display text-3xl font-semibold tracking-[0.18em] sm:text-4xl">
-              MACHU MUQU
+              MACHU MOQO
             </span>
             <span className="mt-2 block text-sm text-gold-soft">Memoria · piedra · territorio</span>
           </div>
@@ -95,13 +95,13 @@ function Descubre() {
         </div>
         <div className="p-5 sm:p-6">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Experiencia especial RIQSIY</p>
-          <h3 className="mt-1 font-display text-xl">Descubre Machu Muqu</h3>
+          <h3 className="mt-1 font-display text-xl">Descubre Machu Moqo</h3>
           <p className="mt-3 text-sm">
             Un sitio arqueológico de nuestra comunidad, documentado con fotografías y videos propios. Observa sus
             evidencias, escucha la memoria de la comunidad y acompáñanos en lo que todavía falta investigar.
           </p>
           <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-            Explorar Machu Muqu <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+            Explorar Machu Moqo <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
           </span>
         </div>
       </Link>
