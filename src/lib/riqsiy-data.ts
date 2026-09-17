@@ -57,7 +57,7 @@ export interface Sitio {
   imagen: string;
   imagenCredito: string;
   imagenFuente: string;
-  coordenadas: { lat: number; lng: number };
+  coordenadas?: { lat: number; lng: number };
   coord: { x: number; y: number }; // % sobre el mapa esquemático
   resumen: string;
   historia: string;
@@ -595,9 +595,8 @@ export const SITIOS: Sitio[] = [
     categoria: "camino",
     ubicacion: "Tramos visibles en Cusco, Valle Sagrado y rutas hacia los cuatro suyos",
     imagen: qhapaqNanAsset.url,
-    imagenCredito: "Quispe · CC BY-SA 4.0",
+    imagenCredito: "Nina Reicer · CC BY-SA 4.0",
     imagenFuente: "https://commons.wikimedia.org/wiki/File:Qhapaq_%C3%91an_(Challabamba_district,_Paucartambo)_01.jpg",
-    coordenadas: { lat: -13.215, lng: -71.647 },
     coord: { x: 34, y: 70 },
     resumen: "La red vial andina: más de 30 000 km que unieron seis países actuales.",
     historia:

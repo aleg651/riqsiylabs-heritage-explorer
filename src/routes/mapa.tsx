@@ -83,6 +83,11 @@ function Mapa() {
               </p>
               <h3 className="mt-1 font-display text-2xl">{sitio.nombre}</h3>
               <p className="mt-1 text-xs text-muted-foreground">{sitio.ubicacion}</p>
+              {!sitio.coordenadas && (
+                <p className="mt-2 text-xs font-medium text-primary">
+                  Es una red de caminos: no se representa como un único punto.
+                </p>
+              )}
               <p className="mt-3 text-sm">{sitio.resumen}</p>
               <Link
                 to="/descubre/$slug"

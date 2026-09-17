@@ -45,8 +45,8 @@ export function GoogleHeritageMap({ sitios, activo, onSelect }: GoogleHeritageMa
   const [estado, setEstado] = useState<"cargando" | "listo" | "error">("cargando");
 
   useEffect(() => {
-    const apiKey = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
-    const channel = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID;
+    const apiKey = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY"];
+    const channel = import.meta.env["VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID"];
     if (!apiKey) {
       setEstado("error");
       return;
@@ -94,8 +94,11 @@ export function GoogleHeritageMap({ sitios, activo, onSelect }: GoogleHeritageMa
 
     markersRef.current.forEach((marker) => marker.setMap(null));
     const bounds = new maps.LatLngBounds();
-    markersRef.current = sitios.map((sitio) => {
-      const position = { lat: sitio.coordenadas.lat, lng: sitio.coordenadas.lng };
+    const sitiosUbicables = sitios.filter((sitio) => sitio.coordenadas);
+    markersRef.current = sitiosUbicables.map((sitio) => {
+      const coordenadas = sitio.coordenadas;
+      if (!coordenadas) throw new Error("Coordenadas no disponibles");
+      const position = { lat: coordenadas.lat, lng: coordenadas.lng };
       bounds.extend(position);
       const marker = new maps.Marker({
         map,
@@ -106,9 +109,10 @@ export function GoogleHeritageMap({ sitios, activo, onSelect }: GoogleHeritageMa
       marker.addListener("click", () => onSelect(sitio.slug));
       return marker;
     });
-    if (sitios.length > 1) map.fitBounds(bounds, 52);
-    if (sitios.length === 1) {
-      map.panTo({ lat: sitios[0].coordenadas.lat, lng: sitios[0].coordenadas.lng });
+    if (sitiosUbicables.length > 1) map.fitBounds(bounds, 52);
+    const unico = sitiosUbicables[0];
+    if (sitiosUbicables.length === 1 && unico?.coordenadas) {
+      map.panTo({ lat: unico.coordenadas.lat, lng: unico.coordenadas.lng });
       map.setZoom(14);
     }
   }, [estado, sitios, onSelect]);
@@ -116,7 +120,7 @@ export function GoogleHeritageMap({ sitios, activo, onSelect }: GoogleHeritageMa
   useEffect(() => {
     const map = mapRef.current;
     const sitio = sitios.find((item) => item.slug === activo);
-    if (!map || !sitio) return;
+    if (!map || !sitio?.coordenadas) return;
     map.panTo({ lat: sitio.coordenadas.lat, lng: sitio.coordenadas.lng });
     map.setZoom(14);
   }, [activo, sitios]);
