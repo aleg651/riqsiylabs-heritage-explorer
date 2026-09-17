@@ -18,7 +18,7 @@ export const Route = createFileRoute("/machu-muqu-3d")({
       {
         name: "description",
         content:
-          "Recorrido 3D referencial de Machu Moqo, sitio arqueológico de nuestra comunidad, basado en nuestro propio registro fotográfico y audiovisual.",
+          "Recorrido 3D referencial de Machu Moqo, lugar patrimonial de nuestra comunidad, basado en nuestro propio registro fotográfico y audiovisual.",
       },
       { property: "og:title", content: "Explora Machu Moqo en 3D — RIQSIY" },
       {
@@ -139,7 +139,8 @@ function MachuMuqu3DPage() {
   const onCanvasUp = () => { arrastre.current = null; };
 
   const onAvance = useCallback((pos: THREE.Vector3) => {
-    if (ultima.current) setMetros((m) => m + pos.distanceTo(ultima.current!));
+    const posicionAnterior = ultima.current;
+    if (posicionAnterior) setMetros((m) => m + pos.distanceTo(posicionAnterior));
     ultima.current = pos;
   }, []);
 
@@ -400,9 +401,9 @@ function MachuMuqu3DPage() {
       {/* completado */}
       {completo && (
         <section className="mt-8 rounded-2xl border border-accent/50 bg-accent/10 p-5">
-          <h2 className="font-display text-xl font-semibold">¡Recorriste Machu Moqo!</h2>
+          <h2 className="font-display text-xl font-semibold">¡EXPLORACIÓN COMPLETADA!</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Observaste los 7 puntos y ganaste 200 RIQSI-COINS junto con la insignia 🧭 “Caminante de Machu Moqo”.
+            Recorriste Machu Moqo, observaste los 7 puntos y ganaste 200 RIQSI-COINS junto con la insignia 🏔️ “Explorador del Patrimonio Local”.
             Recuerda: observar no es lo mismo que conocer; lo que sigue es investigar con fuentes verificables.
           </p>
         </section>

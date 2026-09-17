@@ -97,8 +97,8 @@ function Descubre() {
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Experiencia especial RIQSIY</p>
           <h3 className="mt-1 font-display text-xl">Descubre Machu Moqo</h3>
           <p className="mt-3 text-sm">
-            Un sitio arqueológico de nuestra comunidad, documentado con fotografías y videos propios. Observa sus
-            evidencias, escucha la memoria de la comunidad y acompáñanos en lo que todavía falta investigar.
+            Un lugar patrimonial de nuestra comunidad, documentado con fotografías y videos propios. Observa sus
+            estructuras de piedra, escucha la memoria local y acompáñanos en lo que todavía falta investigar.
           </p>
           <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
             Explorar Machu Moqo <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
