@@ -110,6 +110,12 @@ function Compromiso() {
           </div>
         </div>
       )}
+      {hidratado && fechaCompromiso && compromisos.length >= 2 && (
+        <div className="mt-6 rounded-xl border border-jade/50 bg-jade/10 p-6 text-center">
+          <p className="text-4xl">🛡️</p><h2 className="mt-2 font-display text-2xl">GUARDIÁN DEL PATRIMONIO</h2>
+          <p className="mt-2 text-sm text-muted-foreground">Tu compromiso convierte el aprendizaje en acciones concretas de protección.</p>
+        </div>
+      )}
     </div>
   );
 }

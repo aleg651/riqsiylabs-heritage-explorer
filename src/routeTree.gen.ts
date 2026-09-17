@@ -14,6 +14,7 @@ import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
 import { Route as AventuraRouteImport } from './routes/aventura'
 import { Route as CompromisoRouteImport } from './routes/compromiso'
 import { Route as ConstruyeAndesRouteImport } from './routes/construye-andes'
+import { Route as DescubreCercaRouteImport } from './routes/descubre-cerca'
 import { Route as DetectiveRouteImport } from './routes/detective'
 import { Route as EscaneaRouteImport } from './routes/escanea'
 import { Route as EvidenciaCampoRouteImport } from './routes/evidencia-campo'
@@ -32,6 +33,7 @@ import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as ProgresoRouteImport } from './routes/progreso'
 import { Route as RecompensasRouteImport } from './routes/recompensas'
 import { Route as TestRouteImport } from './routes/test'
+import { Route as YachaqRouteImport } from './routes/yachaq'
 import { Route as YachayRouteImport } from './routes/yachay'
 import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
 import { Route as DescubreSlugRouteImport } from './routes/descubre.$slug'
@@ -61,6 +63,11 @@ const CompromisoRoute = CompromisoRouteImport.update({
 const ConstruyeAndesRoute = ConstruyeAndesRouteImport.update({
   id: '/construye-andes',
   path: '/construye-andes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DescubreCercaRoute = DescubreCercaRouteImport.update({
+  id: '/descubre-cerca',
+  path: '/descubre-cerca',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DetectiveRoute = DetectiveRouteImport.update({
@@ -153,6 +160,11 @@ const TestRoute = TestRouteImport.update({
   path: '/test',
   getParentRoute: () => rootRouteImport,
 } as any)
+const YachaqRoute = YachaqRouteImport.update({
+  id: '/yachaq',
+  path: '/yachaq',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const YachayRoute = YachayRouteImport.update({
   id: '/yachay',
   path: '/yachay',
@@ -185,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
   '/construye-andes': typeof ConstruyeAndesRoute
+  '/descubre-cerca': typeof DescubreCercaRoute
   '/detective': typeof DetectiveRoute
   '/escanea': typeof EscaneaRoute
   '/evidencia-campo': typeof EvidenciaCampoRoute
@@ -203,6 +216,7 @@ export interface FileRoutesByFullPath {
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
   '/test': typeof TestRoute
+  '/yachaq': typeof YachaqRoute
   '/yachay': typeof YachayRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/juegos/$id': typeof JuegosIdRoute
@@ -215,6 +229,7 @@ export interface FileRoutesByTo {
   '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
   '/construye-andes': typeof ConstruyeAndesRoute
+  '/descubre-cerca': typeof DescubreCercaRoute
   '/detective': typeof DetectiveRoute
   '/escanea': typeof EscaneaRoute
   '/evidencia-campo': typeof EvidenciaCampoRoute
@@ -233,6 +248,7 @@ export interface FileRoutesByTo {
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
   '/test': typeof TestRoute
+  '/yachaq': typeof YachaqRoute
   '/yachay': typeof YachayRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/juegos/$id': typeof JuegosIdRoute
@@ -246,6 +262,7 @@ export interface FileRoutesById {
   '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
   '/construye-andes': typeof ConstruyeAndesRoute
+  '/descubre-cerca': typeof DescubreCercaRoute
   '/detective': typeof DetectiveRoute
   '/escanea': typeof EscaneaRoute
   '/evidencia-campo': typeof EvidenciaCampoRoute
@@ -264,6 +281,7 @@ export interface FileRoutesById {
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
   '/test': typeof TestRoute
+  '/yachaq': typeof YachaqRoute
   '/yachay': typeof YachayRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/juegos/$id': typeof JuegosIdRoute
@@ -278,6 +296,7 @@ export interface FileRouteTypes {
     | '/aventura'
     | '/compromiso'
     | '/construye-andes'
+    | '/descubre-cerca'
     | '/detective'
     | '/escanea'
     | '/evidencia-campo'
@@ -296,6 +315,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/recompensas'
     | '/test'
+    | '/yachaq'
     | '/yachay'
     | '/descubre/$slug'
     | '/juegos/$id'
@@ -308,6 +328,7 @@ export interface FileRouteTypes {
     | '/aventura'
     | '/compromiso'
     | '/construye-andes'
+    | '/descubre-cerca'
     | '/detective'
     | '/escanea'
     | '/evidencia-campo'
@@ -326,6 +347,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/recompensas'
     | '/test'
+    | '/yachaq'
     | '/yachay'
     | '/descubre/$slug'
     | '/juegos/$id'
@@ -338,6 +360,7 @@ export interface FileRouteTypes {
     | '/aventura'
     | '/compromiso'
     | '/construye-andes'
+    | '/descubre-cerca'
     | '/detective'
     | '/escanea'
     | '/evidencia-campo'
@@ -356,6 +379,7 @@ export interface FileRouteTypes {
     | '/progreso'
     | '/recompensas'
     | '/test'
+    | '/yachaq'
     | '/yachay'
     | '/descubre/$slug'
     | '/juegos/$id'
@@ -369,6 +393,7 @@ export interface RootRouteChildren {
   AventuraRoute: typeof AventuraRoute
   CompromisoRoute: typeof CompromisoRoute
   ConstruyeAndesRoute: typeof ConstruyeAndesRoute
+  DescubreCercaRoute: typeof DescubreCercaRoute
   DetectiveRoute: typeof DetectiveRoute
   EscaneaRoute: typeof EscaneaRoute
   EvidenciaCampoRoute: typeof EvidenciaCampoRoute
@@ -387,6 +412,7 @@ export interface RootRouteChildren {
   ProgresoRoute: typeof ProgresoRoute
   RecompensasRoute: typeof RecompensasRoute
   TestRoute: typeof TestRoute
+  YachaqRoute: typeof YachaqRoute
   YachayRoute: typeof YachayRoute
   DescubreSlugRoute: typeof DescubreSlugRoute
   JuegosIdRoute: typeof JuegosIdRoute
@@ -429,6 +455,13 @@ declare module '@tanstack/react-router' {
       path: '/construye-andes'
       fullPath: '/construye-andes'
       preLoaderRoute: typeof ConstruyeAndesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/descubre-cerca': {
+      id: '/descubre-cerca'
+      path: '/descubre-cerca'
+      fullPath: '/descubre-cerca'
+      preLoaderRoute: typeof DescubreCercaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/detective': {
@@ -557,6 +590,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TestRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/yachaq': {
+      id: '/yachaq'
+      path: '/yachaq'
+      fullPath: '/yachaq'
+      preLoaderRoute: typeof YachaqRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/yachay': {
       id: '/yachay'
       path: '/yachay'
@@ -601,6 +641,7 @@ const rootRouteChildren: RootRouteChildren = {
   AventuraRoute: AventuraRoute,
   CompromisoRoute: CompromisoRoute,
   ConstruyeAndesRoute: ConstruyeAndesRoute,
+  DescubreCercaRoute: DescubreCercaRoute,
   DetectiveRoute: DetectiveRoute,
   EscaneaRoute: EscaneaRoute,
   EvidenciaCampoRoute: EvidenciaCampoRoute,
@@ -619,6 +660,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProgresoRoute: ProgresoRoute,
   RecompensasRoute: RecompensasRoute,
   TestRoute: TestRoute,
+  YachaqRoute: YachaqRoute,
   YachayRoute: YachayRoute,
   DescubreSlugRoute: DescubreSlugRoute,
   JuegosIdRoute: JuegosIdRoute,
