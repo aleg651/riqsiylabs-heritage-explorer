@@ -69,6 +69,11 @@ export const INSIGNIAS_EXPERIENCIAS = [
     icono: "🏔️",
     descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Moqo.",
   },
+  { id: "aprendiz-quechua", nombre: "Aprendiz de Quechua", icono: "🦙", descripcion: "Aprendiste cinco palabras validadas de quechua Cusco-Collao." },
+  { id: "detective-patrimonio", nombre: "Detective del Patrimonio", icono: "🔎", descripcion: "Resolviste un caso usando pistas y evidencias." },
+  { id: "voz-comunidad", nombre: "Voz de mi Comunidad", icono: "🗣️", descripcion: "Registraste un aporte comunitario autorizado." },
+  { id: "investigador-riqsiy", nombre: "Investigador RIQSIY", icono: "🔬", descripcion: "Completaste el pretest y el postest." },
+  { id: "guardian-patrimonio", nombre: "Guardián del Patrimonio", icono: "🛡️", descripcion: "Asumiste acciones concretas de protección." },
 ];
 
 export const EXPERIENCIA_LOCAL_ID = "patrimonio-local";
