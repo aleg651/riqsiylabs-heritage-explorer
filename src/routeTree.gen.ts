@@ -13,21 +13,26 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
 import { Route as AventuraRouteImport } from './routes/aventura'
 import { Route as CompromisoRouteImport } from './routes/compromiso'
+import { Route as ConstruyeAndesRouteImport } from './routes/construye-andes'
+import { Route as DetectiveRouteImport } from './routes/detective'
 import { Route as EscaneaRouteImport } from './routes/escanea'
 import { Route as EvidenciaCampoRouteImport } from './routes/evidencia-campo'
 import { Route as FencytRouteImport } from './routes/fencyt'
 import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
+import { Route as LaboratorioAguaRouteImport } from './routes/laboratorio-agua'
 import { Route as MachuMuquRouteImport } from './routes/machu-muqu'
 import { Route as MachuMuqu3dRouteImport } from './routes/machu-muqu-3d'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
 import { Route as PanelInvestigadorRouteImport } from './routes/panel-investigador'
+import { Route as PasaporteRouteImport } from './routes/pasaporte'
 import { Route as PatrimonioLocalRouteImport } from './routes/patrimonio-local'
 import { Route as PorQueRouteImport } from './routes/por-que'
 import { Route as ProgresoRouteImport } from './routes/progreso'
 import { Route as RecompensasRouteImport } from './routes/recompensas'
 import { Route as TestRouteImport } from './routes/test'
+import { Route as YachayRouteImport } from './routes/yachay'
 import { Route as DescubreIndexRouteImport } from './routes/descubre.index'
 import { Route as DescubreSlugRouteImport } from './routes/descubre.$slug'
 import { Route as JuegosIndexRouteImport } from './routes/juegos.index'
@@ -51,6 +56,16 @@ const AventuraRoute = AventuraRouteImport.update({
 const CompromisoRoute = CompromisoRouteImport.update({
   id: '/compromiso',
   path: '/compromiso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConstruyeAndesRoute = ConstruyeAndesRouteImport.update({
+  id: '/construye-andes',
+  path: '/construye-andes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DetectiveRoute = DetectiveRouteImport.update({
+  id: '/detective',
+  path: '/detective',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EscaneaRoute = EscaneaRouteImport.update({
@@ -78,6 +93,11 @@ const InvestigacionRoute = InvestigacionRouteImport.update({
   path: '/investigacion',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LaboratorioAguaRoute = LaboratorioAguaRouteImport.update({
+  id: '/laboratorio-agua',
+  path: '/laboratorio-agua',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MachuMuquRoute = MachuMuquRouteImport.update({
   id: '/machu-muqu',
   path: '/machu-muqu',
@@ -103,6 +123,11 @@ const PanelInvestigadorRoute = PanelInvestigadorRouteImport.update({
   path: '/panel-investigador',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PasaporteRoute = PasaporteRouteImport.update({
+  id: '/pasaporte',
+  path: '/pasaporte',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PatrimonioLocalRoute = PatrimonioLocalRouteImport.update({
   id: '/patrimonio-local',
   path: '/patrimonio-local',
@@ -126,6 +151,11 @@ const RecompensasRoute = RecompensasRouteImport.update({
 const TestRoute = TestRouteImport.update({
   id: '/test',
   path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const YachayRoute = YachayRouteImport.update({
+  id: '/yachay',
+  path: '/yachay',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DescubreIndexRoute = DescubreIndexRouteImport.update({
@@ -154,21 +184,26 @@ export interface FileRoutesByFullPath {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
+  '/construye-andes': typeof ConstruyeAndesRoute
+  '/detective': typeof DetectiveRoute
   '/escanea': typeof EscaneaRoute
   '/evidencia-campo': typeof EvidenciaCampoRoute
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
+  '/laboratorio-agua': typeof LaboratorioAguaRoute
   '/machu-muqu': typeof MachuMuquRoute
   '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
+  '/pasaporte': typeof PasaporteRoute
   '/patrimonio-local': typeof PatrimonioLocalRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
   '/test': typeof TestRoute
+  '/yachay': typeof YachayRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/juegos/$id': typeof JuegosIdRoute
   '/descubre/': typeof DescubreIndexRoute
@@ -179,21 +214,26 @@ export interface FileRoutesByTo {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
+  '/construye-andes': typeof ConstruyeAndesRoute
+  '/detective': typeof DetectiveRoute
   '/escanea': typeof EscaneaRoute
   '/evidencia-campo': typeof EvidenciaCampoRoute
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
+  '/laboratorio-agua': typeof LaboratorioAguaRoute
   '/machu-muqu': typeof MachuMuquRoute
   '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
+  '/pasaporte': typeof PasaporteRoute
   '/patrimonio-local': typeof PatrimonioLocalRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
   '/test': typeof TestRoute
+  '/yachay': typeof YachayRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/juegos/$id': typeof JuegosIdRoute
   '/descubre': typeof DescubreIndexRoute
@@ -205,21 +245,26 @@ export interface FileRoutesById {
   '/antes-y-despues': typeof AntesYDespuesRoute
   '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
+  '/construye-andes': typeof ConstruyeAndesRoute
+  '/detective': typeof DetectiveRoute
   '/escanea': typeof EscaneaRoute
   '/evidencia-campo': typeof EvidenciaCampoRoute
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
+  '/laboratorio-agua': typeof LaboratorioAguaRoute
   '/machu-muqu': typeof MachuMuquRoute
   '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
+  '/pasaporte': typeof PasaporteRoute
   '/patrimonio-local': typeof PatrimonioLocalRoute
   '/por-que': typeof PorQueRoute
   '/progreso': typeof ProgresoRoute
   '/recompensas': typeof RecompensasRoute
   '/test': typeof TestRoute
+  '/yachay': typeof YachayRoute
   '/descubre/$slug': typeof DescubreSlugRoute
   '/juegos/$id': typeof JuegosIdRoute
   '/descubre/': typeof DescubreIndexRoute
@@ -232,21 +277,26 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/aventura'
     | '/compromiso'
+    | '/construye-andes'
+    | '/detective'
     | '/escanea'
     | '/evidencia-campo'
     | '/fencyt'
     | '/historias'
     | '/investigacion'
+    | '/laboratorio-agua'
     | '/machu-muqu'
     | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
+    | '/pasaporte'
     | '/patrimonio-local'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
     | '/test'
+    | '/yachay'
     | '/descubre/$slug'
     | '/juegos/$id'
     | '/descubre/'
@@ -257,21 +307,26 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/aventura'
     | '/compromiso'
+    | '/construye-andes'
+    | '/detective'
     | '/escanea'
     | '/evidencia-campo'
     | '/fencyt'
     | '/historias'
     | '/investigacion'
+    | '/laboratorio-agua'
     | '/machu-muqu'
     | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
+    | '/pasaporte'
     | '/patrimonio-local'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
     | '/test'
+    | '/yachay'
     | '/descubre/$slug'
     | '/juegos/$id'
     | '/descubre'
@@ -282,21 +337,26 @@ export interface FileRouteTypes {
     | '/antes-y-despues'
     | '/aventura'
     | '/compromiso'
+    | '/construye-andes'
+    | '/detective'
     | '/escanea'
     | '/evidencia-campo'
     | '/fencyt'
     | '/historias'
     | '/investigacion'
+    | '/laboratorio-agua'
     | '/machu-muqu'
     | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
     | '/panel-investigador'
+    | '/pasaporte'
     | '/patrimonio-local'
     | '/por-que'
     | '/progreso'
     | '/recompensas'
     | '/test'
+    | '/yachay'
     | '/descubre/$slug'
     | '/juegos/$id'
     | '/descubre/'
@@ -308,21 +368,26 @@ export interface RootRouteChildren {
   AntesYDespuesRoute: typeof AntesYDespuesRoute
   AventuraRoute: typeof AventuraRoute
   CompromisoRoute: typeof CompromisoRoute
+  ConstruyeAndesRoute: typeof ConstruyeAndesRoute
+  DetectiveRoute: typeof DetectiveRoute
   EscaneaRoute: typeof EscaneaRoute
   EvidenciaCampoRoute: typeof EvidenciaCampoRoute
   FencytRoute: typeof FencytRoute
   HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
+  LaboratorioAguaRoute: typeof LaboratorioAguaRoute
   MachuMuquRoute: typeof MachuMuquRoute
   MachuMuqu3dRoute: typeof MachuMuqu3dRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
   PanelInvestigadorRoute: typeof PanelInvestigadorRoute
+  PasaporteRoute: typeof PasaporteRoute
   PatrimonioLocalRoute: typeof PatrimonioLocalRoute
   PorQueRoute: typeof PorQueRoute
   ProgresoRoute: typeof ProgresoRoute
   RecompensasRoute: typeof RecompensasRoute
   TestRoute: typeof TestRoute
+  YachayRoute: typeof YachayRoute
   DescubreSlugRoute: typeof DescubreSlugRoute
   JuegosIdRoute: typeof JuegosIdRoute
   DescubreIndexRoute: typeof DescubreIndexRoute
@@ -357,6 +422,20 @@ declare module '@tanstack/react-router' {
       path: '/compromiso'
       fullPath: '/compromiso'
       preLoaderRoute: typeof CompromisoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/construye-andes': {
+      id: '/construye-andes'
+      path: '/construye-andes'
+      fullPath: '/construye-andes'
+      preLoaderRoute: typeof ConstruyeAndesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/detective': {
+      id: '/detective'
+      path: '/detective'
+      fullPath: '/detective'
+      preLoaderRoute: typeof DetectiveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/escanea': {
@@ -394,6 +473,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvestigacionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/laboratorio-agua': {
+      id: '/laboratorio-agua'
+      path: '/laboratorio-agua'
+      fullPath: '/laboratorio-agua'
+      preLoaderRoute: typeof LaboratorioAguaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/machu-muqu': {
       id: '/machu-muqu'
       path: '/machu-muqu'
@@ -429,6 +515,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanelInvestigadorRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pasaporte': {
+      id: '/pasaporte'
+      path: '/pasaporte'
+      fullPath: '/pasaporte'
+      preLoaderRoute: typeof PasaporteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/patrimonio-local': {
       id: '/patrimonio-local'
       path: '/patrimonio-local'
@@ -462,6 +555,13 @@ declare module '@tanstack/react-router' {
       path: '/test'
       fullPath: '/test'
       preLoaderRoute: typeof TestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/yachay': {
+      id: '/yachay'
+      path: '/yachay'
+      fullPath: '/yachay'
+      preLoaderRoute: typeof YachayRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/descubre/': {
@@ -500,21 +600,26 @@ const rootRouteChildren: RootRouteChildren = {
   AntesYDespuesRoute: AntesYDespuesRoute,
   AventuraRoute: AventuraRoute,
   CompromisoRoute: CompromisoRoute,
+  ConstruyeAndesRoute: ConstruyeAndesRoute,
+  DetectiveRoute: DetectiveRoute,
   EscaneaRoute: EscaneaRoute,
   EvidenciaCampoRoute: EvidenciaCampoRoute,
   FencytRoute: FencytRoute,
   HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
+  LaboratorioAguaRoute: LaboratorioAguaRoute,
   MachuMuquRoute: MachuMuquRoute,
   MachuMuqu3dRoute: MachuMuqu3dRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
   PanelInvestigadorRoute: PanelInvestigadorRoute,
+  PasaporteRoute: PasaporteRoute,
   PatrimonioLocalRoute: PatrimonioLocalRoute,
   PorQueRoute: PorQueRoute,
   ProgresoRoute: ProgresoRoute,
   RecompensasRoute: RecompensasRoute,
   TestRoute: TestRoute,
+  YachayRoute: YachayRoute,
   DescubreSlugRoute: DescubreSlugRoute,
   JuegosIdRoute: JuegosIdRoute,
   DescubreIndexRoute: DescubreIndexRoute,
