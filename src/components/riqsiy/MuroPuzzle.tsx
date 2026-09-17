@@ -63,17 +63,17 @@ const FORMAS: Celda[][] = [
 const COINS_PIEZA = 10;
 const COINS_LINEA = 30;
 
-type Tablero = number[][]; // 0 vacío, 1 ocupado
+type Tablero = (string | null)[][]; // vacío o acabado de la piedra colocada
 
 function tableroInicial(): Tablero {
-  return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+  return Array.from({ length: SIZE }, () => Array<string | null>(SIZE).fill(null));
 }
 
 function cabePieza(tablero: Tablero, celdas: Celda[], r0: number, c0: number): boolean {
   return celdas.every(([r, c]) => {
     const rr = r0 + r;
     const cc = c0 + c;
-    return rr >= 0 && rr < SIZE && cc >= 0 && cc < SIZE && tablero[rr]![cc] === 0;
+    return rr >= 0 && rr < SIZE && cc >= 0 && cc < SIZE && tablero[rr]![cc] === null;
   });
 }
 
@@ -149,7 +149,7 @@ export function MuroPuzzle() {
     (pieza: Pieza, r0: number, c0: number) => {
       setTablero((t) => {
         const nt = t.map((fila) => [...fila]);
-        for (const [r, c] of pieza.celdas) nt[r0 + r]![c0 + c] = 1;
+        for (const [r, c] of pieza.celdas) nt[r0 + r]![c0 + c] = pieza.color;
         // detectar líneas completas
         const filasFull = nt.map((fila, r) => (fila.every(Boolean) ? r : -1)).filter((r) => r >= 0);
         const colsFull: number[] = [];
@@ -173,7 +173,7 @@ export function MuroPuzzle() {
           window.setTimeout(() => {
             setTablero((tt) => {
               const limpio = tt.map((fila, r) =>
-                fila.map((v, c) => (filasFull.includes(r) || colsFull.includes(c) ? 0 : v)),
+                fila.map((v, c) => (filasFull.includes(r) || colsFull.includes(c) ? null : v)),
               );
               cerrarTurno(limpio);
               return limpio;
@@ -336,22 +336,21 @@ export function MuroPuzzle() {
                   <div
                     key={`${r}-${c}`}
                     onPointerUp={() => tocarNicho(r, c)}
-                    className={`rounded-[3px] transition-all duration-200 ${
+                    className={`transition-all duration-200 ${v ? "pirqa-stone-block" : "rounded-[2px]"} ${
                       esFlash ? "animate-[pulse_.45s_ease-in-out]" : ""
                     } ${seleccion && !v ? "cursor-pointer" : ""}`}
                     style={{
                       background: v
                         ? esFlash
                           ? "linear-gradient(150deg, hsl(48 90% 70%), hsl(40 80% 55%))"
-                          : "linear-gradient(150deg, hsl(32 18% 62%), hsl(28 14% 40%))"
+                          : `${v}, url(${stoneImg})`
                         : enPreview
                           ? previewActivo!.ok
                             ? "hsla(45, 70%, 60%, .45)"
                             : "hsla(0, 70%, 55%, .4)"
                           : "hsl(28 12% 18%)",
-                      boxShadow: v
-                        ? "inset 0 2px 4px rgba(255,255,255,.2), inset 0 -2px 4px rgba(0,0,0,.3)"
-                        : "inset 0 0 6px rgba(0,0,0,.5)",
+                      backgroundSize: v ? "cover, 180px 180px" : undefined,
+                      backgroundBlendMode: v ? "soft-light" : undefined,
                     }}
                   />
                 );
@@ -445,12 +444,11 @@ export function MuroPuzzle() {
                       return (
                         <div
                           key={i}
-                          className="rounded-[3px]"
+                          className={llena ? "pirqa-stone-block" : ""}
                           style={{
-                            background: llena ? p.color : "transparent",
-                            boxShadow: llena
-                              ? "inset 0 2px 3px rgba(255,255,255,.25), inset 0 -2px 3px rgba(0,0,0,.3)"
-                              : undefined,
+                            backgroundImage: llena ? `${p.color}, url(${stoneImg})` : undefined,
+                            backgroundSize: llena ? "cover, 150px 150px" : undefined,
+                            backgroundBlendMode: llena ? "soft-light" : undefined,
                           }}
                         />
                       );
@@ -519,10 +517,11 @@ function Ghost({
           return (
             <div
               key={i}
-              className="rounded-[4px]"
+              className={llena ? "pirqa-stone-block pirqa-stone-block--dragging" : ""}
               style={{
-                background: llena ? pieza.color : "transparent",
-                boxShadow: llena ? "0 6px 14px rgba(0,0,0,.4), inset 0 2px 3px rgba(255,255,255,.3)" : undefined,
+                backgroundImage: llena ? `${pieza.color}, url(${stoneImg})` : undefined,
+                backgroundSize: llena ? `cover, ${Math.max(150, cell * 4)}px ${Math.max(150, cell * 4)}px` : undefined,
+                backgroundBlendMode: llena ? "soft-light" : undefined,
               }}
             />
           );

@@ -217,6 +217,35 @@
   background-image: var(--gradient-earth);
 }
 
+.pirqa-stone-block {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--gold-soft) 24%, var(--stone-deep));
+  border-radius: 3px 5px 2px 4px;
+  box-shadow:
+    inset 2px 2px 3px color-mix(in oklab, var(--stone-deep-foreground) 28%, transparent),
+    inset -3px -3px 4px color-mix(in oklab, var(--stone-deep) 72%, transparent),
+    0 2px 3px color-mix(in oklab, var(--stone-deep) 65%, transparent);
+  filter: saturate(0.68) contrast(1.08);
+}
+
+.pirqa-stone-block::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  background-image:
+    linear-gradient(135deg, color-mix(in oklab, var(--stone-deep-foreground) 20%, transparent), transparent 42%),
+    linear-gradient(315deg, color-mix(in oklab, var(--stone-deep) 35%, transparent), transparent 45%);
+}
+
+.pirqa-stone-block--dragging {
+  box-shadow:
+    inset 2px 2px 3px color-mix(in oklab, var(--stone-deep-foreground) 32%, transparent),
+    inset -3px -3px 4px color-mix(in oklab, var(--stone-deep) 72%, transparent),
+    0 8px 16px color-mix(in oklab, var(--stone-deep) 72%, transparent);
+}
+
 @keyframes riqsiy-rise {
   from {
     opacity: 0;
