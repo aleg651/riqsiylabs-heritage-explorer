@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ArrowLeft, Check, Flame, Heart, Lock, Star, Volume2, X } from "lucide-react";
+import { Check, Flame, Heart, Lock, Star, Volume2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProgreso } from "@/lib/progress";
 import mascot from "@/assets/yachay-mascot.png";
@@ -106,7 +106,7 @@ function YachayPage() {
             <img src={mascot} alt="Joven estudiante andino con un libro" width={1024} height={1024} className="mx-auto mt-2 h-52 w-52 object-contain object-bottom" />
           </div>
           <div className="rounded-lg border border-accent/50 bg-accent/10 p-4 text-xs text-muted-foreground">
-            <strong className="text-foreground">Fuente lingüística:</strong> Diccionario Quechua Sureño del Ministerio de Educación del Perú. El audio permanece pendiente de validación por hablantes competentes.
+            <strong className="text-foreground">Fuente lingüística:</strong> Diccionario Quechua Sureño del Ministerio de Educación del Perú. La voz de práctica es sintética y no reemplaza una pronunciación validada por hablantes competentes.
           </div>
           <p className="text-center text-sm font-bold">🟡 {coins} RIQSI-COINS</p>
         </aside>
@@ -120,6 +120,8 @@ function Leccion({ unidad, onCerrar, registrar }: { unidad: Unidad; onCerrar: ()
   const [seleccion, setSeleccion] = useState<string | null>(null);
   const [comprobado, setComprobado] = useState(false);
   const [vidas, setVidas] = useState(5);
+  const [reproduciendo, setReproduciendo] = useState(false);
+  const [audioError, setAudioError] = useState(false);
   const palabra = unidad.palabras[paso];
   const opciones = useMemo(() => {
     if (!palabra) return [];
@@ -150,6 +152,21 @@ function Leccion({ unidad, onCerrar, registrar }: { unidad: Unidad; onCerrar: ()
     else registrar("palabra", palabra.quechua, 20);
   };
   const continuar = () => { if (correcta) setPaso((p) => p + 1); setSeleccion(null); setComprobado(false); };
+  const reproducir = () => {
+    if (!("speechSynthesis" in window)) {
+      setAudioError(true);
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const voz = new SpeechSynthesisUtterance(palabra.quechua);
+    voz.lang = "es-PE";
+    voz.rate = 0.72;
+    voz.pitch = 1;
+    voz.onstart = () => { setAudioError(false); setReproduciendo(true); };
+    voz.onend = () => setReproduciendo(false);
+    voz.onerror = () => { setReproduciendo(false); setAudioError(true); };
+    window.speechSynthesis.speak(voz);
+  };
 
   return (
     <main className="min-h-screen bg-background">
@@ -163,7 +180,14 @@ function Leccion({ unidad, onCerrar, registrar }: { unidad: Unidad; onCerrar: ()
         <h1 className="mt-3 font-display text-3xl font-bold">¿Qué significa esta palabra?</h1>
         <div className="mt-8 flex items-center gap-4 rounded-lg border-2 border-border bg-card p-5">
           <img src={mascot} alt="Compañero andino de Yachay" width={1024} height={1024} className="h-28 w-28 shrink-0 object-contain" />
-          <div className="relative flex-1 rounded-lg border-2 border-border p-5"><p className="font-display text-3xl font-bold">{palabra.quechua}</p><p className="mt-1 inline-flex items-center gap-2 text-xs text-muted-foreground"><Volume2 className="h-4 w-4" /> Pronunciación pendiente de validación</p></div>
+          <div className="relative flex-1 rounded-lg border-2 border-border p-5">
+            <p className="font-display text-3xl font-bold">{palabra.quechua}</p>
+            <Button type="button" variant="ghost" onClick={reproducir} className="mt-2 h-auto justify-start gap-2 p-0 text-xs text-muted-foreground hover:bg-transparent hover:text-primary" aria-label={`Escuchar ${palabra.quechua}`}>
+              <Volume2 className={`h-5 w-5 ${reproduciendo ? "text-primary" : ""}`} />
+              {reproduciendo ? "Reproduciendo…" : "Escuchar voz de práctica"}
+            </Button>
+            {audioError && <p role="alert" className="mt-2 text-xs text-destructive">El audio no está disponible en este navegador.</p>}
+          </div>
         </div>
         <div className="mt-8 grid gap-3">
           {opciones.map((opcion, index) => <Button key={opcion.espanol} variant="outline" onClick={() => !comprobado && setSeleccion(opcion.espanol)} className={`h-auto min-h-16 justify-start border-2 px-5 py-4 text-left text-base font-bold whitespace-normal ${seleccion === opcion.espanol ? "border-primary bg-primary/10 text-foreground" : ""}`}><span className="mr-2 grid h-7 w-7 shrink-0 place-items-center rounded-md border border-border text-xs">{index + 1}</span>{opcion.espanol}</Button>)}
