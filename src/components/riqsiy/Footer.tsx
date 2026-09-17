@@ -30,6 +30,9 @@ export function Footer() {
             <li>
               <Link to="/mapa">Mapa de nuestro patrimonio</Link>
             </li>
+            <li><Link to="/yachay">RIQSIY Yachay</Link></li>
+            <li><Link to="/detective">Detective del Patrimonio</Link></li>
+            <li><Link to="/yachaq">Yachaq RIQSIY</Link></li>
           </ul>
         </div>
         <div className="text-sm">
@@ -47,6 +50,8 @@ export function Footer() {
             <li>
               <Link to="/progreso">Mi progreso</Link>
             </li>
+            <li><Link to="/pasaporte">Pasaporte RIQSIY</Link></li>
+            <li><Link to="/modo-jurado">Modo Jurado</Link></li>
           </ul>
         </div>
       </div>
