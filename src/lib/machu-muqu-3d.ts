@@ -56,7 +56,7 @@ export const PUNTOS_3D: Punto3D[] = [
     pregunta: "¿Quiénes transitan hoy este acceso y cómo afecta al sitio?",
     info: "Registro propio del equipo: video y fotografías del acceso durante la visita.",
     fuenteInfo: "observacion",
-    memoriaOral: "En la comunidad se conoce el lugar como Machu Muqu; el nombre se transmite de forma oral.",
+    memoriaOral: "En la comunidad se conoce el lugar como Machu Moqo; el nombre se transmite de forma oral.",
     historica: "No contamos con documentación oficial del acceso. Elemento en investigación.",
     foto: MEDIA_MACHU_MUQU.terrazas,
     pieFoto: "Fotograma de nuestro video de recorrido: acceso y pendiente del terreno.",

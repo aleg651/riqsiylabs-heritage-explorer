@@ -142,7 +142,7 @@ export interface PreguntaTest {
 }
 
 export const TEST_INICIAL: PreguntaTest[] = [
-  { id: "i1", dimension: "conocimiento", texto: "Puedo explicar para qué servía un centro arqueológico cercano a mi casa." },
+  { id: "i1", dimension: "conocimiento", texto: "Puedo distinguir entre una observación y una interpretación sobre un sitio patrimonial cercano." },
   { id: "i2", dimension: "conocimiento", texto: "Conozco cómo se construían los muros incas y por qué resisten sismos." },
   { id: "i3", dimension: "valoracion", texto: "Considero que el patrimonio arqueológico del Cusco es muy valioso para mi vida." },
   { id: "i4", dimension: "valoracion", texto: "Creo que las estructuras antiguas de mi entorno merecen ser cuidadas y estudiadas." },
@@ -155,7 +155,7 @@ export const TEST_INICIAL: PreguntaTest[] = [
 ];
 
 export const TEST_FINAL: PreguntaTest[] = [
-  { id: "f1", dimension: "conocimiento", texto: "Ahora puedo describir la función original de una estructura arqueológica de mi entorno." },
+  { id: "f1", dimension: "conocimiento", texto: "Ahora puedo describir una estructura patrimonial sin afirmar como hecho una función que no está verificada." },
   { id: "f2", dimension: "conocimiento", texto: "Sé explicar técnicas incas como el encaje poligonal, los andenes o los canales." },
   { id: "f3", dimension: "valoracion", texto: "Reconozco un valor importante en el patrimonio arqueológico que me rodea." },
   { id: "f4", dimension: "valoracion", texto: "Pienso que cuidar estas estructuras es una responsabilidad compartida." },

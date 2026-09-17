@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AntesYDespuesRouteImport } from './routes/antes-y-despues'
+import { Route as AventuraRouteImport } from './routes/aventura'
 import { Route as CompromisoRouteImport } from './routes/compromiso'
 import { Route as EscaneaRouteImport } from './routes/escanea'
+import { Route as EvidenciaCampoRouteImport } from './routes/evidencia-campo'
 import { Route as FencytRouteImport } from './routes/fencyt'
 import { Route as HistoriasRouteImport } from './routes/historias'
 import { Route as InvestigacionRouteImport } from './routes/investigacion'
@@ -41,6 +43,11 @@ const AntesYDespuesRoute = AntesYDespuesRouteImport.update({
   path: '/antes-y-despues',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AventuraRoute = AventuraRouteImport.update({
+  id: '/aventura',
+  path: '/aventura',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CompromisoRoute = CompromisoRouteImport.update({
   id: '/compromiso',
   path: '/compromiso',
@@ -49,6 +56,11 @@ const CompromisoRoute = CompromisoRouteImport.update({
 const EscaneaRoute = EscaneaRouteImport.update({
   id: '/escanea',
   path: '/escanea',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvidenciaCampoRoute = EvidenciaCampoRouteImport.update({
+  id: '/evidencia-campo',
+  path: '/evidencia-campo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FencytRoute = FencytRouteImport.update({
@@ -140,8 +152,10 @@ const JuegosIdRoute = JuegosIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/antes-y-despues': typeof AntesYDespuesRoute
+  '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/evidencia-campo': typeof EvidenciaCampoRoute
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
@@ -163,8 +177,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/antes-y-despues': typeof AntesYDespuesRoute
+  '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/evidencia-campo': typeof EvidenciaCampoRoute
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
@@ -187,8 +203,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/antes-y-despues': typeof AntesYDespuesRoute
+  '/aventura': typeof AventuraRoute
   '/compromiso': typeof CompromisoRoute
   '/escanea': typeof EscaneaRoute
+  '/evidencia-campo': typeof EvidenciaCampoRoute
   '/fencyt': typeof FencytRoute
   '/historias': typeof HistoriasRoute
   '/investigacion': typeof InvestigacionRoute
@@ -212,8 +230,10 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/antes-y-despues'
+    | '/aventura'
     | '/compromiso'
     | '/escanea'
+    | '/evidencia-campo'
     | '/fencyt'
     | '/historias'
     | '/investigacion'
@@ -235,8 +255,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/antes-y-despues'
+    | '/aventura'
     | '/compromiso'
     | '/escanea'
+    | '/evidencia-campo'
     | '/fencyt'
     | '/historias'
     | '/investigacion'
@@ -258,8 +280,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/antes-y-despues'
+    | '/aventura'
     | '/compromiso'
     | '/escanea'
+    | '/evidencia-campo'
     | '/fencyt'
     | '/historias'
     | '/investigacion'
@@ -282,8 +306,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AntesYDespuesRoute: typeof AntesYDespuesRoute
+  AventuraRoute: typeof AventuraRoute
   CompromisoRoute: typeof CompromisoRoute
   EscaneaRoute: typeof EscaneaRoute
+  EvidenciaCampoRoute: typeof EvidenciaCampoRoute
   FencytRoute: typeof FencytRoute
   HistoriasRoute: typeof HistoriasRoute
   InvestigacionRoute: typeof InvestigacionRoute
@@ -319,6 +345,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AntesYDespuesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/aventura': {
+      id: '/aventura'
+      path: '/aventura'
+      fullPath: '/aventura'
+      preLoaderRoute: typeof AventuraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/compromiso': {
       id: '/compromiso'
       path: '/compromiso'
@@ -331,6 +364,13 @@ declare module '@tanstack/react-router' {
       path: '/escanea'
       fullPath: '/escanea'
       preLoaderRoute: typeof EscaneaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evidencia-campo': {
+      id: '/evidencia-campo'
+      path: '/evidencia-campo'
+      fullPath: '/evidencia-campo'
+      preLoaderRoute: typeof EvidenciaCampoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fencyt': {
@@ -458,8 +498,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AntesYDespuesRoute: AntesYDespuesRoute,
+  AventuraRoute: AventuraRoute,
   CompromisoRoute: CompromisoRoute,
   EscaneaRoute: EscaneaRoute,
+  EvidenciaCampoRoute: EvidenciaCampoRoute,
   FencytRoute: FencytRoute,
   HistoriasRoute: HistoriasRoute,
   InvestigacionRoute: InvestigacionRoute,
