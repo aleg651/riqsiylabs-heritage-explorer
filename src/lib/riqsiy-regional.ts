@@ -64,7 +64,7 @@ export interface EtapaAventura {
     | "/historias"
     | "/antes-y-despues"
     | "/compromiso"
-    | "/progreso";
+    | "/progreso"
     | "/yachay";
   juegoId?: "encaja-la-piedra" | "salva-el-agua";
   estado?: "disponible" | "proxima-fase";
