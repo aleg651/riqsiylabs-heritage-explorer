@@ -108,13 +108,11 @@ function Descubre() {
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {lista.map((s) => (
-          <Link
+          <article
             key={s.slug}
-            to="/descubre/$slug"
-            params={{ slug: s.slug }}
             className="shadow-stone group overflow-hidden rounded-lg border border-border bg-card transition-all hover:-translate-y-1 hover:border-accent"
           >
-            <div className="relative">
+            <Link to="/descubre/$slug" params={{ slug: s.slug }} className="relative block">
               <img
                 src={s.imagen}
                 alt={s.nombre}
@@ -131,9 +129,13 @@ function Descubre() {
                   Descubierto
                 </span>
               )}
-            </div>
+            </Link>
             <div className="p-5">
-              <h3 className="font-display text-xl">{s.nombre}</h3>
+              <h3 className="font-display text-xl">
+                <Link to="/descubre/$slug" params={{ slug: s.slug }} className="hover:text-primary">
+                  {s.nombre}
+                </Link>
+              </h3>
               <p className="mt-1 text-xs text-muted-foreground">{s.ubicacion}</p>
               <p className="mt-3 text-sm">{s.resumen}</p>
               <a
@@ -141,12 +143,11 @@ function Descubre() {
                 target="_blank"
                 rel="noreferrer"
                 className="mt-3 block text-xs text-muted-foreground underline-offset-2 hover:underline"
-                onClick={(event) => event.stopPropagation()}
               >
                 Foto: {s.imagenCredito}
               </a>
             </div>
-          </Link>
+          </article>
         ))}
       </div>
     </div>
