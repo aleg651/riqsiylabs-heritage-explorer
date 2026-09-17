@@ -340,7 +340,7 @@ export function MuroPuzzle() {
                       esFlash ? "animate-[pulse_.45s_ease-in-out]" : ""
                     } ${seleccion && !v ? "cursor-pointer" : ""}`}
                     style={{
-                      backgroundImage: v
+                      background: v
                         ? esFlash
                           ? "linear-gradient(150deg, hsl(48 90% 70%), hsl(40 80% 55%))"
                           : `${v}, url(${stoneImg})`
@@ -350,7 +350,7 @@ export function MuroPuzzle() {
                             : "hsla(0, 70%, 55%, .4)"
                           : "hsl(28 12% 18%)",
                       backgroundSize: v ? "cover, 180px 180px" : undefined,
-                      backgroundBlendMode: v ? "multiply, normal" : undefined,
+                      backgroundBlendMode: v ? "soft-light" : undefined,
                     }}
                   />
                 );
@@ -448,7 +448,7 @@ export function MuroPuzzle() {
                           style={{
                             backgroundImage: llena ? `${p.color}, url(${stoneImg})` : undefined,
                             backgroundSize: llena ? "cover, 150px 150px" : undefined,
-                            backgroundBlendMode: llena ? "multiply, normal" : undefined,
+                            backgroundBlendMode: llena ? "soft-light" : undefined,
                           }}
                         />
                       );
@@ -521,7 +521,7 @@ function Ghost({
               style={{
                 backgroundImage: llena ? `${pieza.color}, url(${stoneImg})` : undefined,
                 backgroundSize: llena ? `cover, ${Math.max(150, cell * 4)}px ${Math.max(150, cell * 4)}px` : undefined,
-                backgroundBlendMode: llena ? "multiply, normal" : undefined,
+                backgroundBlendMode: llena ? "soft-light" : undefined,
               }}
             />
           );
