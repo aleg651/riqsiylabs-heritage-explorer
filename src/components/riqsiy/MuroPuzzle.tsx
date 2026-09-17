@@ -93,6 +93,14 @@ function nuevaPieza(): Pieza {
   };
 }
 
+function bandejaInicial(): Pieza[] {
+  return [
+    { id: 1, celdas: FORMAS[7] ?? [[0, 0]], color: GRADIENTES[0] ?? "var(--gradient-gold)" },
+    { id: 2, celdas: FORMAS[0] ?? [[0, 0]], color: GRADIENTES[1] ?? "var(--gradient-gold)" },
+    { id: 3, celdas: FORMAS[17] ?? [[0, 0]], color: GRADIENTES[1] ?? "var(--gradient-gold)" },
+  ];
+}
+
 function boundingBox(celdas: Celda[]): { filas: number; cols: number } {
   return {
     filas: Math.max(...celdas.map((c) => c[0])) + 1,
@@ -110,7 +118,7 @@ export function MuroPuzzle() {
   const boardRef = useRef<HTMLDivElement>(null);
 
   const [tablero, setTablero] = useState<Tablero>(tableroInicial);
-  const [bandeja, setBandeja] = useState<Pieza[]>(() => [nuevaPieza(), nuevaPieza(), nuevaPieza()]);
+  const [bandeja, setBandeja] = useState<Pieza[]>(bandejaInicial);
   const [arrastre, setArrastre] = useState<{ pieza: Pieza; x: number; y: number } | null>(null);
   const [seleccion, setSeleccion] = useState<Pieza | null>(null);
   const [preview, setPreview] = useState<{ r: number; c: number; ok: boolean } | null>(null);
