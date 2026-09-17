@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Award, Coins, Gamepad2, RotateCcw, Trophy } from "lucide-react";
+import { Award, Gamepad2, RotateCcw, Trophy } from "lucide-react";
 import { useProgreso } from "@/lib/progress";
-import heroImg from "@/assets/hero-sacsayhuaman.jpg";
-import stoneImg from "@/assets/site-hatunrumiyoc.jpg";
+import { Button } from "@/components/ui/button";
+import heroImg from "@/assets/pirqa-cusco-ruins.jpg";
+import stoneImg from "@/assets/pirqa-inca-wall.jpg";
 
 
 /**
@@ -65,16 +66,7 @@ const COINS_LINEA = 30;
 type Tablero = number[][]; // 0 vacío, 1 ocupado
 
 function tableroInicial(): Tablero {
-  const t: Tablero = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
-  // "ruinas": algunas piedras precolocadas en las esquinas
-  const semillas: Celda[] = [
-    [0, 0], [0, 1], [1, 0],
-    [0, 7], [1, 7],
-    [7, 0], [6, 0], [7, 1],
-    [7, 7], [6, 7], [7, 6],
-  ];
-  for (const [r, c] of semillas) t[r]![c] = 1;
-  return t;
+  return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
 }
 
 function cabePieza(tablero: Tablero, celdas: Celda[], r0: number, c0: number): boolean {
@@ -91,7 +83,7 @@ function hayJugada(tablero: Tablero, celdas: Celda[]): boolean {
   return false;
 }
 
-let piezaSeq = 1;
+let piezaSeq = 4;
 function nuevaPieza(): Pieza {
   const forma = FORMAS[Math.floor(Math.random() * FORMAS.length)]!;
   return {
@@ -99,6 +91,14 @@ function nuevaPieza(): Pieza {
     celdas: forma,
     color: GRADIENTES[Math.floor(Math.random() * GRADIENTES.length)]!,
   };
+}
+
+function bandejaInicial(): Pieza[] {
+  return [
+    { id: 1, celdas: FORMAS[7] ?? [[0, 0]], color: GRADIENTES[0] ?? "var(--gradient-gold)" },
+    { id: 2, celdas: FORMAS[0] ?? [[0, 0]], color: GRADIENTES[1] ?? "var(--gradient-gold)" },
+    { id: 3, celdas: FORMAS[17] ?? [[0, 0]], color: GRADIENTES[1] ?? "var(--gradient-gold)" },
+  ];
 }
 
 function boundingBox(celdas: Celda[]): { filas: number; cols: number } {
@@ -118,7 +118,7 @@ export function MuroPuzzle() {
   const boardRef = useRef<HTMLDivElement>(null);
 
   const [tablero, setTablero] = useState<Tablero>(tableroInicial);
-  const [bandeja, setBandeja] = useState<Pieza[]>(() => [nuevaPieza(), nuevaPieza(), nuevaPieza()]);
+  const [bandeja, setBandeja] = useState<Pieza[]>(bandejaInicial);
   const [arrastre, setArrastre] = useState<{ pieza: Pieza; x: number; y: number } | null>(null);
   const [seleccion, setSeleccion] = useState<Pieza | null>(null);
   const [preview, setPreview] = useState<{ r: number; c: number; ok: boolean } | null>(null);
@@ -263,36 +263,37 @@ export function MuroPuzzle() {
 
   return (
     <section
-      className="-mx-4 space-y-5 px-4 py-8 text-[hsl(38_30%_92%)] sm:-mx-6 sm:rounded-2xl sm:px-6"
+      className="fixed inset-0 z-[100] overflow-y-auto bg-stone-deep px-4 py-7 text-stone-deep-foreground"
       style={{
-        backgroundImage: `linear-gradient(hsl(28 22% 10% / .9), hsl(28 22% 7% / .96)), url(${heroImg})`,
+        backgroundImage: `var(--gradient-pirqa), url(${heroImg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      <div className="mx-auto w-full max-w-[540px] space-y-3">
       {/* portada PIRQA */}
       <header className="text-center">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.45em] text-[hsl(38_22%_78%)]">
+        <p className="text-[9px] font-semibold uppercase tracking-[0.45em] text-stone-deep-foreground/55">
           Tahuantinsuyo
         </p>
-        <h2 className="font-display text-5xl tracking-[0.14em] text-gold">PIRQA</h2>
-        <p className="mt-1 text-[11px] uppercase tracking-[0.3em] text-[hsl(38_18%_76%)]">
+        <h1 className="font-display text-4xl tracking-[0.14em] text-gold">PIRQA</h1>
+        <p className="mt-1 text-[9px] uppercase tracking-[0.3em] text-stone-deep-foreground/55">
           Levanta el muro · piedra sobre piedra
         </p>
       </header>
 
       {/* marcadores estilo PIRQA */}
-      <div className="mx-auto grid max-w-xl grid-cols-3 gap-3">
-        <div className="rounded-lg border border-[hsl(38_20%_40%/.5)] bg-[hsl(28_20%_14%/.75)] px-4 py-3 text-center">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[hsl(38_16%_72%)]">Puntos</p>
+      <div className="grid grid-cols-3 gap-2">
+        <div className="rounded-sm border border-gold/20 bg-stone-deep/70 px-4 py-2 text-center">
+          <p className="text-[8px] font-semibold uppercase tracking-[0.25em] text-stone-deep-foreground/55">Puntos</p>
           <p className="font-display text-2xl text-gold">{puntos}</p>
         </div>
-        <div className="rounded-lg border border-[hsl(38_20%_40%/.5)] bg-[hsl(28_20%_14%/.75)] px-4 py-3 text-center">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[hsl(38_16%_72%)]">Racha</p>
+        <div className="rounded-sm border border-gold/20 bg-stone-deep/70 px-4 py-2 text-center">
+          <p className="text-[8px] font-semibold uppercase tracking-[0.25em] text-stone-deep-foreground/55">Racha</p>
           <p className="font-display text-2xl">{racha > 0 ? `×${racha}` : "0"}</p>
         </div>
-        <div className="rounded-lg border border-[hsl(38_20%_40%/.5)] bg-[hsl(28_20%_14%/.75)] px-4 py-3 text-center">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-[hsl(38_16%_72%)]">Mejor</p>
+        <div className="rounded-sm border border-gold/20 bg-stone-deep/70 px-4 py-2 text-center">
+          <p className="text-[8px] font-semibold uppercase tracking-[0.25em] text-stone-deep-foreground/55">Mejor</p>
           <p className="inline-flex items-center gap-1.5 font-display text-2xl">
             <Trophy className="h-4 w-4 text-gold" /> {Math.max(mejor, puntos)}
           </p>
@@ -301,19 +302,13 @@ export function MuroPuzzle() {
 
 
       {/* TABLERO con marco de piedra */}
-      <div className="mx-auto max-w-xl">
+      <div>
         <div
-          className="rounded-xl p-2"
-          style={{
-            background:
-              "linear-gradient(160deg, hsl(30 10% 42%), hsl(28 12% 24%) 40%, hsl(30 10% 36%))",
-            boxShadow: "0 10px 30px rgba(0,0,0,.45), inset 0 2px 6px rgba(255,255,255,.15)",
-          }}
+          className="rounded-sm bg-earth p-2 shadow-stone"
         >
           <div
             ref={boardRef}
-            className="relative grid aspect-square w-full grid-cols-8 gap-[3px] rounded-lg p-[6px]"
-            style={{ background: "linear-gradient(160deg, hsl(30 12% 24%), hsl(28 10% 14%))" }}
+            className="relative grid aspect-square w-full grid-cols-8 gap-[3px] rounded-sm bg-stone-deep p-[6px]"
             onPointerMove={(e) => {
               if (!seleccion || arrastre) return;
               const board = boardRef.current?.getBoundingClientRect();
@@ -381,7 +376,7 @@ export function MuroPuzzle() {
       {/* BANDEJA */}
       {!fin && (
         <div
-          className="mx-auto max-w-xl overflow-hidden rounded-xl border border-[hsl(38_20%_40%/.5)] p-4"
+          className="overflow-hidden rounded-sm border border-gold/25 p-3"
           style={{
             backgroundImage: `linear-gradient(hsl(28 18% 12% / .5), hsl(28 18% 10% / .65)), url(${stoneImg})`,
             backgroundSize: "cover",
@@ -389,7 +384,7 @@ export function MuroPuzzle() {
           }}
         >
 
-          <div className="flex flex-wrap items-center justify-center gap-6">
+            <div className="grid min-h-24 grid-cols-3 items-center gap-5">
             {bandeja.map((p) => {
               const { filas, cols } = boundingBox(p.celdas);
               const esError = errorId === p.id;
@@ -430,7 +425,7 @@ export function MuroPuzzle() {
                     setArrastre(null);
                     setPreview(null);
                   }}
-                  className={`cursor-grab touch-none select-none rounded-lg p-2 transition-all duration-200 ${
+                   className={`flex min-h-20 cursor-grab touch-none select-none items-center justify-center rounded-sm p-2 transition-all duration-200 ${
                     esError ? "animate-[pulse_.2s_ease-in-out_2] ring-2 ring-destructive" : ""
                   } ${activa ? "opacity-30" : "hover:scale-105"} ${
                     elegida ? "ring-2 ring-gold" : ""
@@ -466,33 +461,26 @@ export function MuroPuzzle() {
             })}
           </div>
 
-          <p className="mt-4 text-center text-[11px] font-medium uppercase tracking-[0.22em] text-[hsl(38_16%_74%)]">
+           <p className="mt-2 text-center text-[8px] font-medium uppercase tracking-[0.22em] text-stone-deep-foreground/55">
             Arrastra la piedra al muro · o tócala y elige el nicho
           </p>
         </div>
       )}
 
-      {/* acciones */}
-      <div className="flex flex-wrap items-center justify-center gap-3">
-        <span className="inline-flex items-center gap-2 rounded-full bg-gold/25 px-3 py-1.5 text-sm font-semibold">
-          <Coins className="h-4 w-4" /> +{ganadas} RIQSI-COINS
-        </span>
-        <span className="inline-flex items-center gap-2 rounded-full bg-jade/25 px-3 py-1.5 text-sm font-semibold">
-          {lineas} hileras consolidadas
-        </span>
-      </div>
       <div className="flex justify-center">
-        <button
+        <Button
           type="button"
+          variant="outline"
           onClick={reiniciar}
-          className="rounded-md border border-[hsl(38_30%_55%/.7)] px-10 py-3 text-xs font-semibold uppercase tracking-[0.3em] text-[hsl(38_25%_88%)] transition-colors hover:bg-[hsl(38_30%_55%/.15)]"
+          className="rounded-sm border-gold/30 bg-transparent px-10 text-[9px] font-semibold uppercase tracking-[0.3em] text-stone-deep-foreground/70 hover:bg-gold/10 hover:text-stone-deep-foreground"
         >
           Nueva partida
-        </button>
+        </Button>
       </div>
 
       {/* fantasma de arrastre */}
       {arrastre && <Ghost arrastre={arrastre} boardRef={boardRef} />}
+      </div>
     </section>
 
   );

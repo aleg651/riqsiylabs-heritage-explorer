@@ -10,3 +10,8 @@
 - [x] Fase 7 — Crear Yachaq RIQSIY con clasificación explícita de la evidencia.
 - [x] Fase 8 — Consolidar Laboratorio RIQSIY y Modo Jurado sin inventar resultados.
 - [x] Fase 9 — Mejorar Antes y Ahora, Mi compromiso, accesibilidad y revisión multidispositivo.
+
+## Mejoras solicitadas
+
+- [x] Convertir RIQSIY Yachay en una experiencia de lecciones gamificadas con identidad andina.
+- [x] Igualar PIRQA a la aplicación de referencia autorizada y verificar ambas experiencias.
