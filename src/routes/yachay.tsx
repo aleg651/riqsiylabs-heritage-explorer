@@ -27,7 +27,7 @@ function YachayPage() {
   const { palabrasAprendidas, registrarHito } = useProgreso();
   const [unidad, setUnidad] = useState(0);
   const [seleccion, setSeleccion] = useState<string | null>(null);
-  const actual = UNIDADES[unidad];
+  const actual = UNIDADES[unidad] ?? UNIDADES[0];
   return <div className="mx-auto max-w-5xl px-4 py-14">
     <SectionTitle eyebrow="Quechua Cusco-Collao" title="RIQSIY Yachay" description="Aprende palabras vinculadas con tu territorio. Fuente lingüística de referencia: Diccionario Quechua Sureño del Ministerio de Educación del Perú; la pronunciación grabada queda pendiente de validación por hablantes competentes." />
     <div className="mt-6 rounded-lg border border-accent/50 bg-accent/10 p-4 text-sm"><strong>Uso responsable:</strong> el significado puede cambiar según contexto y comunidad. No usamos voz sintética como si fuera pronunciación validada.</div>
