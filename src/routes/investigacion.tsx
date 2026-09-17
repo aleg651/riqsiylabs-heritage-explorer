@@ -17,6 +17,8 @@ export const Route = createFileRoute("/investigacion")({
         property: "og:description",
         content: "Diseño pre-test / intervención / post-test con resultados de ejemplo.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Investigacion,

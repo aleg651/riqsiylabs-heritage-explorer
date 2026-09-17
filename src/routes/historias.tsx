@@ -8,7 +8,7 @@ import { AUTOR } from "@/lib/riqsiy-gamification";
 export const Route = createFileRoute("/historias")({
   head: () => ({
     meta: [
-      { title: `Historias de la comunidad — RIQSIY | Autor: ${AUTOR}` },
+      { title: `Voces de mi comunidad — RIQSIY | Autor: ${AUTOR}` },
       {
         name: "description",
         content:
@@ -19,6 +19,8 @@ export const Route = createFileRoute("/historias")({
         property: "og:description",
         content: "Archivo colaborativo de memoria oral sobre el patrimonio cusqueño.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Historias,

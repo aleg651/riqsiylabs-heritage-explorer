@@ -16,6 +16,8 @@ export const Route = createFileRoute("/compromiso")({
       },
       { property: "og:title", content: "Mi compromiso | RIQSIY" },
       { property: "og:description", content: "Yo me comprometo a cuidar el patrimonio de mi comunidad." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Compromiso,

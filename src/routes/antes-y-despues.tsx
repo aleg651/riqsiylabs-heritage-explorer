@@ -14,6 +14,8 @@ export const Route = createFileRoute("/antes-y-despues")({
       },
       { property: "og:title", content: "Antes y ahora | RIQSIY" },
       { property: "og:description", content: "ANTES → AHORA → ¿QUÉ PODEMOS HACER?" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AntesDespues,

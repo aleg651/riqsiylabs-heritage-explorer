@@ -9,4 +9,4 @@
 - [x] Fase 6 — Crear Voces de mi comunidad y Descubre patrimonio cerca de ti con privacidad y lenguaje prudente.
 - [x] Fase 7 — Crear Yachaq RIQSIY con clasificación explícita de la evidencia.
 - [x] Fase 8 — Consolidar Laboratorio RIQSIY y Modo Jurado sin inventar resultados.
-- [ ] Fase 9 — Mejorar Antes y Ahora, Mi compromiso, accesibilidad y revisión multidispositivo.
+- [x] Fase 9 — Mejorar Antes y Ahora, Mi compromiso, accesibilidad y revisión multidispositivo.
