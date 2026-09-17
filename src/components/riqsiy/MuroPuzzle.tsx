@@ -3,8 +3,8 @@ import { Link } from "@tanstack/react-router";
 import { Award, Gamepad2, RotateCcw, Trophy } from "lucide-react";
 import { useProgreso } from "@/lib/progress";
 import { Button } from "@/components/ui/button";
-import heroImg from "@/assets/hero-sacsayhuaman.jpg";
-import stoneImg from "@/assets/site-hatunrumiyoc.jpg";
+import heroImg from "@/assets/pirqa-cusco-ruins.jpg";
+import stoneImg from "@/assets/pirqa-inca-wall.jpg";
 
 
 /**
@@ -83,7 +83,7 @@ function hayJugada(tablero: Tablero, celdas: Celda[]): boolean {
   return false;
 }
 
-let piezaSeq = 1;
+let piezaSeq = 4;
 function nuevaPieza(): Pieza {
   const forma = FORMAS[Math.floor(Math.random() * FORMAS.length)]!;
   return {
