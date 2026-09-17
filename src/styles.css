@@ -106,6 +106,10 @@
   );
   --gradient-gold: linear-gradient(120deg, var(--gold) 0%, var(--gold-soft) 100%);
   --gradient-earth: linear-gradient(140deg, var(--crimson) 0%, var(--earth) 100%);
+  --gradient-pirqa: linear-gradient(
+    color-mix(in oklab, var(--stone-deep) 86%, transparent),
+    color-mix(in oklab, var(--stone-deep) 96%, transparent)
+  );
   --shadow-stone: 0 18px 40px -24px color-mix(in oklab, var(--stone-deep) 55%, transparent);
   --shadow-gold: 0 14px 34px -16px color-mix(in oklab, var(--gold) 55%, transparent);
 
