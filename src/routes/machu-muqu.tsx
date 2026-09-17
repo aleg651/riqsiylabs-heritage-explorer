@@ -13,8 +13,10 @@ import {
   X,
 } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
+import { Button } from "@/components/ui/button";
 import { useProgreso } from "@/lib/progress";
 import { EXPERIENCIA_MACHU_MUQU_ID } from "@/lib/riqsiy-gamification";
+import { ESTADOS_EVIDENCIA, REGISTROS_CAMPO, VIDEOS_CAMPO } from "@/lib/riqsiy-regional";
 
 export const Route = createFileRoute("/machu-muqu")({
   head: () => ({
@@ -81,10 +83,10 @@ interface Foto {
 }
 
 const FOTOS: Foto[] = [
-  { id: "vg-1", categoria: "vista-general", titulo: "Machu Moqo desde el acceso", observable: "Vista amplia del área con afloramientos y piedras en superficie." },
-  { id: "vg-2", categoria: "vista-general", titulo: "Panorámica del sector alto", observable: "Sector elevado con visibilidad hacia el valle." },
-  { id: "es-1", categoria: "estructuras", titulo: "Conjunto de piedras", observable: "Agrupación de bloques de piedra de distintos tamaños." },
-  { id: "es-2", categoria: "estructuras", titulo: "Estructura parcialmente visible", observable: "Estructura cubierta en parte por tierra y vegetación." },
+  { id: "vg-1", categoria: "vista-general", titulo: "Machu Moqo desde el acceso", observable: "Vista amplia del área registrada durante la visita.", src: REGISTROS_CAMPO[2].src },
+  { id: "vg-2", categoria: "vista-general", titulo: "Panorámica del entorno", observable: "Relación visible entre relieve, vegetación y área recorrida.", src: REGISTROS_CAMPO[3].src },
+  { id: "es-1", categoria: "estructuras", titulo: "Conjunto de piedras", observable: "Agrupación de bloques de piedra de distintos tamaños.", src: REGISTROS_CAMPO[0].src },
+  { id: "es-2", categoria: "estructuras", titulo: "Estructura parcialmente visible", observable: "Estructura cubierta en parte por tierra y vegetación.", src: REGISTROS_CAMPO[1].src },
   { id: "mu-1", categoria: "muros", titulo: "Alineamiento de piedras", observable: "Piedras dispuestas en línea a lo largo del terreno." },
   { id: "mu-2", categoria: "muros", titulo: "Paramento de piedra", observable: "Cara de piedras superpuestas, sin argamasa visible." },
   { id: "de-1", categoria: "detalles", titulo: "Detalle de una piedra grande", observable: "Bloque de gran tamaño respecto a las piedras del entorno." },
@@ -92,10 +94,7 @@ const FOTOS: Foto[] = [
   { id: "re-1", categoria: "recorrido", titulo: "Camino de acceso", observable: "Sendero utilizado por el equipo para llegar al sitio." },
 ];
 
-const VIDEOS = [
-  { id: "v1", titulo: "Recorrido general por Machu Moqo", nota: "Video grabado por el equipo durante la visita." },
-  { id: "v2", titulo: "Detalle de las estructuras de piedra", nota: "Registro propio de los sectores con piedra visible." },
-];
+const VIDEOS = VIDEOS_CAMPO;
 
 const OBSERVAMOS = [
   { icono: "🪨", titulo: "Estructuras de piedra", texto: "Conjuntos de piedras dispuestos en el terreno, visibles en superficie." },
@@ -341,6 +340,45 @@ function MachuMuqu() {
         </div>
       </header>
 
+      <section className="mt-14">
+        <SectionTitle
+          eyebrow="Caso central RIQSIY"
+          title="Machu Moqo — Nuestro patrimonio, nuestra comunidad"
+          description="Antes de explicar, clasificamos cada contenido según su respaldo. Así evitamos convertir una memoria, una impresión o una posibilidad en un hecho arqueológico."
+        />
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {[
+            {
+              estado: "verificada" as const,
+              titulo: "Lo que sabemos",
+              texto: "El equipo visitó y registró el lugar con fotografías y videos propios. Una reseña histórica documentada y revisada por especialistas todavía está pendiente.",
+            },
+            {
+              estado: "observada" as const,
+              titulo: "Lo que observamos",
+              texto: "En el recorrido se registraron estructuras de piedra, desniveles, vegetación, accesos y su relación visual con el territorio.",
+            },
+            {
+              estado: "pendiente" as const,
+              titulo: "Lo que todavía investigamos",
+              texto: "La antigüedad, autoría, función de las estructuras y relación histórica con los relatos comunitarios requieren fuentes y evaluación especializada.",
+            },
+          ].map((bloque) => {
+            const estado = ESTADOS_EVIDENCIA[bloque.estado];
+            return (
+              <article key={bloque.titulo} className="shadow-stone rounded-lg border border-border bg-card p-6">
+                <span className={`inline-flex rounded-full border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${estado.clase}`}>{estado.etiqueta}</span>
+                <h2 className="mt-4 font-display text-xl">{bloque.titulo}</h2>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{bloque.texto}</p>
+              </article>
+            );
+          })}
+        </div>
+        <Button asChild variant="outline" className="mt-6">
+          <Link to="/evidencia-campo"><Camera className="h-4 w-4" /> Ver toda la evidencia de campo</Link>
+        </Button>
+      </section>
+
       {/* 1. Nuestro registro */}
       <section id="registro" className="mt-14 scroll-mt-24">
         <SectionTitle
@@ -400,15 +438,12 @@ function MachuMuqu() {
         <div className="mt-10 grid gap-4 md:grid-cols-2">
           {VIDEOS.map((v) => (
             <div key={v.id} className="shadow-stone overflow-hidden rounded-lg border border-border bg-card">
-              <div className="stone-grid grid h-52 place-items-center bg-secondary">
-                <span className="flex flex-col items-center gap-2 text-muted-foreground">
-                  <Video className="h-8 w-8" />
-                  <span className="text-[11px] uppercase tracking-[0.2em]">Espacio para video propio</span>
-                </span>
-              </div>
+              <video controls preload="metadata" className="aspect-video w-full bg-stone-deep" aria-label={v.titulo}>
+                <source src={v.src} type="video/mp4" />
+              </video>
               <div className="p-4">
                 <h3 className="font-display text-lg">{v.titulo}</h3>
-                <p className="mt-1 text-sm text-muted-foreground">{v.nota}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{v.descripcion}</p>
               </div>
             </div>
           ))}
@@ -442,7 +477,7 @@ function MachuMuqu() {
         <SectionTitle
           eyebrow="Memoria histórica"
           title="Memoria histórica de Machu Moqo"
-          description="Basada en la reseña histórica del proyecto. Cada tarjeta señala si corresponde a tradición oral, a evidencia arqueológica o a un punto en investigación."
+          description="Basada en una reseña reunida por el proyecto y todavía pendiente de validación especializada. Cada tarjeta diferencia tradición oral, observación y preguntas abiertas."
         />
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {MEMORIA.map((m) => (
@@ -763,6 +798,12 @@ function MachuMuqu() {
           </div>
 
           <div className="mt-7 flex flex-wrap gap-3">
+            <Link
+              to="/aventura"
+              className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground"
+            >
+              CONTINUAR AVENTURA RIQSIY <ArrowRight className="h-4 w-4" />
+            </Link>
             <Link
               to="/investigacion"
               className="inline-flex items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground"
