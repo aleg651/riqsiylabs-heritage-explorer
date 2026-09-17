@@ -1,17 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Suspense, lazy, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type * as THREE from "three";
 import { ArrowRight, Eye, Compass, Gamepad2 } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { AVISO_REFERENCIAL, FUENTES, PUNTOS_3D } from "@/lib/machu-muqu-3d";
-import type { Control } from "@/components/riqsiy/MachuMuqu3D";
+import Escena3D, { type Control } from "@/components/riqsiy/MachuMuqu3D";
 import { useProgreso } from "@/lib/progress";
 import { EXPERIENCIA_MACHU_MUQU_3D_ID } from "@/lib/riqsiy-gamification";
 
-const Escena3D = lazy(() => import("@/components/riqsiy/MachuMuqu3D"));
-
 export const Route = createFileRoute("/machu-muqu-3d")({
-  
+  ssr: false,
   head: () => ({
     meta: [
       { title: "Explora Machu Moqo en 3D — RIQSIY" },
@@ -188,22 +186,14 @@ function MachuMuqu3DPage() {
         onPointerLeave={onCanvasUp}
       >
         {montado ? (
-          <Suspense
-            fallback={
-              <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
-                Cargando el terreno de Machu Moqo…
-              </div>
-            }
-          >
-            <Escena3D
-              control={control}
-              calidadBaja={calidadBaja}
-              descubiertos={descubiertos}
-              puntoCerca={puntoCerca}
-              onCerca={setPuntoCerca}
-              onAvance={onAvance}
-            />
-          </Suspense>
+          <Escena3D
+            control={control}
+            calidadBaja={calidadBaja}
+            descubiertos={descubiertos}
+            puntoCerca={puntoCerca}
+            onCerca={setPuntoCerca}
+            onAvance={onAvance}
+          />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-secondary text-sm text-muted-foreground">
             Preparando la exploración 3D…
