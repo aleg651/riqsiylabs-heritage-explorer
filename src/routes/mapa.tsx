@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { CATEGORIAS, SITIOS, type Categoria } from "@/lib/riqsiy-data";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
+import { GoogleHeritageMap } from "@/components/riqsiy/GoogleHeritageMap";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/mapa")({
   head: () => ({
@@ -17,6 +19,8 @@ export const Route = createFileRoute("/mapa")({
         property: "og:description",
         content: "Explora por categorías el patrimonio arqueológico cusqueño.",
       },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Mapa,
@@ -33,69 +37,35 @@ function Mapa() {
       <SectionTitle
         eyebrow="Territorio"
         title="Mapa de nuestro patrimonio"
-        description="Un esquema del valle del Cusco y sus alrededores. Selecciona un punto para conocer el lugar."
+        description="Ubicaciones geográficas de lugares patrimoniales del Cusco. Selecciona un marcador para conocerlo."
       />
 
       <div className="mt-8 flex flex-wrap gap-2">
-        <button
+        <Button
           type="button"
           onClick={() => setCategoria("todos")}
-          className={`rounded-full border px-4 py-1.5 text-sm ${categoria === "todos" ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}
+          size="sm"
+          variant={categoria === "todos" ? "default" : "outline"}
+          className="rounded-full"
         >
           Todas las categorías
-        </button>
+        </Button>
         {(Object.keys(CATEGORIAS) as Categoria[]).map((c) => (
-          <button
+          <Button
             key={c}
             type="button"
             onClick={() => setCategoria(c)}
-            className={`rounded-full border px-4 py-1.5 text-sm ${categoria === c ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}
+            size="sm"
+            variant={categoria === c ? "default" : "outline"}
+            className="rounded-full"
           >
             {CATEGORIAS[c].icono} {CATEGORIAS[c].label}
-          </button>
+          </Button>
         ))}
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-        <div className="stone-grid relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-secondary/50">
-          <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full" aria-hidden="true">
-            <path
-              d="M4 46 C 22 30, 34 52, 50 40 S 78 22, 96 34"
-              fill="none"
-              stroke="var(--earth)"
-              strokeOpacity="0.35"
-              strokeWidth="1.2"
-            />
-            <path
-              d="M10 66 C 30 60, 40 44, 58 46 S 84 60, 94 52"
-              fill="none"
-              stroke="var(--jade)"
-              strokeOpacity="0.35"
-              strokeWidth="1"
-              strokeDasharray="2 2"
-            />
-          </svg>
-
-          {visibles.map((s) => (
-            <button
-              key={s.slug}
-              type="button"
-              onClick={() => setActivo(s.slug)}
-              style={{ left: `${s.coord.x}%`, top: `${s.coord.y}%` }}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 px-2.5 py-1 text-xs font-semibold shadow-stone transition-all hover:scale-110 ${
-                activo === s.slug
-                  ? "border-primary bg-primary text-primary-foreground"
-                  : "border-accent bg-card text-foreground"
-              }`}
-            >
-              {CATEGORIAS[s.categoria].icono}
-              <span className="ml-1 hidden sm:inline">{s.nombre}</span>
-            </button>
-          ))}
-          <span className="absolute bottom-3 right-3 text-xs text-muted-foreground">
-            Esquema referencial del territorio cusqueño
-          </span>
-        </div>
+        <GoogleHeritageMap sitios={visibles} activo={activo} onSelect={setActivo} />
 
         <aside className="rounded-lg border border-border bg-card p-6">
           {sitio ? (
