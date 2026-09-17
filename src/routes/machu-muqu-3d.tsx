@@ -33,7 +33,7 @@ export const Route = createFileRoute("/machu-muqu-3d")({
 });
 
 function MachuMuqu3DPage() {
-  const { experiencias, completarExperiencia } = useProgreso();
+  const { experiencias, completarExperiencia, sellos, registrarHito } = useProgreso();
   const control = useRef<Control>({ move: { x: 0, y: 0 }, yaw: 0, pitch: 0.15 });
   const teclas = useRef<Record<string, boolean>>({});
   const [calidadBaja, setCalidadBaja] = useState(false);
@@ -148,6 +148,8 @@ function MachuMuqu3DPage() {
     if (!puntoCerca) return;
     setAbierto(puntoCerca);
     setDescubiertos((d) => (d.includes(puntoCerca) ? d : [...d, puntoCerca]));
+    const hallado = PUNTOS_3D.find((p) => p.n === puntoCerca);
+    if (hallado) registrarHito("sello", `punto-3d-${hallado.id}`, hallado.recompensa);
   };
 
   const completo = descubiertos.length >= PUNTOS_3D.length;
@@ -338,6 +340,15 @@ function MachuMuqu3DPage() {
               </dt>
               <dd className="mt-1 text-sm">{punto.info}</dd>
             </div>
+            <div className="rounded-xl border border-accent/40 bg-accent/10 p-3">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Reto de observación</dt>
+              <dd className="mt-1 text-sm">{punto.reto}</dd>
+            </div>
+            <div className="rounded-xl border border-primary/40 bg-primary/5 p-3">
+              <dt className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Palabra en quechua Cusco-Collao</dt>
+              <dd className="mt-1 text-sm"><strong>{punto.palabra.quechua}</strong> · {punto.palabra.significado}</dd>
+              <dd className="mt-1 text-xs text-muted-foreground">Referencia: Diccionario Quechua Sureño, Ministerio de Educación del Perú.</dd>
+            </div>
             {modoInvestigador && (
               <>
                 {punto.memoriaOral && (
@@ -386,7 +397,7 @@ function MachuMuqu3DPage() {
                   }`}
                 >
                   <span className="font-semibold">
-                    {hecho ? "✅" : "📍"} {p.n}. {p.titulo}
+                    {hecho || sellos.includes(`punto-3d-${p.id}`) ? "✅" : "📍"} {p.n}. {p.titulo}
                   </span>
                   <span className="mt-1 block text-xs text-muted-foreground">
                     {FUENTES[p.fuenteInfo].icono} {FUENTES[p.fuenteInfo].label}
