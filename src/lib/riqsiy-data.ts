@@ -1,10 +1,11 @@
-import heroSacsayhuaman from "@/assets/hero-sacsayhuaman.jpg";
-import siteQenqo from "@/assets/site-qenqo.jpg";
-import siteTambomachay from "@/assets/site-tambomachay.jpg";
-import siteMoray from "@/assets/site-moray.jpg";
-import siteTipon from "@/assets/site-tipon.jpg";
-import siteHatunrumiyoc from "@/assets/site-hatunrumiyoc.jpg";
-import sitePisac from "@/assets/site-pisac.jpg";
+import sacsAsset from "@/assets/heritage/sacsayhuaman.jpg.asset.json";
+import qenqoAsset from "@/assets/heritage/qenqo.jpg.asset.json";
+import tambomachayAsset from "@/assets/heritage/tambomachay.jpg.asset.json";
+import tiponAsset from "@/assets/heritage/tipon.jpg.asset.json";
+import morayAsset from "@/assets/heritage/moray.jpg.asset.json";
+import pisacAsset from "@/assets/heritage/pisac.jpg.asset.json";
+import hatunrumiyocAsset from "@/assets/heritage/hatunrumiyoc.jpg.asset.json";
+import qhapaqNanAsset from "@/assets/heritage/qhapaq-nan.jpg.asset.json";
 
 export type Categoria =
   | "centro"
@@ -54,6 +55,9 @@ export interface Sitio {
   categoria: Categoria;
   ubicacion: string;
   imagen: string;
+  imagenCredito: string;
+  imagenFuente: string;
+  coordenadas?: { lat: number; lng: number };
   coord: { x: number; y: number }; // % sobre el mapa esquemático
   resumen: string;
   historia: string;
@@ -74,7 +78,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Saqsaywaman",
     categoria: "centro",
     ubicacion: "Cusco, a 2 km del Centro Histórico · 3 700 m s. n. m.",
-    imagen: heroSacsayhuaman,
+    imagen: sacsAsset.url,
+    imagenCredito: "Diego Delso · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Sacsayhuam%C3%A1n,_Cusco,_Per%C3%BA,_2015-07-31,_DD_05.JPG",
+    coordenadas: { lat: -13.5088, lng: -71.9814 },
     coord: { x: 44, y: 38 },
     resumen: "Tres murallas en zigzag con bloques de más de 100 toneladas.",
     historia:
@@ -172,7 +179,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Q'enqo",
     categoria: "centro",
     ubicacion: "Carretera Cusco – Pisac, a 4 km del Centro Histórico",
-    imagen: siteQenqo,
+    imagen: qenqoAsset.url,
+    imagenCredito: "Haakon S. Krohn · CC BY-SA 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Q%27enqo.jpg",
+    coordenadas: { lat: -13.5027, lng: -71.9686 },
     coord: { x: 50, y: 33 },
     resumen: "Un afloramiento rocoso tallado con canales, escalinatas y una cámara subterránea.",
     historia:
@@ -246,7 +256,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Tambomachay",
     categoria: "hidraulica",
     ubicacion: "Carretera a Pisac, a 7 km del Cusco · 3 700 m s. n. m.",
-    imagen: siteTambomachay,
+    imagen: tambomachayAsset.url,
+    imagenCredito: "Draceane · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Tambomachay,_2023_(08).jpg",
+    coordenadas: { lat: -13.4788, lng: -71.9671 },
     coord: { x: 55, y: 26 },
     resumen: "Fuentes ceremoniales que llevan más de 500 años sin dejar de correr.",
     historia:
@@ -312,7 +325,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Tipón",
     categoria: "hidraulica",
     ubicacion: "Distrito de Oropesa, Quispicanchi · a 25 km del Cusco",
-    imagen: siteTipon,
+    imagen: tiponAsset.url,
+    imagenCredito: "Aga Khan (IT) · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Tipon_Monumental_terraces_detail_of_dry_water_drops_DSC_4804.jpg",
+    coordenadas: { lat: -13.5619, lng: -71.7844 },
     coord: { x: 72, y: 62 },
     resumen: "Doce andenes con canales que aún riegan: ingeniería hidráulica de precisión.",
     historia:
@@ -378,7 +394,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Moray",
     categoria: "agricultura",
     ubicacion: "Maras, Urubamba · Valle Sagrado",
-    imagen: siteMoray,
+    imagen: morayAsset.url,
+    imagenCredito: "gertrudis2010 · CC BY-SA 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Agricultural_terraces_of_Moray,_Sacred_Valley,_Peru._-_panoramio.jpg",
+    coordenadas: { lat: -13.3292, lng: -72.1956 },
     coord: { x: 24, y: 22 },
     resumen: "Andenes circulares con hasta 15 °C de diferencia entre el fondo y el borde.",
     historia:
@@ -445,7 +464,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Parque Arqueológico de Pisac",
     categoria: "paisaje",
     ubicacion: "Pisac, Calca · Valle Sagrado del Urubamba",
-    imagen: sitePisac,
+    imagen: pisacAsset.url,
+    imagenCredito: "Galleta322 · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Andenes_de_Pisaq.jpg",
+    coordenadas: { lat: -13.4167, lng: -71.8442 },
     coord: { x: 66, y: 18 },
     resumen: "Un paisaje cultural completo: andenes, ciudad ritual, caminos y necrópolis.",
     historia:
@@ -507,7 +529,10 @@ export const SITIOS: Sitio[] = [
     nombre: "Muro de Hatunrumiyoc",
     categoria: "construccion",
     ubicacion: "Calle Hatunrumiyoc, Centro Histórico del Cusco",
-    imagen: siteHatunrumiyoc,
+    imagen: hatunrumiyocAsset.url,
+    imagenCredito: "WMrapids · CC0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Twelve_angle_stone,_2021.jpg",
+    coordenadas: { lat: -13.5164, lng: -71.9764 },
     coord: { x: 46, y: 55 },
     resumen: "La piedra de los doce ángulos: encaje perfecto en pleno centro de la ciudad.",
     historia:
@@ -569,7 +594,9 @@ export const SITIOS: Sitio[] = [
     nombre: "Qhapaq Ñan – Tramo Cusco",
     categoria: "camino",
     ubicacion: "Tramos visibles en Cusco, Valle Sagrado y rutas hacia los cuatro suyos",
-    imagen: heroSacsayhuaman,
+    imagen: qhapaqNanAsset.url,
+    imagenCredito: "Nina Reicer · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Qhapaq_%C3%91an_(Challabamba_district,_Paucartambo)_01.jpg",
     coord: { x: 34, y: 70 },
     resumen: "La red vial andina: más de 30 000 km que unieron seis países actuales.",
     historia:

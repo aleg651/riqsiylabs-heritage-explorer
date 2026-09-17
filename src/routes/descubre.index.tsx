@@ -5,6 +5,7 @@ import { CATEGORIAS, SITIOS, type Categoria } from "@/lib/riqsiy-data";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { useProgreso } from "@/lib/progress";
 import { EXPERIENCIA_MACHU_MUQU_ID } from "@/lib/riqsiy-gamification";
+import machuMuquMiniatura from "@/assets/heritage/machu-muqu-miniatura.jpeg.asset.json";
 
 export const Route = createFileRoute("/descubre/")({
   head: () => ({
@@ -68,9 +69,16 @@ function Descubre() {
         to="/machu-muqu"
         className="shadow-stone group mt-8 grid overflow-hidden rounded-lg border border-accent/70 bg-card transition-all hover:-translate-y-1 hover:border-accent sm:grid-cols-[1.1fr_1fr]"
       >
-        <div className="gradient-earth relative flex min-h-44 items-center justify-center text-stone-deep-foreground">
-          <div className="stone-grid absolute inset-0 opacity-20" aria-hidden="true" />
-          <div className="relative text-center">
+        <div className="relative flex min-h-52 items-end overflow-hidden text-stone-deep-foreground">
+          <img
+            src={machuMuquMiniatura.url}
+            alt="Estructuras de piedra y vegetación registradas en Machu Muqu"
+            width={1600}
+            height={897}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="gradient-hero absolute inset-0" aria-hidden="true" />
+          <div className="relative p-5 text-left sm:p-6">
             <p className="text-[10px] font-semibold uppercase tracking-[0.3em] opacity-80">
               Patrimonio de nuestra comunidad
             </p>
@@ -100,13 +108,11 @@ function Descubre() {
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {lista.map((s) => (
-          <Link
+          <article
             key={s.slug}
-            to="/descubre/$slug"
-            params={{ slug: s.slug }}
             className="shadow-stone group overflow-hidden rounded-lg border border-border bg-card transition-all hover:-translate-y-1 hover:border-accent"
           >
-            <div className="relative">
+            <Link to="/descubre/$slug" params={{ slug: s.slug }} className="relative block">
               <img
                 src={s.imagen}
                 alt={s.nombre}
@@ -123,13 +129,25 @@ function Descubre() {
                   Descubierto
                 </span>
               )}
-            </div>
+            </Link>
             <div className="p-5">
-              <h3 className="font-display text-xl">{s.nombre}</h3>
+              <h3 className="font-display text-xl">
+                <Link to="/descubre/$slug" params={{ slug: s.slug }} className="hover:text-primary">
+                  {s.nombre}
+                </Link>
+              </h3>
               <p className="mt-1 text-xs text-muted-foreground">{s.ubicacion}</p>
               <p className="mt-3 text-sm">{s.resumen}</p>
+              <a
+                href={s.imagenFuente}
+                target="_blank"
+                rel="noreferrer"
+                className="mt-3 block text-xs text-muted-foreground underline-offset-2 hover:underline"
+              >
+                Foto: {s.imagenCredito}
+              </a>
             </div>
-          </Link>
+          </article>
         ))}
       </div>
     </div>
