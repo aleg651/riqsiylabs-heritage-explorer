@@ -26,6 +26,7 @@ import { Route as MachuMuquRouteImport } from './routes/machu-muqu'
 import { Route as MachuMuqu3dRouteImport } from './routes/machu-muqu-3d'
 import { Route as MapaRouteImport } from './routes/mapa'
 import { Route as MiraMasAllaRouteImport } from './routes/mira-mas-alla'
+import { Route as ModoJuradoRouteImport } from './routes/modo-jurado'
 import { Route as PanelInvestigadorRouteImport } from './routes/panel-investigador'
 import { Route as PasaporteRouteImport } from './routes/pasaporte'
 import { Route as PatrimonioLocalRouteImport } from './routes/patrimonio-local'
@@ -125,6 +126,11 @@ const MiraMasAllaRoute = MiraMasAllaRouteImport.update({
   path: '/mira-mas-alla',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ModoJuradoRoute = ModoJuradoRouteImport.update({
+  id: '/modo-jurado',
+  path: '/modo-jurado',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PanelInvestigadorRoute = PanelInvestigadorRouteImport.update({
   id: '/panel-investigador',
   path: '/panel-investigador',
@@ -209,6 +215,7 @@ export interface FileRoutesByFullPath {
   '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/modo-jurado': typeof ModoJuradoRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
   '/pasaporte': typeof PasaporteRoute
   '/patrimonio-local': typeof PatrimonioLocalRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/modo-jurado': typeof ModoJuradoRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
   '/pasaporte': typeof PasaporteRoute
   '/patrimonio-local': typeof PatrimonioLocalRoute
@@ -274,6 +282,7 @@ export interface FileRoutesById {
   '/machu-muqu-3d': typeof MachuMuqu3dRoute
   '/mapa': typeof MapaRoute
   '/mira-mas-alla': typeof MiraMasAllaRoute
+  '/modo-jurado': typeof ModoJuradoRoute
   '/panel-investigador': typeof PanelInvestigadorRoute
   '/pasaporte': typeof PasaporteRoute
   '/patrimonio-local': typeof PatrimonioLocalRoute
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/modo-jurado'
     | '/panel-investigador'
     | '/pasaporte'
     | '/patrimonio-local'
@@ -340,6 +350,7 @@ export interface FileRouteTypes {
     | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/modo-jurado'
     | '/panel-investigador'
     | '/pasaporte'
     | '/patrimonio-local'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/machu-muqu-3d'
     | '/mapa'
     | '/mira-mas-alla'
+    | '/modo-jurado'
     | '/panel-investigador'
     | '/pasaporte'
     | '/patrimonio-local'
@@ -405,6 +417,7 @@ export interface RootRouteChildren {
   MachuMuqu3dRoute: typeof MachuMuqu3dRoute
   MapaRoute: typeof MapaRoute
   MiraMasAllaRoute: typeof MiraMasAllaRoute
+  ModoJuradoRoute: typeof ModoJuradoRoute
   PanelInvestigadorRoute: typeof PanelInvestigadorRoute
   PasaporteRoute: typeof PasaporteRoute
   PatrimonioLocalRoute: typeof PatrimonioLocalRoute
@@ -541,6 +554,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MiraMasAllaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/modo-jurado': {
+      id: '/modo-jurado'
+      path: '/modo-jurado'
+      fullPath: '/modo-jurado'
+      preLoaderRoute: typeof ModoJuradoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/panel-investigador': {
       id: '/panel-investigador'
       path: '/panel-investigador'
@@ -653,6 +673,7 @@ const rootRouteChildren: RootRouteChildren = {
   MachuMuqu3dRoute: MachuMuqu3dRoute,
   MapaRoute: MapaRoute,
   MiraMasAllaRoute: MiraMasAllaRoute,
+  ModoJuradoRoute: ModoJuradoRoute,
   PanelInvestigadorRoute: PanelInvestigadorRoute,
   PasaporteRoute: PasaporteRoute,
   PatrimonioLocalRoute: PatrimonioLocalRoute,
