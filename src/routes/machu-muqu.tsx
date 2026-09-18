@@ -587,12 +587,12 @@ function MachuMuqu() {
         </div>
       </section>
 
-      {/* 7. Explora Machu Moqo (recorrido 2D, preparado para 3D) */}
+      {/* 7. Explora Machu Moqo */}
       <section className="mt-14">
         <SectionTitle
           eyebrow="Recorrido interactivo"
           title="Explora Machu Moqo"
-          description="Recorrido en seis puntos. La estructura de datos ya está preparada para convertirse en un recorrido 3D más adelante."
+          description="Este recorrido de seis puntos se conecta con la representación digital referencial 3D ya disponible. Fue elaborada con finalidad educativa a partir de observaciones y registros de campo; no constituye una reconstrucción arqueológica definitiva."
         />
         <div className="mt-8 grid gap-6 lg:grid-cols-[1.2fr_1fr]">
           <div className="stone-grid relative aspect-[4/3] overflow-hidden rounded-lg border border-border bg-secondary/50">

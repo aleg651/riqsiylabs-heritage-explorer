@@ -65,7 +65,7 @@ export const INSIGNIAS_EXPERIENCIAS = [
   },
   {
     id: "caminante-machu-muqu",
-    nombre: "Explorador del Patrimonio Local",
+    nombre: "Caminante de Machu Moqo",
     icono: "🏔️",
     descripcion: "Recorriste los 7 puntos de la exploración 3D de Machu Moqo.",
   },
