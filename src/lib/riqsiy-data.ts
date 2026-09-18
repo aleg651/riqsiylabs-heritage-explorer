@@ -92,19 +92,22 @@ export interface Sitio {
   retos: Reto[];
 }
 
-type FichaCatalogo = Pick<
-  Sitio,
-  "slug" | "nombre" | "categoria" | "ubicacion" | "imagen" | "imagenCredito" | "imagenFuente" | "coordenadas" | "resumen"
->;
+type FichaCatalogo = Pick<Sitio, "slug" | "nombre" | "categoria" | "ubicacion" | "coordenadas" | "resumen"> &
+  Partial<Pick<Sitio, "imagen" | "imagenCredito" | "imagenFuente">>;
 
 /**
  * Crea fichas introductorias sin convertir interpretaciones arqueológicas en hechos.
  * La información especializada de cada sitio debe ampliarse únicamente con fuentes validadas.
+ * Cuando no existe una fotografía verificada, la ficha queda sin imagen y se declara pendiente.
  */
 function crearFichaCatalogo(ficha: FichaCatalogo): Sitio {
   return {
     ...ficha,
+    imagen: ficha.imagen ?? "",
+    imagenCredito: ficha.imagenCredito ?? "Fotografía pendiente de verificación",
+    imagenFuente: ficha.imagenFuente ?? "",
     coord: { x: 50, y: 50 },
+
     historia:
       "Este lugar forma parte del patrimonio arqueológico de la región Cusco. La ficha ofrece una introducción y debe complementarse con fuentes arqueológicas e institucionales verificadas.",
     paraQueServia:
