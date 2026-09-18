@@ -146,7 +146,10 @@ function MachuMuqu3DPage() {
     setDialogoAbierto(false);
     setDescubiertos((d) => (d.includes(numero) ? d : [...d, numero]));
     const hallado = PUNTOS_3D.find((p) => p.n === numero);
-    if (hallado) registrarHito("sello", `punto-3d-${hallado.id}`, hallado.recompensa);
+    if (hallado) {
+      registrarHito("sello", `punto-3d-${hallado.id}`, hallado.recompensa);
+      registrarHito("palabra", hallado.palabra.quechua, 0);
+    }
   }, [registrarHito]);
 
   const observar = () => {

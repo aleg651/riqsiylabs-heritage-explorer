@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, FlaskConical, Lock } from "lucide-react";
+import { ArrowDown, ArrowRight, Clock3, FlaskConical, Lightbulb, Lock } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { Button } from "@/components/ui/button";
 import { AUTOR } from "@/lib/riqsiy-gamification";
@@ -46,6 +46,8 @@ const RESUMEN_JURADO = [
   { k: "Caso central", v: "Machu Moqo: registro propio, observación y preguntas todavía abiertas." },
   { k: "Resultados", v: "Pendientes de aplicación y análisis; no se muestran cifras ficticias." },
 ];
+
+const NACIMIENTO_RIQSIY = ["Problema identificado", "Investigación inicial", "Machu Moqo", "Trabajo de campo", "Diseño de RIQSIY", "Experiencias educativas", "3D", "PIRQA", "Salva el Agua", "RIQSIY Yachay", "Evaluación"];
 
 function Fencyt() {
   return (
@@ -100,6 +102,35 @@ function Fencyt() {
       <section className="mt-10 border-y border-border py-8">
         <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase text-primary">Vista rápida para el jurado</p><h2 className="mt-1 font-display text-3xl">RIQSIY — Presentación FENCYT</h2></div><Button asChild><Link to="/modo-jurado">Abrir Modo Jurado <ArrowRight /></Link></Button></div>
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{RESUMEN_JURADO.map((item) => <article key={item.k} className="border-l-2 border-accent pl-4"><h3 className="font-semibold">{item.k}</h3><p className="mt-1 text-sm text-muted-foreground">{item.v}</p></article>)}</div>
+      </section>
+
+      <section className="mt-10 grid gap-6 lg:grid-cols-2">
+        <article className="surface-deep stone-grid rounded-lg p-6 sm:p-8">
+          <div className="flex items-center gap-2 text-gold-soft"><Clock3 className="h-5 w-5" /><p className="text-xs font-semibold uppercase">RIQSIY en 60 segundos</p></div>
+          <h2 className="mt-3 font-display text-3xl">Del problema a una experiencia educativa</h2>
+          <dl className="mt-6 grid gap-4 text-sm">
+            <div><dt className="font-semibold text-gold-soft">¿Cuál es el problema?</dt><dd className="mt-1 opacity-85">Los jóvenes pueden pasar frente a su patrimonio sin conocerlo ni valorarlo suficientemente.</dd></div>
+            <div><dt className="font-semibold text-gold-soft">¿Qué hicimos?</dt><dd className="mt-1 opacity-85">Creamos RIQSIY: exploración, patrimonio, tecnología, experiencias, minijuegos e investigación.</dd></div>
+            <div><dt className="font-semibold text-gold-soft">¿Cuál es nuestro caso local?</dt><dd className="mt-1 opacity-85">Machu Moqo, observado y documentado desde nuestra propia comunidad.</dd></div>
+            <div><dt className="font-semibold text-gold-soft">¿Cómo lo evaluamos?</dt><dd className="mt-1 opacity-85">Pretest → uso de RIQSIY → postest. Los resultados están pendientes de aplicación y análisis.</dd></div>
+          </dl>
+        </article>
+        <article className="rounded-lg border border-border bg-card p-6 sm:p-8">
+          <div className="flex items-center gap-2 text-primary"><Lightbulb className="h-5 w-5" /><p className="text-xs font-semibold uppercase">¿Qué aprendí?</p></div>
+          <h2 className="mt-3 font-display text-3xl">Reflexión del estudiante</h2>
+          <ul className="mt-6 grid gap-3 text-sm text-muted-foreground">
+            {["¿Qué descubriste?", "¿Qué fue lo que más te sorprendió?", "¿Qué cambió en tu forma de ver este lugar?", "¿Qué harías para proteger nuestro patrimonio?"].map((pregunta) => <li key={pregunta} className="rounded-md border border-border p-4">{pregunta}</li>)}
+          </ul>
+        </article>
+      </section>
+
+      <section className="mt-12" aria-labelledby="nacimiento-riqsiy">
+        <p className="text-xs font-semibold uppercase text-primary">Proceso de investigación y desarrollo</p>
+        <h2 id="nacimiento-riqsiy" className="mt-1 font-display text-3xl">Cómo nació RIQSIY</h2>
+        <p className="mt-2 text-sm text-muted-foreground">Secuencia del proyecto sin asignar fechas que todavía no han sido documentadas.</p>
+        <ol className="mt-6 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {NACIMIENTO_RIQSIY.map((paso, index) => <li key={paso} className="flex min-w-0 items-center gap-3 rounded-md border border-border bg-card p-4"><span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{index + 1}</span><span className="min-w-0 text-sm font-medium">{paso}</span>{index < NACIMIENTO_RIQSIY.length - 1 && <ArrowDown className="ml-auto h-4 w-4 shrink-0 text-muted-foreground" aria-hidden="true" />}</li>)}
+        </ol>
       </section>
 
       <div className="mt-10 flex items-center justify-between gap-4 rounded-xl border border-border bg-card p-6">
