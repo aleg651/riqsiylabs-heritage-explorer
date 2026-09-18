@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, FlaskConical, Lock } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
+import { Button } from "@/components/ui/button";
 import { AUTOR } from "@/lib/riqsiy-gamification";
 
 export const Route = createFileRoute("/fencyt")({

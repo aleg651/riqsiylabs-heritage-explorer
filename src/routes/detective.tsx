@@ -24,6 +24,7 @@ function Detective() {
   const [nivel, setNivel] = useState(0);
   const [seleccion, setSeleccion] = useState<number[]>([]);
   const [revisado, setRevisado] = useState(false);
+  const [registrado, setRegistrado] = useState(() => casosResueltos.includes("detective-cinco-niveles"));
   const actual = NIVELES[nivel] ?? NIVELES[0];
   const correcto = useMemo(() => seleccion.length === actual.correctas.length && actual.correctas.every((i) => seleccion.includes(i)), [actual, seleccion]);
   const terminado = nivel === NIVELES.length - 1 && revisado && correcto;
@@ -31,6 +32,7 @@ function Detective() {
   const continuar = () => {
     if (terminado) {
       registrarHito("caso", "detective-cinco-niveles", 150);
+      setRegistrado(true);
       return;
     }
     setNivel((v) => Math.min(NIVELES.length - 1, v + 1));
@@ -53,6 +55,6 @@ function Detective() {
         {revisado && <div className={`mt-5 rounded-md border p-4 text-sm ${correcto ? "border-jade bg-jade/10" : "border-accent bg-accent/10"}`}><p className="font-semibold">{correcto ? "Conclusión respaldada" : "Vuelve a revisar la evidencia"}</p><p className="mt-1 text-muted-foreground">{actual.explicacion}</p>{correcto && <Button className="mt-4 w-full" onClick={continuar}>{terminado ? "Registrar caso resuelto" : "Siguiente nivel"}</Button>}</div>}
       </section>
     </div>
-    {terminado && casosResueltos.includes("detective-cinco-niveles") && <div className="mt-6 rounded-lg border border-jade bg-jade/10 p-5"><p className="flex items-center gap-2 font-semibold"><CheckCircle2 className="h-5 w-5" />Insignia Detective del Patrimonio obtenida</p><p className="mt-1 text-sm text-muted-foreground">Completaste los cinco niveles y recibiste 150 RIQSI-COINS.</p></div>}
+    {registrado && <div className="mt-6 rounded-lg border border-jade bg-jade/10 p-5"><p className="flex items-center gap-2 font-semibold"><CheckCircle2 className="h-5 w-5" />Insignia Detective del Patrimonio obtenida</p><p className="mt-1 text-sm text-muted-foreground">Completaste los cinco niveles. La recompensa se registra una sola vez.</p></div>}
   </main>;
 }
