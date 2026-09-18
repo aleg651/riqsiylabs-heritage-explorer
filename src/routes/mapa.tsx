@@ -70,14 +70,20 @@ function Mapa() {
         <aside className="rounded-lg border border-border bg-card p-6">
           {sitio ? (
             <div className="animate-rise">
-              <img
-                src={sitio.imagen}
-                alt={sitio.nombre}
-                loading="lazy"
-                width={1280}
-                height={853}
-                className="h-40 w-full rounded-md object-cover"
-              />
+              {sitio.imagen ? (
+                <img
+                  src={sitio.imagen}
+                  alt={sitio.nombre}
+                  loading="lazy"
+                  width={1280}
+                  height={853}
+                  className="h-40 w-full rounded-md object-cover"
+                />
+              ) : (
+                <div className="flex h-40 w-full items-center justify-center rounded-md bg-secondary px-4 text-center text-xs text-muted-foreground">
+                  Fotografía verificada pendiente de incorporación
+                </div>
+              )}
               <p className="mt-4 text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 {CATEGORIAS[sitio.categoria].icono} {CATEGORIAS[sitio.categoria].label}
               </p>
@@ -85,9 +91,12 @@ function Mapa() {
               <p className="mt-1 text-xs text-muted-foreground">{sitio.ubicacion}</p>
               {!sitio.coordenadas && (
                 <p className="mt-2 text-xs font-medium text-primary">
-                  Es una red de caminos: no se representa como un único punto.
+                  {sitio.slug === "qhapaq-nan"
+                    ? "Es una red de caminos: no se representa como un único punto."
+                    : "Coordenadas pendientes de verificación: aún no se ubica en el mapa."}
                 </p>
               )}
+
               <p className="mt-3 text-sm">{sitio.resumen}</p>
               <Link
                 to="/descubre/$slug"
