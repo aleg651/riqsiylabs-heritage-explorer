@@ -340,6 +340,15 @@ function MachuMuqu() {
         </div>
       </header>
 
+      <section className="mt-10" aria-labelledby="origen-machu-moqo">
+        <p className="text-xs font-semibold uppercase text-primary">Tecnología desde nuestro territorio</p>
+        <h2 id="origen-machu-moqo" className="mt-1 font-display text-2xl sm:text-3xl">Del problema a la protección</h2>
+        <ol className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+          {["Nuestro problema", "Nuestro entorno", "Machu Moqo", "Investigación", "RIQSIY", "Experiencia", "Valoración", "Protección"].map((paso, index) => <li key={paso} className="flex min-w-0 items-center gap-3 rounded-md border border-border bg-card p-4"><span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-primary text-xs font-semibold text-primary-foreground">{index + 1}</span><span className="break-words text-sm font-semibold">{paso}</span></li>)}
+        </ol>
+        <p className="mt-4 max-w-3xl text-sm text-muted-foreground">RIQSIY utiliza la tecnología para acercar a los jóvenes a su patrimonio local y ayudarlos a observarlo, comprenderlo, valorarlo y protegerlo.</p>
+      </section>
+
       <section className="mt-14">
         <SectionTitle
           eyebrow="Caso central RIQSIY"

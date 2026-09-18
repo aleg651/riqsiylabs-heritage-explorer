@@ -18,4 +18,4 @@
 - [x] Ampliar Descubre y el mapa con aproximadamente 20 sitios reales, fotografías públicas acreditadas y fichas prudentes.
 - [x] Ajustar Investigación, Modo Jurado, FENCYT y Detective del Patrimonio al prompt maestro regional.
 - [x] Verificar rutas prioritarias y experiencia móvil sin modificar la arquitectura principal.
-- [x] Completar el pulido definitivo FENCYT: evidencia del proceso, 6 niveles Yachay, Pasaporte, modo feria, resultados vacíos, reflexión y relato de origen.
+- [x] Completar el pulido definitivo FENCYT: evidencia del proceso, 8 niveles Yachay, Pasaporte, modo feria, resultados vacíos, reflexión y relato de origen.
