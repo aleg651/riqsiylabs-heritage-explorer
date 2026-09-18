@@ -113,14 +113,20 @@ function Descubre() {
             className="shadow-stone group overflow-hidden rounded-lg border border-border bg-card transition-all hover:-translate-y-1 hover:border-accent"
           >
             <Link to="/descubre/$slug" params={{ slug: s.slug }} className="relative block">
-              <img
-                src={s.imagen}
-                alt={s.nombre}
-                loading="lazy"
-                width={1280}
-                height={853}
-                className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
+              {s.imagen ? (
+                <img
+                  src={s.imagen}
+                  alt={s.nombre}
+                  loading="lazy"
+                  width={1280}
+                  height={853}
+                  className="h-44 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div className="flex h-44 w-full items-center justify-center bg-secondary px-6 text-center text-xs text-muted-foreground">
+                  Fotografía verificada pendiente de incorporación
+                </div>
+              )}
               <span className="absolute left-3 top-3 rounded-full bg-background/90 px-2.5 py-1 text-xs font-medium">
                 {CATEGORIAS[s.categoria].icono} {CATEGORIAS[s.categoria].label}
               </span>
@@ -138,15 +144,20 @@ function Descubre() {
               </h3>
               <p className="mt-1 text-xs text-muted-foreground">{s.ubicacion}</p>
               <p className="mt-3 text-sm">{s.resumen}</p>
-              <a
-                href={s.imagenFuente}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-3 block text-xs text-muted-foreground underline-offset-2 hover:underline"
-              >
-                Foto: {s.imagenCredito}
-              </a>
+              {s.imagenFuente ? (
+                <a
+                  href={s.imagenFuente}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 block text-xs text-muted-foreground underline-offset-2 hover:underline"
+                >
+                  Foto: {s.imagenCredito}
+                </a>
+              ) : (
+                <p className="mt-3 text-xs text-muted-foreground">Evidencia visual pendiente de verificación.</p>
+              )}
             </div>
+
           </article>
         ))}
       </div>
