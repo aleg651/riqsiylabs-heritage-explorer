@@ -707,6 +707,22 @@ function Marcador({
   );
 }
 
+function GuiaDigital({ x, z, n, onSelect }: { x: number; z: number; n: number; onSelect: (n: number) => void }) {
+  const y = alturaTerreno(x, z);
+  return (
+    <group position={[x + 1.8, y, z + 0.8]} rotation-y={Math.PI * 0.2} onClick={(event) => { event.stopPropagation(); onSelect(n); }}>
+      <mesh position={[0, 1.65, 0]} castShadow><sphereGeometry args={[0.23, 12, 10]} /><meshStandardMaterial color="#a96f4c" roughness={0.9} /></mesh>
+      <mesh position={[0, 1.25, 0]} castShadow><coneGeometry args={[0.48, 0.85, 4]} /><meshStandardMaterial color="#8c3b2a" roughness={0.86} /></mesh>
+      <mesh position={[-0.16, 0.55, 0]} castShadow><capsuleGeometry args={[0.08, 0.48, 3, 7]} /><meshStandardMaterial color="#353941" roughness={0.9} /></mesh>
+      <mesh position={[0.16, 0.55, 0]} castShadow><capsuleGeometry args={[0.08, 0.48, 3, 7]} /><meshStandardMaterial color="#353941" roughness={0.9} /></mesh>
+      <mesh position={[0, 1.72, 0]} rotation-z={0.08} castShadow><cylinderGeometry args={[0.25, 0.29, 0.15, 12]} /><meshStandardMaterial color="#c9a227" roughness={0.8} /></mesh>
+      <Html position={[0, 2.25, 0]} center distanceFactor={24} zIndexRange={[9, 0]}>
+        <button type="button" onClick={(event) => { event.stopPropagation(); onSelect(n); }} className="whitespace-nowrap rounded-full border border-amber-300 bg-stone-900/90 px-2.5 py-1 text-[11px] font-semibold text-amber-100 shadow-lg">💬 Preguntar al guía</button>
+      </Html>
+    </group>
+  );
+}
+
 /* --------------------------------- escena -------------------------------- */
 
 export interface Escena3DProps {
@@ -784,6 +800,9 @@ function Mundo({
           activo={puntoCerca === p.n}
           onSelect={onSeleccionar}
         />
+      ))}
+      {PUNTOS_3D.filter((p) => [1, 3, 6].includes(p.n)).map((p) => (
+        <GuiaDigital key={`guia-${p.id}`} x={p.pos[0]} z={p.pos[1]} n={p.n} onSelect={onSeleccionar} />
       ))}
       <Personaje control={control} onCerca={onCerca} onAvance={onAvance} />
       {!calidadBaja && (

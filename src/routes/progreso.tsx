@@ -111,7 +111,6 @@ function Progreso() {
         ))}
       </div>
       <div className="mt-6 flex flex-wrap gap-3"><Link to="/pasaporte" className="rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">🗺️ Abrir Pasaporte RIQSIY</Link><span className="rounded-md border border-border px-4 py-2.5 text-sm">🔥 Racha: {racha} día(s)</span></div>
-      <div className="mt-6 flex flex-wrap gap-3"><Link to="/pasaporte" className="rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">🗺️ Abrir Pasaporte RIQSIY</Link><span className="rounded-md border border-border px-4 py-2.5 text-sm">🔥 Racha: {useProgreso().racha} día(s)</span></div>
 
       <section className="mt-10">
         <h2 className="font-display text-2xl">Insignias</h2>

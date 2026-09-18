@@ -65,7 +65,7 @@ function YachayPage() {
             <p className="mt-1 text-sm text-primary-foreground/80">Completa cada lección para abrir la siguiente.</p>
           </div>
 
-          <div className="relative mx-auto mt-8 flex max-w-md flex-col items-center gap-7 py-3">
+          <div className="relative mx-auto mt-8 flex max-w-md flex-col items-center gap-7 overflow-x-hidden py-3">
             <div className="absolute bottom-12 top-12 left-1/2 w-1 -translate-x-1/2 rounded-full bg-border" aria-hidden="true" />
             {UNIDADES.map((unidad, index) => {
               const terminada = completadas[index];
