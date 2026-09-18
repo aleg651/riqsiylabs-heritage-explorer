@@ -43,7 +43,7 @@ function AntesDespues() {
       />
 
       <div className="mt-8 flex flex-wrap gap-2">
-        {SITIOS.map((s) => (
+        {SITIOS.filter((s) => s.imagen).map((s) => (
           <button
             key={s.slug}
             type="button"
