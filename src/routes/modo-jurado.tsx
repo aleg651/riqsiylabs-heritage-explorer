@@ -4,13 +4,12 @@ import { ArrowLeft, ArrowRight, Mic2, Minimize2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/modo-jurado")({
-  head: () => ({ meta: [{ title: "Modo Jurado — Presentación RIQSIY" }, { name: "description", content: "Presentación visual de RIQSIY en 17 pasos para feria científica." }, { property: "og:title", content: "Modo Jurado — RIQSIY" }, { property: "og:description", content: "Problema, metodología, experiencias, evidencia, resultados e impacto de RIQSIY." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  head: () => ({ meta: [{ title: "Modo Jurado — Presentación RIQSIY" }, { name: "description", content: "Presentación visual de RIQSIY para feria científica." }, { property: "og:title", content: "Modo Jurado — RIQSIY" }, { property: "og:description", content: "Problema, metodología, experiencias, evidencia, resultados e impacto de RIQSIY." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
   component: Jurado,
 });
 
 const P = [
   ["EL PROBLEMA", "Muchos jóvenes pueden pasar frente a su patrimonio sin llegar a conocerlo ni investigarlo."],
-  ["¿POR QUÉ RIQSIY?", "Para convertir la cercanía cotidiana en curiosidad, aprendizaje y protección."],
   ["PREGUNTA DE INVESTIGACIÓN", "¿En qué medida una experiencia interactiva puede incrementar interés, conocimiento y valoración?"],
   ["HIPÓTESIS", "El uso de RIQSIY podría fortalecer interés, conocimiento, valoración y actitud de protección."],
   ["RIQSIY", "Patrimonio + comunidad + tecnología + aprendizaje + investigación."],
@@ -19,10 +18,8 @@ const P = [
   ["PIRQA", "Juego educativo de construcción y razonamiento espacial inspirado en principios observables."],
   ["SALVA EL AGUA", "Desafío sobre pendiente, recorrido, distribución y cuidado del agua."],
   ["RIQSIY YACHAY", "Aprendizaje gamificado de quechua Cusco-Collao con contenido validado."],
-  ["DETECTIVE DEL PATRIMONIO", "Pistas, fuentes, hipótesis y decisiones responsables basadas en evidencia."],
-  ["VOCES DE MI COMUNIDAD", "Solo testimonios reales y autorizados; memoria oral diferenciada de evidencia arqueológica."],
-  ["METODOLOGÍA", "Pretest → uso de RIQSIY → postest → comparación → análisis → conclusiones."],
   ["EVIDENCIA", "Fotografías, videos, observaciones de campo y fuentes claramente identificadas."],
+  ["METODOLOGÍA", "Pretest → uso de RIQSIY → postest → comparación → análisis → conclusiones."],
   ["RESULTADOS", "Pendientes de aplicación y análisis. No se presentan porcentajes ficticios."],
   ["CONCLUSIONES", "Se formularán únicamente después de analizar datos reales."],
   ["IMPACTO", "Acercar a los jóvenes al patrimonio para conocerlo, valorarlo y promover su protección."],
