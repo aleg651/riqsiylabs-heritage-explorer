@@ -658,6 +658,7 @@ function Marcador({
   titulo,
   descubierto,
   activo,
+  onSelect,
 }: {
   n: number;
   x: number;
@@ -665,6 +666,7 @@ function Marcador({
   titulo: string;
   descubierto: boolean;
   activo: boolean;
+  onSelect: (n: number) => void;
 }) {
   const ref = useRef<THREE.Mesh>(null);
   const y = alturaTerreno(x, z);
@@ -680,16 +682,18 @@ function Marcador({
 
   return (
     <group position={[x, 0, z]}>
-      <mesh position={[0, y + 0.05, 0]} rotation-x={-Math.PI / 2}>
+      <mesh position={[0, y + 0.05, 0]} rotation-x={-Math.PI / 2} onClick={(event) => { event.stopPropagation(); onSelect(n); }}>
         <ringGeometry args={[1.5, 1.9, 24]} />
         <meshBasicMaterial color={color} transparent opacity={activo ? 0.85 : 0.45} side={THREE.DoubleSide} />
       </mesh>
-      <mesh ref={ref} position={[0, y + 2.2, 0]}>
+      <mesh ref={ref} position={[0, y + 2.2, 0]} onClick={(event) => { event.stopPropagation(); onSelect(n); }}>
         <octahedronGeometry args={[0.42, 0]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={activo ? 0.8 : 0.3} />
       </mesh>
       <Html position={[0, y + 3.1, 0]} center distanceFactor={26} zIndexRange={[10, 0]}>
-        <div
+        <button
+          type="button"
+          onClick={(event) => { event.stopPropagation(); onSelect(n); }}
           className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px] font-semibold ${
             activo
               ? "border-amber-300 bg-amber-200 text-stone-900"
@@ -697,7 +701,23 @@ function Marcador({
           }`}
         >
           📍 {n}. {titulo}
-        </div>
+        </button>
+      </Html>
+    </group>
+  );
+}
+
+function GuiaDigital({ x, z, n, onSelect }: { x: number; z: number; n: number; onSelect: (n: number) => void }) {
+  const y = alturaTerreno(x, z);
+  return (
+    <group position={[x + 1.8, y, z + 0.8]} rotation-y={Math.PI * 0.2} onClick={(event) => { event.stopPropagation(); onSelect(n); }}>
+      <mesh position={[0, 1.65, 0]} castShadow><sphereGeometry args={[0.23, 12, 10]} /><meshStandardMaterial color="#a96f4c" roughness={0.9} /></mesh>
+      <mesh position={[0, 1.25, 0]} castShadow><coneGeometry args={[0.48, 0.85, 4]} /><meshStandardMaterial color="#8c3b2a" roughness={0.86} /></mesh>
+      <mesh position={[-0.16, 0.55, 0]} castShadow><capsuleGeometry args={[0.08, 0.48, 3, 7]} /><meshStandardMaterial color="#353941" roughness={0.9} /></mesh>
+      <mesh position={[0.16, 0.55, 0]} castShadow><capsuleGeometry args={[0.08, 0.48, 3, 7]} /><meshStandardMaterial color="#353941" roughness={0.9} /></mesh>
+      <mesh position={[0, 1.72, 0]} rotation-z={0.08} castShadow><cylinderGeometry args={[0.25, 0.29, 0.15, 12]} /><meshStandardMaterial color="#c9a227" roughness={0.8} /></mesh>
+      <Html position={[0, 2.25, 0]} center distanceFactor={24} zIndexRange={[9, 0]}>
+        <button type="button" onClick={(event) => { event.stopPropagation(); onSelect(n); }} className="whitespace-nowrap rounded-full border border-amber-300 bg-stone-900/90 px-2.5 py-1 text-[11px] font-semibold text-amber-100 shadow-lg">💬 Preguntar al guía</button>
       </Html>
     </group>
   );
@@ -712,6 +732,7 @@ export interface Escena3DProps {
   puntoCerca: number | null;
   onCerca: (n: number | null) => void;
   onAvance: (pos: THREE.Vector3) => void;
+  onSeleccionar: (n: number) => void;
 }
 
 function Mundo({
@@ -721,6 +742,7 @@ function Mundo({
   control,
   onCerca,
   onAvance,
+  onSeleccionar,
 }: Escena3DProps) {
   const suelo = useMemo(() => texturaSuelo(calidadBaja ? 18 : 34), [calidadBaja]);
   const piedra = useMemo(() => texturaPiedra(), []);
@@ -776,7 +798,11 @@ function Mundo({
           titulo={p.titulo}
           descubierto={descubiertos.includes(p.n)}
           activo={puntoCerca === p.n}
+          onSelect={onSeleccionar}
         />
+      ))}
+      {PUNTOS_3D.filter((p) => [1, 3, 6].includes(p.n)).map((p) => (
+        <GuiaDigital key={`guia-${p.id}`} x={p.pos[0]} z={p.pos[1]} n={p.n} onSelect={onSeleccionar} />
       ))}
       <Personaje control={control} onCerca={onCerca} onAvance={onAvance} />
       {!calidadBaja && (

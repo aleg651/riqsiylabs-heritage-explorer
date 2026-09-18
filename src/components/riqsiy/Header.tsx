@@ -8,6 +8,7 @@ import { AUTOR } from "@/lib/riqsiy-gamification";
 const NAV = [
   { to: "/aventura", label: "Aventura" },
   { to: "/descubre", label: "Descubre" },
+  { to: "/machu-muqu", label: "Machu Moqo" },
   { to: "/machu-muqu-3d", label: "Machu Moqo 3D" },
 
   { to: "/mira-mas-alla", label: "Mira más allá" },
@@ -77,7 +78,7 @@ export function Header() {
       </div>
 
       {abierto && (
-        <nav className="grid gap-1 border-t border-border bg-background px-4 py-3 xl:hidden">
+        <nav className="grid max-h-[calc(100vh-5rem)] gap-1 overflow-y-auto border-t border-border bg-background px-4 py-3 xl:hidden">
           {NAV.map((n) => (
             <Link
               key={n.to}

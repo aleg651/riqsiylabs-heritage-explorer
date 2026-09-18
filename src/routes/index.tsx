@@ -188,7 +188,7 @@ function Inicio() {
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { to: "/juegos" as const, titulo: "Minijuegos", texto: "Encaja la piedra, Salva el agua, el andén, el Qhapaq Ñan y la sombra del Intihuatana." },
-            { to: "/recompensas" as const, titulo: "Recompensas", texto: "Canjea tus RIQSI-COINS por insignias y certificados (convenios institucionales)." },
+            { to: "/recompensas" as const, titulo: "Recompensas", texto: "Canjea tus RIQSI-COINS por insignias y reconocimientos educativos dentro de RIQSIY." },
             { to: "/test" as const, titulo: "Test de valoración", texto: "Diagnóstico inicial y final: parte de la investigación científica del proyecto." },
             { to: "/historias" as const, titulo: "Historias", texto: "Registra testimonios orales de tu familia y comunidad sobre el patrimonio." },
           ].map((c) => (

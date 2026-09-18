@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type * as THREE from "three";
-import { ArrowRight, Eye, Compass, Gamepad2 } from "lucide-react";
+import { ArrowRight, Eye, Compass, Gamepad2, MessageCircle } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { AVISO_REFERENCIAL, FUENTES, PUNTOS_3D } from "@/lib/machu-muqu-3d";
 import Escena3D, { type Control } from "@/components/riqsiy/MachuMuqu3D";
@@ -40,6 +40,7 @@ function MachuMuqu3DPage() {
   const [abierto, setAbierto] = useState<number | null>(null);
   const [modoInvestigador, setModoInvestigador] = useState(false);
   const [vista, setVista] = useState<"3d" | "real">("3d");
+  const [dialogoAbierto, setDialogoAbierto] = useState(false);
   const [metros, setMetros] = useState(0);
   const ultima = useRef<THREE.Vector3 | null>(null);
   const yaCompletado = experiencias.includes(EXPERIENCIA_MACHU_MUQU_3D_ID);
@@ -139,12 +140,17 @@ function MachuMuqu3DPage() {
     ultima.current = pos;
   }, []);
 
-  const observar = () => {
-    if (!puntoCerca) return;
-    setAbierto(puntoCerca);
-    setDescubiertos((d) => (d.includes(puntoCerca) ? d : [...d, puntoCerca]));
-    const hallado = PUNTOS_3D.find((p) => p.n === puntoCerca);
+  const seleccionarPunto = useCallback((numero: number) => {
+    setAbierto(numero);
+    setVista("real");
+    setDialogoAbierto(false);
+    setDescubiertos((d) => (d.includes(numero) ? d : [...d, numero]));
+    const hallado = PUNTOS_3D.find((p) => p.n === numero);
     if (hallado) registrarHito("sello", `punto-3d-${hallado.id}`, hallado.recompensa);
+  }, [registrarHito]);
+
+  const observar = () => {
+    if (puntoCerca) seleccionarPunto(puntoCerca);
   };
 
   const completo = descubiertos.length >= PUNTOS_3D.length;
@@ -189,6 +195,7 @@ function MachuMuqu3DPage() {
           puntoCerca={puntoCerca}
           onCerca={setPuntoCerca}
           onAvance={onAvance}
+          onSeleccionar={seleccionarPunto}
         />
 
 
@@ -207,7 +214,7 @@ function MachuMuqu3DPage() {
           </div>
 
           {cerca && !abierto && (
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 text-center">
+            <div className="absolute bottom-32 left-1/2 -translate-x-1/2 text-center sm:bottom-3">
               <p className="mb-2 rounded-full bg-background/90 px-3 py-1 text-xs font-medium backdrop-blur">
                 Estás en: {cerca.n}. {cerca.titulo}
               </p>
@@ -228,7 +235,7 @@ function MachuMuqu3DPage() {
             onPointerMove={(e) => { if (tactil.current) mover(e); }}
             onPointerUp={soltar}
             onPointerCancel={soltar}
-            className="pointer-events-auto absolute bottom-3 left-3 h-28 w-28 rounded-full border border-border/70 bg-background/50 backdrop-blur xl:hidden"
+            className="pointer-events-auto absolute bottom-3 left-3 h-24 w-24 rounded-full border border-border/70 bg-background/50 backdrop-blur xl:hidden"
           >
             <div
               className="absolute left-1/2 top-1/2 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/80"
@@ -352,6 +359,25 @@ function MachuMuqu3DPage() {
             )}
           </dl>
 
+          <section className="mt-4 rounded-xl border border-accent/50 bg-accent/10 p-4" aria-label="Guía cultural RIQSIY">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="flex items-center gap-2 font-display text-lg"><MessageCircle className="h-5 w-5 text-primary" /> Guía cultural RIQSIY</p>
+                <p className="mt-1 text-xs text-muted-foreground">Personaje educativo digital · no representa a una persona real.</p>
+              </div>
+              <button type="button" onClick={() => setDialogoAbierto((valor) => !valor)} className="min-h-10 rounded-md bg-primary px-4 text-sm font-semibold text-primary-foreground">
+                {dialogoAbierto ? "Cerrar respuesta" : "Preguntar sobre este punto"}
+              </button>
+            </div>
+            {dialogoAbierto && (
+              <div className="mt-4 border-l-2 border-accent pl-4 text-sm leading-relaxed">
+                <p className="font-semibold">Según el registro del proyecto:</p>
+                <p className="mt-1 text-muted-foreground">{punto.memoriaOral ?? punto.info ?? "Esto todavía requiere investigación."}</p>
+                <p className="mt-3 text-xs font-semibold uppercase text-primary">Clasificación: {punto.memoriaOral ? "memoria oral, no comprobada arqueológicamente" : FUENTES[punto.fuenteInfo].label}</p>
+              </div>
+            )}
+          </section>
+
           <button
             type="button"
             onClick={() => setAbierto(null)}
@@ -372,7 +398,7 @@ function MachuMuqu3DPage() {
               <li key={p.id}>
                 <button
                   type="button"
-                  onClick={() => setAbierto(p.n)}
+                  onClick={() => seleccionarPunto(p.n)}
                   className={`w-full rounded-xl border p-3 text-left text-sm transition-colors ${
                     hecho ? "border-accent/60 bg-accent/10" : "border-border bg-card hover:bg-secondary"
                   }`}

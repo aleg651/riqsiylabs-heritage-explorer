@@ -43,7 +43,18 @@ const ETAPAS = [
   },
 ];
 
-const FLUJO = ["PRETEST", "USO DE RIQSIY", "POSTEST", "COMPARACIÓN", "ANÁLISIS", "CONCLUSIONES"];
+const RUTA_CIENTIFICA = [
+  ["PROBLEMA", "Patrimonio cercano que puede pasar desapercibido o ser poco conocido."],
+  ["PREGUNTA DE INVESTIGACIÓN", "Medir en qué medida RIQSIY puede incrementar interés, conocimiento y valoración."],
+  ["HIPÓTESIS", "El uso de la experiencia podría fortalecer las dimensiones evaluadas."],
+  ["VARIABLES", "Independiente: uso de RIQSIY. Dependientes: interés, conocimiento, valoración y protección."],
+  ["METODOLOGÍA", "Diseño escolar de medición antes y después de la experiencia."],
+  ["PRETEST", "Cuestionario inicial de 10 ítems; pendiente de aplicación real."],
+  ["USO DE RIQSIY", "Exploración, evidencia, 3D, juegos, quechua, reflexión y protección."],
+  ["POSTEST", "Cuestionario equivalente; pendiente de aplicación real."],
+  ["ANÁLISIS", "Comparación por dimensión únicamente cuando existan datos reales."],
+  ["CONCLUSIONES", "Pendientes de aplicación y análisis; no se anticipan resultados."],
+] as const;
 
 function Investigacion() {
   return (
@@ -89,11 +100,18 @@ function Investigacion() {
         </article>
       </section>
 
-      <section className="mt-10">
-        <h2 className="font-display text-2xl">Ruta metodológica</h2>
-        <div className="mt-5 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
-          {FLUJO.map((paso, index) => <div key={paso} className="relative border-t-2 border-accent pt-3 text-sm font-semibold"><span className="mr-2 text-primary">{String(index + 1).padStart(2, "0")}</span>{paso}</div>)}
-        </div>
+      <section className="mt-12" aria-labelledby="ruta-cientifica">
+        <h2 id="ruta-cientifica" className="font-display text-2xl">Ruta científica completa</h2>
+        <p className="mt-2 text-sm text-muted-foreground">Del problema a las conclusiones, sin anticipar resultados.</p>
+        <ol className="mt-6 grid gap-0">
+          {RUTA_CIENTIFICA.map(([paso, detalle], index) => (
+            <li key={paso} className="relative grid gap-2 border-l-2 border-accent pb-7 pl-8 sm:grid-cols-[12rem_1fr] sm:gap-4">
+              <span className="absolute -left-[0.82rem] top-0 grid h-6 w-6 place-items-center rounded-full bg-primary text-[10px] font-semibold text-primary-foreground">{index + 1}</span>
+              <h3 className="font-display text-lg">{paso}</h3>
+              <p className="text-sm leading-relaxed text-muted-foreground">{detalle}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
       <section className="mt-10 rounded-lg border border-border bg-card p-6">

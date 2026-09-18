@@ -105,27 +105,26 @@ export const RECOMPENSAS = [
   {
     id: "experiencia",
     costo: 2000,
-    titulo: "Experiencia cultural o beneficio educativo",
-    detalle: "Propuesta sujeta a convenio con una institución cultural o educativa.",
-    estado: "Propuesta" as const,
+    titulo: "Colección visual RIQSIY",
+    detalle: "Contenido digital educativo que reconoce tu recorrido dentro de la plataforma.",
+    estado: "Disponible" as const,
     icono: "🎨",
   },
   {
     id: "cultural-especial",
     costo: 5000,
-    titulo: "Recompensa cultural especial",
-    detalle: "Posibilidad de participar, sujeta a disponibilidad y convenio institucional.",
-    estado: "Propuesta" as const,
+    titulo: "Distinción Guardián RIQSIY",
+    detalle: "Reconocimiento digital interno por completar experiencias de aprendizaje y protección.",
+    estado: "Disponible" as const,
     icono: "✨",
   },
 ];
 
 export const RECOMPENSA_PRINCIPAL = {
-  id: "entrada",
-  titulo: "🎟️ Entrada a un centro arqueológico",
-  aviso: "Próximamente mediante alianzas con instituciones culturales.",
-  nota:
-    "RIQSIY no entrega entradas actualmente. Esta recompensa es una proyección del proyecto y requiere convenio con la institución responsable del sitio.",
+  id: "distincion",
+  titulo: "🏅 Reconocimientos educativos digitales",
+  aviso: "Las recompensas pertenecen únicamente a la experiencia educativa RIQSIY.",
+  nota: "No representan entradas, premios oficiales ni beneficios ofrecidos por instituciones externas.",
 };
 
 /* ----------------------------------- Tests ---------------------------------- */

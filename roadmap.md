@@ -15,6 +15,6 @@
 
 - [x] Convertir RIQSIY Yachay en una experiencia de lecciones gamificadas con identidad andina.
 - [x] Igualar PIRQA a la aplicación de referencia autorizada y verificar ambas experiencias.
-- [ ] Ampliar Descubre y el mapa con aproximadamente 20 sitios reales, fotografías públicas acreditadas y fichas prudentes.
-- [ ] Ajustar Investigación, Modo Jurado, FENCYT y Detective del Patrimonio al prompt maestro regional.
-- [ ] Verificar rutas prioritarias y experiencia móvil sin modificar la arquitectura principal.
+- [x] Ampliar Descubre y el mapa con aproximadamente 20 sitios reales, fotografías públicas acreditadas y fichas prudentes.
+- [x] Ajustar Investigación, Modo Jurado, FENCYT y Detective del Patrimonio al prompt maestro regional.
+- [x] Verificar rutas prioritarias y experiencia móvil sin modificar la arquitectura principal.

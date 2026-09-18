@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Camera, FileQuestion, MapPinned, Video } from "lucide-react";
+import { ArrowRight, BookOpen, Camera, Eye, FileQuestion, Video } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { Button } from "@/components/ui/button";
 import { ESTADOS_EVIDENCIA, REGISTROS_CAMPO, VIDEOS_CAMPO } from "@/lib/riqsiy-regional";
@@ -19,6 +19,13 @@ export const Route = createFileRoute("/evidencia-campo")({
 });
 
 function EvidenciaCampoPage() {
+  const secciones = [
+    { href: "#fotografias", icono: Camera, texto: "Fotografías" },
+    { href: "#videos", icono: Video, texto: "Videos" },
+    { href: "#observaciones", icono: Eye, texto: "Observaciones" },
+    { href: "#preguntas", icono: FileQuestion, texto: "Preguntas" },
+    { href: "#fuentes", icono: BookOpen, texto: "Fuentes" },
+  ];
   return (
     <main className="pb-10">
       <section className="surface-deep stone-grid">
@@ -31,7 +38,13 @@ function EvidenciaCampoPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <nav aria-label="Secciones de evidencia" className="sticky top-[65px] z-30 overflow-x-auto border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
+        <div className="mx-auto flex w-max max-w-6xl gap-2">
+          {secciones.map((item) => <a key={item.href} href={item.href} className="inline-flex min-h-10 items-center gap-2 rounded-md border border-border bg-card px-3 text-xs font-semibold"><item.icono className="h-4 w-4 text-primary" />{item.texto}</a>)}
+        </div>
+      </nav>
+
+      <section id="fotografias" className="mx-auto max-w-6xl scroll-mt-32 px-4 py-14">
         <SectionTitle
           eyebrow="Registro propio"
           title="Lo que documentamos en Machu Moqo"
@@ -58,7 +71,7 @@ function EvidenciaCampoPage() {
         </div>
       </section>
 
-      <section className="bg-secondary/55 py-14">
+      <section id="videos" className="scroll-mt-32 bg-secondary/55 py-14">
         <div className="mx-auto max-w-6xl px-4">
           <SectionTitle eyebrow="Registro audiovisual" title="Recorrido y territorio" description="Videos propios conservados sin sustituirlos por material de internet." />
           <div className="mt-8 grid gap-5 md:grid-cols-2">
@@ -75,13 +88,13 @@ function EvidenciaCampoPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-8 md:grid-cols-3">
           {[
-            { icono: MapPinned, titulo: "Recorrido", texto: "Acceso, terreno, desniveles, vegetación y relación visual con el entorno." },
-            { icono: FileQuestion, titulo: "Preguntas", texto: "Origen, antigüedad, función y relación territorial permanecen abiertos hasta contar con respaldo." },
-            { icono: Camera, titulo: "Documentación", texto: "Fotografías y videos propios permiten volver a observar sin convertir una impresión en un hecho." },
+            { id: "observaciones", icono: Eye, titulo: "Observaciones", texto: "Acceso, terreno, desniveles, vegetación y relación visual con el entorno, descritos sin atribuir funciones." },
+            { id: "preguntas", icono: FileQuestion, titulo: "Preguntas de investigación", texto: "Origen, antigüedad, función y relación territorial permanecen abiertos hasta contar con respaldo." },
+            { id: "fuentes", icono: BookOpen, titulo: "Fuentes", texto: "Registro fotográfico y audiovisual propio. Las referencias históricas y arqueológicas especializadas todavía requieren investigación." },
           ].map((item) => (
-            <article key={item.titulo} className="border-t-2 border-accent pt-5"><item.icono className="h-6 w-6 text-primary" /><h2 className="mt-3 font-display text-xl">{item.titulo}</h2><p className="mt-2 text-sm text-muted-foreground">{item.texto}</p></article>
+            <article id={item.id} key={item.titulo} className="scroll-mt-32 border-t-2 border-accent pt-5"><item.icono className="h-6 w-6 text-primary" /><h2 className="mt-3 font-display text-xl">{item.titulo}</h2><p className="mt-2 text-sm text-muted-foreground">{item.texto}</p></article>
           ))}
         </div>
         <div className="mt-10 flex flex-wrap gap-3">
