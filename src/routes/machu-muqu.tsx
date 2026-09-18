@@ -305,10 +305,10 @@ function MachuMuqu() {
           </p>
           <h1 className="mt-3 font-display text-4xl font-semibold sm:text-6xl">MACHU MOQO</h1>
           <p className="mt-2 font-display text-lg text-gold-soft sm:text-2xl">Memoria, piedra y territorio</p>
-          <p className="mt-5 max-w-2xl text-sm opacity-90 sm:text-base">
-            En nuestra comunidad existe un lugar que guarda evidencias materiales y memorias transmitidas a través
-            de generaciones. RIQSIY busca redescubrir Machu Moqo, conocer su historia, investigar sus evidencias y
-            promover su valoración y protección.
+          <p className="mt-5 max-w-3xl text-sm leading-relaxed opacity-90 sm:text-base">
+            Durante el desarrollo de RIQSIY identificamos en nuestra propia comunidad un sitio arqueológico poco
+            conocido llamado Machu Moqo. Esto nos llevó a investigar nuestro entorno y desarrollar una experiencia
+            tecnológica para ayudar a conocerlo, valorarlo y promover su protección.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <a
@@ -321,7 +321,7 @@ function MachuMuqu() {
               to="/machu-muqu-3d"
               className="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-accent-foreground"
             >
-              CAMINAR EN 3D <ArrowRight className="h-4 w-4" />
+              EXPLORAR MACHU MOQO EN 3D <ArrowRight className="h-4 w-4" />
             </Link>
 
             <Link

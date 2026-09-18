@@ -77,7 +77,7 @@ export function Header() {
       </div>
 
       {abierto && (
-        <nav className="grid gap-1 border-t border-border bg-background px-4 py-3 xl:hidden">
+        <nav className="grid max-h-[calc(100vh-5rem)] gap-1 overflow-y-auto border-t border-border bg-background px-4 py-3 xl:hidden">
           {NAV.map((n) => (
             <Link
               key={n.to}

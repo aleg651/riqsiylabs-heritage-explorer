@@ -658,6 +658,7 @@ function Marcador({
   titulo,
   descubierto,
   activo,
+  onSelect,
 }: {
   n: number;
   x: number;
@@ -665,6 +666,7 @@ function Marcador({
   titulo: string;
   descubierto: boolean;
   activo: boolean;
+  onSelect: (n: number) => void;
 }) {
   const ref = useRef<THREE.Mesh>(null);
   const y = alturaTerreno(x, z);
@@ -680,16 +682,18 @@ function Marcador({
 
   return (
     <group position={[x, 0, z]}>
-      <mesh position={[0, y + 0.05, 0]} rotation-x={-Math.PI / 2}>
+      <mesh position={[0, y + 0.05, 0]} rotation-x={-Math.PI / 2} onClick={(event) => { event.stopPropagation(); onSelect(n); }}>
         <ringGeometry args={[1.5, 1.9, 24]} />
         <meshBasicMaterial color={color} transparent opacity={activo ? 0.85 : 0.45} side={THREE.DoubleSide} />
       </mesh>
-      <mesh ref={ref} position={[0, y + 2.2, 0]}>
+      <mesh ref={ref} position={[0, y + 2.2, 0]} onClick={(event) => { event.stopPropagation(); onSelect(n); }}>
         <octahedronGeometry args={[0.42, 0]} />
         <meshStandardMaterial color={color} emissive={color} emissiveIntensity={activo ? 0.8 : 0.3} />
       </mesh>
       <Html position={[0, y + 3.1, 0]} center distanceFactor={26} zIndexRange={[10, 0]}>
-        <div
+        <button
+          type="button"
+          onClick={(event) => { event.stopPropagation(); onSelect(n); }}
           className={`whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px] font-semibold ${
             activo
               ? "border-amber-300 bg-amber-200 text-stone-900"
@@ -697,7 +701,7 @@ function Marcador({
           }`}
         >
           📍 {n}. {titulo}
-        </div>
+        </button>
       </Html>
     </group>
   );
@@ -712,6 +716,7 @@ export interface Escena3DProps {
   puntoCerca: number | null;
   onCerca: (n: number | null) => void;
   onAvance: (pos: THREE.Vector3) => void;
+  onSeleccionar: (n: number) => void;
 }
 
 function Mundo({
@@ -721,6 +726,7 @@ function Mundo({
   control,
   onCerca,
   onAvance,
+  onSeleccionar,
 }: Escena3DProps) {
   const suelo = useMemo(() => texturaSuelo(calidadBaja ? 18 : 34), [calidadBaja]);
   const piedra = useMemo(() => texturaPiedra(), []);
@@ -776,6 +782,7 @@ function Mundo({
           titulo={p.titulo}
           descubierto={descubiertos.includes(p.n)}
           activo={puntoCerca === p.n}
+          onSelect={onSeleccionar}
         />
       ))}
       <Personaje control={control} onCerca={onCerca} onAvance={onAvance} />

@@ -34,7 +34,7 @@ function Jurado() {
     <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col">
       <div className="flex items-center justify-between gap-3"><p className="text-xs font-semibold text-gold-soft">MODO JURADO · {String(i + 1).padStart(2, "0")} / {P.length}</p><Button size="sm" variant="outline" onClick={() => setExposicion((v) => !v)}>{exposicion ? <Minimize2 /> : <Mic2 />}{exposicion ? "Salir" : "Modo exposición"}</Button></div>
       <div className="mt-5 h-1.5 overflow-hidden rounded-full bg-border"><div className="h-full bg-accent transition-all" style={{ width: `${progreso}%` }} /></div>
-      <div className="my-auto py-12 sm:py-16"><h1 className="font-display text-4xl sm:text-7xl">{x[0]}</h1><p className="mt-6 max-w-3xl text-lg opacity-85 sm:text-2xl">{x[1]}</p></div>
+      <div className="my-auto min-w-0 py-12 sm:py-16"><h1 className="break-words font-display text-3xl sm:text-7xl">{x[0]}</h1><p className="mt-6 max-w-3xl text-lg opacity-85 sm:text-2xl">{x[1]}</p></div>
       <div className="flex items-center justify-between gap-3"><Button variant="outline" disabled={i === 0} onClick={() => setI((v) => v - 1)}><ArrowLeft />Anterior</Button>{i < P.length - 1 ? <Button onClick={() => setI((v) => v + 1)}>Siguiente<ArrowRight /></Button> : <Button asChild><Link to="/fencyt">Cerrar presentación<ArrowRight /></Link></Button>}</div>
     </div>
   </div>;
