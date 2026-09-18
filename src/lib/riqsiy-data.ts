@@ -6,6 +6,26 @@ import morayAsset from "@/assets/heritage/moray.jpg.asset.json";
 import pisacAsset from "@/assets/heritage/pisac.jpg.asset.json";
 import hatunrumiyocAsset from "@/assets/heritage/hatunrumiyoc.jpg.asset.json";
 import qhapaqNanAsset from "@/assets/heritage/qhapaq-nan.jpg.asset.json";
+import chincheroAsset from "@/assets/heritage/expanded/chinchero.jpg.asset.json";
+import choquequiraoAsset from "@/assets/heritage/expanded/choquequirao.jpg.asset.json";
+import espirituPampaAsset from "@/assets/heritage/expanded/espiritu-pampa.jpg.asset.json";
+import huchuyQosqoAsset from "@/assets/heritage/expanded/huchuy-qosqo.jpg.asset.json";
+import intipunkuAsset from "@/assets/heritage/expanded/intipunku.jpg.asset.json";
+import machuPicchuAsset from "@/assets/heritage/expanded/machu-picchu.jpg.asset.json";
+import naupaIglesiaAsset from "@/assets/heritage/expanded/naupa-iglesia.jpg.asset.json";
+import ollantaytamboAsset from "@/assets/heritage/expanded/ollantaytambo.jpg.asset.json";
+import phuyupatamarcaAsset from "@/assets/heritage/expanded/phuyupatamarca.jpg.asset.json";
+import pikillaqtaAsset from "@/assets/heritage/expanded/pikillaqta.jpg.asset.json";
+import pinkuyllunaAsset from "@/assets/heritage/expanded/pinkuylluna.jpg.asset.json";
+import pukaPukaraAsset from "@/assets/heritage/expanded/puka-pukara.jpg.asset.json";
+import qorikanchaAsset from "@/assets/heritage/expanded/qorikancha.jpg.asset.json";
+import raqchiAsset from "@/assets/heritage/expanded/raqchi.jpg.asset.json";
+import rumicolcaAsset from "@/assets/heritage/expanded/rumicolca.jpg.asset.json";
+import sayacmarcaAsset from "@/assets/heritage/expanded/sayacmarca.jpg.asset.json";
+import tarawasiAsset from "@/assets/heritage/expanded/tarawasi.jpg.asset.json";
+import vitcosAsset from "@/assets/heritage/expanded/vitcos.jpg.asset.json";
+import waqrapukaraAsset from "@/assets/heritage/expanded/waqrapukara.jpg.asset.json";
+import winayWaynaAsset from "@/assets/heritage/expanded/winay-wayna.jpg.asset.json";
 
 export type Categoria =
   | "centro"
@@ -66,10 +86,82 @@ export interface Sitio {
   conocimientos: string[];
   datosSorprendentes: string[];
   relatos: { titulo: string; texto: string }[];
-  estadoActual: { nivel: "Bueno" | "Vulnerable" | "En riesgo"; detalle: string };
+  estadoActual: { nivel: "Bueno" | "Vulnerable" | "En riesgo" | "Requiere evaluación"; detalle: string };
   loVeiaPeroNoLoConocia: string;
   antesDespues: { antes: string; ahora: string; queHacer: string };
   retos: Reto[];
+}
+
+type FichaCatalogo = Pick<
+  Sitio,
+  "slug" | "nombre" | "categoria" | "ubicacion" | "imagen" | "imagenCredito" | "imagenFuente" | "coordenadas" | "resumen"
+>;
+
+/**
+ * Crea fichas introductorias sin convertir interpretaciones arqueológicas en hechos.
+ * La información especializada de cada sitio debe ampliarse únicamente con fuentes validadas.
+ */
+function crearFichaCatalogo(ficha: FichaCatalogo): Sitio {
+  return {
+    ...ficha,
+    coord: { x: 50, y: 50 },
+    historia:
+      "Este lugar forma parte del patrimonio arqueológico de la región Cusco. La ficha ofrece una introducción y debe complementarse con fuentes arqueológicas e institucionales verificadas.",
+    paraQueServia:
+      "Las funciones atribuidas al lugar deben revisarse según las evidencias y fuentes de cada investigación. RIQSIY no presenta una interpretación única como hecho definitivo.",
+    comoFueConstruido:
+      "En la imagen pueden observarse relaciones entre piedra, relieve y territorio. Determinar técnicas, etapas y autores requiere documentación arqueológica específica.",
+    conocimientos: [
+      "Observar forma, materiales y relación con el paisaje.",
+      "Diferenciar evidencia visible de interpretación.",
+      "Contrastar la información con fuentes arqueológicas e institucionales.",
+    ],
+    datosSorprendentes: [
+      "Es parte de la diversidad patrimonial del Cusco.",
+      "Una fotografía permite observar, pero no demuestra por sí sola antigüedad o función.",
+      "Todavía existen preguntas que requieren investigación especializada.",
+    ],
+    relatos: [
+      {
+        titulo: "Pregunta abierta",
+        texto: "¿Qué evidencias y fuentes necesitaríamos consultar para comprender mejor este lugar?",
+      },
+    ],
+    estadoActual: {
+      nivel: "Requiere evaluación",
+      detalle:
+        "RIQSIY no asigna un diagnóstico de conservación sin una evaluación técnica actual y una fuente verificable.",
+    },
+    loVeiaPeroNoLoConocia:
+      "Mirar con atención permite reconocer formas, materiales y relaciones con el territorio. Conocer exige además registrar, comparar y consultar fuentes confiables.",
+    antesDespues: {
+      antes: "La información histórica y visual comparable debe confirmarse con fuentes fechadas.",
+      ahora: "La fotografía muestra un registro real del lugar, no un diagnóstico arqueológico completo.",
+      queHacer: "Visitar responsablemente, no alterar estructuras y buscar información en fuentes confiables.",
+    },
+    retos: [
+      {
+        tipo: "opcion",
+        pregunta: `¿Qué afirmación es responsable al investigar ${ficha.nombre}?`,
+        opciones: [
+          "Una fotografía demuestra su función exacta",
+          "Debemos diferenciar observación, interpretación y evidencia",
+          "Todos los sitios tuvieron el mismo uso",
+          "No es necesario consultar fuentes",
+        ],
+        correcta: 1,
+        explicacion: "Una investigación responsable distingue lo observable de lo que todavía debe comprobarse.",
+        puntos: 10,
+      },
+      {
+        tipo: "vf",
+        pregunta: "Si no existe evidencia suficiente, debemos decir que todavía requiere investigación.",
+        correcta: true,
+        explicacion: "Reconocer los límites de la evidencia es parte del trabajo científico.",
+        puntos: 10,
+      },
+    ],
+  };
 }
 
 export const SITIOS: Sitio[] = [
@@ -653,6 +745,166 @@ export const SITIOS: Sitio[] = [
       },
     ],
   },
+  crearFichaCatalogo({
+    slug: "choquequirao", nombre: "Choquequirao", categoria: "centro",
+    ubicacion: "Santa Teresa, La Convención, Cusco",
+    imagen: choquequiraoAsset.url, imagenCredito: "Juanca Loayza · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Choquequirao-cusco.jpg",
+    coordenadas: { lat: -13.39278, lng: -72.87389 },
+    resumen: "Conjunto arqueológico de la región de Vilcabamba, parcialmente investigado y rodeado por un paisaje montañoso.",
+  }),
+  crearFichaCatalogo({
+    slug: "pikillaqta", nombre: "Pikillaqta", categoria: "centro",
+    ubicacion: "Lucre, Quispicanchi, Cusco",
+    imagen: pikillaqtaAsset.url, imagenCredito: "Satty Fernandez Alvarado · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Complejo_Arqueol%C3%B3gico_Pikillacta.jpg",
+    coordenadas: { lat: -13.61667, lng: -71.71472 },
+    resumen: "Extenso asentamiento arqueológico con calles y recintos rectangulares, atribuido por investigaciones a la sociedad Wari.",
+  }),
+  crearFichaCatalogo({
+    slug: "rumicolca", nombre: "Rumicolca", categoria: "construccion",
+    ubicacion: "Lucre, Quispicanchi, Cusco",
+    imagen: rumicolcaAsset.url, imagenCredito: "Xauxa · CC BY 2.5",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Rumicolca.jpg",
+    coordenadas: { lat: -13.6217, lng: -71.7086 },
+    resumen: "Estructura pétrea monumental situada cerca de Pikillaqta, en el acceso suroriental al valle del Cusco.",
+  }),
+  crearFichaCatalogo({
+    slug: "tarawasi", nombre: "Tarawasi", categoria: "construccion",
+    ubicacion: "Limatambo, Anta, Cusco",
+    imagen: tarawasiAsset.url, imagenCredito: "AgainErick · CC BY-SA 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Tarahuasi_Archaeological_site_-_overview.jpg",
+    coordenadas: { lat: -13.4258, lng: -72.5453 },
+    resumen: "Sitio arqueológico con una plataforma y muros de piedra trabajada junto a la actual localidad de Limatambo.",
+  }),
+  crearFichaCatalogo({
+    slug: "ollantaytambo", nombre: "Ollantaytambo", categoria: "construccion",
+    ubicacion: "Ollantaytambo, Urubamba, Cusco",
+    imagen: ollantaytamboAsset.url, imagenCredito: "McKay Savage · CC BY 2.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Peru_-_Sacred_Valley_%26_Incan_Ruins_252_-_Ollantaytambo_ruins_(8115063679).jpg",
+    coordenadas: { lat: -13.2583, lng: -72.2636 },
+    resumen: "Conjunto de terrazas, estructuras de piedra y espacios urbanos en el Valle Sagrado.",
+  }),
+  crearFichaCatalogo({
+    slug: "pinkuylluna", nombre: "Pinkuylluna", categoria: "construccion",
+    ubicacion: "Ollantaytambo, Urubamba, Cusco",
+    imagen: pinkuyllunaAsset.url, imagenCredito: "Yupanasimi · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Pinkuylluna.jpg",
+    coordenadas: { lat: -13.253, lng: -72.26 },
+    resumen: "Conjunto de estructuras visibles en la ladera frente al poblado de Ollantaytambo.",
+  }),
+  crearFichaCatalogo({
+    slug: "chinchero", nombre: "Chinchero", categoria: "centro",
+    ubicacion: "Chinchero, Urubamba, Cusco",
+    imagen: chincheroAsset.url, imagenCredito: "GeraldFoster · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Chinchero_Cusco2_0.jpg",
+    coordenadas: { lat: -13.38965, lng: -72.04733 },
+    resumen: "Paisaje patrimonial donde se observan terrazas, muros y la continuidad de una comunidad andina viva.",
+  }),
+  crearFichaCatalogo({
+    slug: "vitcos", nombre: "Vitcos (Rosaspata)", categoria: "centro",
+    ubicacion: "Vilcabamba, La Convención, Cusco",
+    imagen: vitcosAsset.url, imagenCredito: "Malmestar8 · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Vitcos_-_Rosaspata_(panor%C3%A1mica).jpg",
+    coordenadas: { lat: -13.09833, lng: -72.93194 },
+    resumen: "Sitio arqueológico de Vilcabamba asociado por investigaciones al periodo final del Estado inca.",
+  }),
+  crearFichaCatalogo({
+    slug: "espiritu-pampa", nombre: "Espíritu Pampa", categoria: "centro",
+    ubicacion: "La Convención, Cusco",
+    imagen: espirituPampaAsset.url, imagenCredito: "AgainErick · CC BY-SA 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Espiritu_Pampa_Archaeological_site_-_restored_house.jpg",
+    coordenadas: { lat: -12.904, lng: -73.203 },
+    resumen: "Amplio asentamiento arqueológico en la zona de Vilcabamba, investigado en relación con ocupaciones Wari e inca.",
+  }),
+  crearFichaCatalogo({
+    slug: "huchuy-qosqo", nombre: "Huchuy Qosqo", categoria: "centro",
+    ubicacion: "Lamay, Calca, Cusco",
+    imagen: huchuyQosqoAsset.url, imagenCredito: "Unukorno · CC BY 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Huchuy_Qosqo.jpg",
+    coordenadas: { lat: -13.3663, lng: -71.9451 },
+    resumen: "Asentamiento arqueológico situado sobre el Valle Sagrado, con recintos, caminos y terrazas visibles.",
+  }),
+  crearFichaCatalogo({
+    slug: "machu-picchu", nombre: "Machu Picchu", categoria: "centro",
+    ubicacion: "Machupicchu, Urubamba, Cusco",
+    imagen: machuPicchuAsset.url, imagenCredito: "Pedro Szekely · CC BY-SA 2.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Machu_Picchu,_Peru.jpg",
+    coordenadas: { lat: -13.1631, lng: -72.545 },
+    resumen: "Ciudad inca del siglo XV reconocida como Patrimonio Mundial, integrada cuidadosamente a un paisaje montañoso.",
+  }),
+  crearFichaCatalogo({
+    slug: "intipunku", nombre: "Intipunku", categoria: "camino",
+    ubicacion: "Santuario Histórico de Machu Picchu, Cusco",
+    imagen: intipunkuAsset.url, imagenCredito: "Christoph Strässler · CC BY-SA 2.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Machu_Picchu_seen_from_Intipunku_(the_Gate_of_the_Sun),_Peru.jpg",
+    coordenadas: { lat: -13.1544, lng: -72.5322 },
+    resumen: "Estructura situada en un paso elevado del Camino Inca desde el que se observa Machu Picchu.",
+  }),
+  crearFichaCatalogo({
+    slug: "sayacmarca", nombre: "Sayacmarca", categoria: "construccion",
+    ubicacion: "Santuario Histórico de Machu Picchu, Cusco",
+    imagen: sayacmarcaAsset.url, imagenCredito: "Mx. Granger · CC0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Sayacmarka.jpg",
+    coordenadas: { lat: -13.2282, lng: -72.5169 },
+    resumen: "Recinto arqueológico levantado sobre un promontorio rocoso a lo largo del Camino Inca.",
+  }),
+  crearFichaCatalogo({
+    slug: "phuyupatamarca", nombre: "Phuyupatamarca", categoria: "hidraulica",
+    ubicacion: "Santuario Histórico de Machu Picchu, Cusco",
+    imagen: phuyupatamarcaAsset.url, imagenCredito: "D. Gordon E. Robertson · CC BY-SA 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Phuyupatamarca_(cloud-level_town).jpg",
+    coordenadas: { lat: -13.1958, lng: -72.5342 },
+    resumen: "Sitio del Camino Inca donde se observan terrazas, recintos y una secuencia de fuentes de agua.",
+  }),
+  crearFichaCatalogo({
+    slug: "winay-wayna", nombre: "Wiñay Wayna", categoria: "agricultura",
+    ubicacion: "Santuario Histórico de Machu Picchu, Cusco",
+    imagen: winayWaynaAsset.url, imagenCredito: "Mx. Granger · CC0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Wi%C3%B1ay_Wayna_ruins_on_the_Inca_Trail.jpg",
+    coordenadas: { lat: -13.19215, lng: -72.53655 },
+    resumen: "Conjunto arqueológico del Camino Inca con amplias terrazas y estructuras distribuidas en la ladera.",
+  }),
+  crearFichaCatalogo({
+    slug: "raqchi", nombre: "Raqchi", categoria: "centro",
+    ubicacion: "San Pedro, Canchis, Cusco",
+    imagen: raqchiAsset.url, imagenCredito: "Ed88 · CC BY-SA 3.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Raqchi_02.jpg",
+    coordenadas: { lat: -14.175, lng: -71.36667 },
+    resumen: "Complejo arqueológico con un gran muro central, recintos y numerosos depósitos visibles.",
+  }),
+  crearFichaCatalogo({
+    slug: "waqrapukara", nombre: "Waqrapukara", categoria: "paisaje",
+    ubicacion: "Acomayo, Cusco",
+    imagen: waqrapukaraAsset.url, imagenCredito: "Pablo Rimachi · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Waqrapukara.jpg",
+    coordenadas: { lat: -14.0199, lng: -71.6938 },
+    resumen: "Sitio arqueológico integrado a un afloramiento rocoso; su función exacta continúa siendo materia de estudio.",
+  }),
+  crearFichaCatalogo({
+    slug: "naupa-iglesia", nombre: "Ñaupa Iglesia", categoria: "paisaje",
+    ubicacion: "Ollantaytambo, Urubamba, Cusco",
+    imagen: naupaIglesiaAsset.url, imagenCredito: "Morales Cynthia · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:%C3%91aupa_Iglesia.jpg",
+    coordenadas: { lat: -13.28898, lng: -72.23007 },
+    resumen: "Formación rocosa con elementos tallados cuya interpretación requiere fuentes y estudio arqueológico.",
+  }),
+  crearFichaCatalogo({
+    slug: "puka-pukara", nombre: "Puka Pukara", categoria: "construccion",
+    ubicacion: "Cusco, cerca de Tambomachay",
+    imagen: pukaPukaraAsset.url, imagenCredito: "Esmée Winnubst · CC BY 2.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Puka_Pukara_SW_view.jpg",
+    coordenadas: { lat: -13.4826, lng: -71.9625 },
+    resumen: "Conjunto arqueológico de muros, terrazas y recintos situado en una elevación al norte del Cusco.",
+  }),
+  crearFichaCatalogo({
+    slug: "qorikancha", nombre: "Qorikancha", categoria: "construccion",
+    ubicacion: "Centro Histórico del Cusco",
+    imagen: qorikanchaAsset.url, imagenCredito: "Diego Delso · CC BY-SA 4.0",
+    imagenFuente: "https://commons.wikimedia.org/wiki/File:Coricancha,_Cusco,_Per%C3%BA,_2015-07-31,_DD_67.JPG",
+    coordenadas: { lat: -13.5202, lng: -71.9753 },
+    resumen: "Conjunto de muros incas integrado al actual templo de Santo Domingo en el Centro Histórico del Cusco.",
+  }),
 ];
 
 export function getSitio(slug: string) {
@@ -751,9 +1003,3 @@ export const INSIGNIAS = [
   },
 ];
 
-export const INVESTIGACION_DATA = [
-  { dimension: "Conocimiento", antes: 38, despues: 79 },
-  { dimension: "Valoración", antes: 46, despues: 88 },
-  { dimension: "Interés", antes: 41, despues: 84 },
-  { dimension: "Compromiso", antes: 33, despues: 76 },
-];

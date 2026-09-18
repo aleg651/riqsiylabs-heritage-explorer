@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, FlaskConical, Lock } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
+import { Button } from "@/components/ui/button";
 import { AUTOR } from "@/lib/riqsiy-gamification";
 
 export const Route = createFileRoute("/fencyt")({
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/fencyt")({
       },
       { property: "og:title", content: "RIQSIY en FENCYT" },
       { property: "og:description", content: "Ficha oficial del proyecto de feria científica RIQSIY." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Fencyt,
@@ -33,6 +36,15 @@ const CRONOGRAMA = [
   { fase: "2. Intervención", detalle: "Experiencia RIQSIY: Descubre, minijuegos, QR, mapa, retos e historias." },
   { fase: "3. Cierre", detalle: "Test final y comparativa por dimensiones." },
   { fase: "4. Análisis", detalle: "Panel del investigador: exportación anónima de resultados (RQ-XXXX)." },
+];
+
+const RESUMEN_JURADO = [
+  { k: "Problema", v: "El patrimonio cercano puede pasar desapercibido o ser poco conocido por los jóvenes." },
+  { k: "Pregunta", v: "¿En qué medida RIQSIY puede incrementar interés, conocimiento y valoración?" },
+  { k: "Hipótesis", v: "La exploración y los minijuegos podrían fortalecer esas dimensiones y la protección." },
+  { k: "Innovación", v: "Integra evidencia local, 3D, videojuegos, quechua y método científico." },
+  { k: "Caso central", v: "Machu Moqo: registro propio, observación y preguntas todavía abiertas." },
+  { k: "Resultados", v: "Pendientes de aplicación y análisis; no se muestran cifras ficticias." },
 ];
 
 function Fencyt() {
@@ -83,6 +95,11 @@ function Fencyt() {
             </div>
           ))}
         </div>
+      </section>
+
+      <section className="mt-10 border-y border-border py-8">
+        <div className="flex flex-wrap items-end justify-between gap-4"><div><p className="text-xs font-semibold uppercase text-primary">Vista rápida para el jurado</p><h2 className="mt-1 font-display text-3xl">RIQSIY — Presentación FENCYT</h2></div><Button asChild><Link to="/modo-jurado">Abrir Modo Jurado <ArrowRight /></Link></Button></div>
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{RESUMEN_JURADO.map((item) => <article key={item.k} className="border-l-2 border-accent pl-4"><h3 className="font-semibold">{item.k}</h3><p className="mt-1 text-sm text-muted-foreground">{item.v}</p></article>)}</div>
       </section>
 
       <div className="mt-10 flex items-center justify-between gap-4 rounded-xl border border-border bg-card p-6">

@@ -32,6 +32,7 @@ const NIVEL_ESTILO: Record<string, string> = {
   Bueno: "bg-jade/20 text-foreground border-jade/50",
   Vulnerable: "bg-accent/20 text-foreground border-accent/60",
   "En riesgo": "bg-destructive/15 text-foreground border-destructive/50",
+  "Requiere evaluación": "bg-secondary text-foreground border-border",
 };
 
 function Bloque({ titulo, children }: { titulo: string; children: React.ReactNode }) {

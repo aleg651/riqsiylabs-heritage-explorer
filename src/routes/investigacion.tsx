@@ -1,6 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { INVESTIGACION_DATA } from "@/lib/riqsiy-data";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 
 export const Route = createFileRoute("/investigacion")({
@@ -10,12 +8,12 @@ export const Route = createFileRoute("/investigacion")({
       {
         name: "description",
         content:
-          "RIQSIY investiga si una experiencia educativa interactiva aumenta la valoración del patrimonio arqueológico local en estudiantes cusqueños.",
+          "Problema, pregunta, hipótesis, variables y metodología de la investigación escolar RIQSIY, sin presentar resultados antes de su aplicación.",
       },
       { property: "og:title", content: "Nuestra investigación | RIQSIY" },
       {
         property: "og:description",
-        content: "Diseño pre-test / intervención / post-test con resultados de ejemplo.",
+        content: "Diseño pretest, uso de RIQSIY, postest, comparación, análisis y conclusiones pendientes.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -45,6 +43,8 @@ const ETAPAS = [
   },
 ];
 
+const FLUJO = ["PRETEST", "USO DE RIQSIY", "POSTEST", "COMPARACIÓN", "ANÁLISIS", "CONCLUSIONES"];
+
 function Investigacion() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-16">
@@ -57,8 +57,9 @@ function Investigacion() {
       <div className="surface-deep mt-8 rounded-lg p-8">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-gold-soft">Pregunta de investigación</p>
         <p className="mt-3 font-display text-2xl leading-snug">
-          ¿Puede una experiencia educativa interactiva aumentar la valoración del patrimonio arqueológico local
-          en estudiantes cusqueños?
+          ¿En qué medida el uso de RIQSIY, una plataforma web interactiva basada en exploración, experiencias y
+          minijuegos educativos, puede incrementar el interés, conocimiento y valoración del patrimonio arqueológico
+          del Cusco en los jóvenes?
         </p>
       </div>
 
@@ -71,6 +72,28 @@ function Investigacion() {
             <p className="mt-3 border-t border-border pt-3 text-xs text-muted-foreground">{e.instrumento}</p>
           </article>
         ))}
+      </section>
+
+      <section className="mt-10 grid gap-5 md:grid-cols-2">
+        <article className="border-l-2 border-primary pl-5">
+          <p className="text-xs font-semibold uppercase text-primary">Problema</p>
+          <p className="mt-2 text-sm text-muted-foreground">En diferentes comunidades del Cusco existen sitios arqueológicos y elementos patrimoniales que forman parte del entorno de los jóvenes, pero pueden pasar desapercibidos o ser poco conocidos.</p>
+        </article>
+        <article className="border-l-2 border-accent pl-5">
+          <p className="text-xs font-semibold uppercase text-primary">Objetivo general</p>
+          <p className="mt-2 text-sm text-muted-foreground">Determinar en qué medida el uso de RIQSIY contribuye a incrementar el interés, conocimiento y valoración del patrimonio arqueológico del Cusco en los jóvenes.</p>
+        </article>
+        <article className="border-l-2 border-primary pl-5 md:col-span-2">
+          <p className="text-xs font-semibold uppercase text-primary">Hipótesis</p>
+          <p className="mt-2 text-sm text-muted-foreground">Si los jóvenes utilizan RIQSIY, que integra exploración, experiencias y minijuegos educativos, entonces aumentarán su interés, conocimiento, valoración y actitud de protección del patrimonio de su entorno.</p>
+        </article>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-2xl">Ruta metodológica</h2>
+        <div className="mt-5 grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
+          {FLUJO.map((paso, index) => <div key={paso} className="relative border-t-2 border-accent pt-3 text-sm font-semibold"><span className="mr-2 text-primary">{String(index + 1).padStart(2, "0")}</span>{paso}</div>)}
+        </div>
       </section>
 
       <section className="mt-10 rounded-lg border border-border bg-card p-6">
@@ -92,45 +115,10 @@ function Investigacion() {
         </div>
       </section>
 
-      <section className="mt-12 rounded-lg border border-border bg-card p-6">
-        <span className="inline-flex rounded-full border border-accent/60 bg-accent/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]">Datos de demostración · no son resultados reales</span>
-        <h2 className="mt-3 font-display text-2xl">Ejemplo de visualización de resultados</h2>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Puntaje promedio sobre 100 en cada dimensión, antes y después de usar RIQSIY. Muestra piloto
-          ficticia para comprobar la gráfica: 32 estudiantes de secundaria. No corresponde a una aplicación real.
-        </p>
-        <div className="mt-6 h-80 w-full">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={INVESTIGACION_DATA} barGap={8}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-              <XAxis dataKey="dimension" tick={{ fontSize: 12 }} stroke="var(--muted-foreground)" />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 12 }} stroke="var(--muted-foreground)" />
-              <Tooltip
-                contentStyle={{
-                  background: "var(--card)",
-                  border: "1px solid var(--border)",
-                  borderRadius: 8,
-                  color: "var(--foreground)",
-                }}
-              />
-              <Legend />
-              <Bar dataKey="antes" name="Antes" fill="var(--earth)" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="despues" name="Después" fill="var(--gold)" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-
-        <div className="mt-6 grid gap-3 sm:grid-cols-4">
-          {INVESTIGACION_DATA.map((d) => (
-            <div key={d.dimension} className="rounded-md border border-border p-4">
-              <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">{d.dimension}</p>
-              <p className="mt-1 font-display text-2xl text-primary">+{d.despues - d.antes} pts</p>
-              <p className="text-xs text-muted-foreground">
-                {d.antes} → {d.despues}
-              </p>
-            </div>
-          ))}
-        </div>
+      <section className="mt-12 rounded-lg border border-accent/60 bg-accent/10 p-6">
+        <span className="inline-flex rounded-full border border-accent/60 bg-background px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]">Estado actual</span>
+        <h2 className="mt-3 font-display text-2xl">Resultados pendientes de aplicación y análisis</h2>
+        <p className="mt-2 text-sm text-muted-foreground">Los gráficos se mostrarán únicamente cuando existan datos reales. Entonces podrán compararse pretest y postest por interés, conocimiento, valoración y protección, indicando participantes, promedio, porcentaje y diferencia.</p>
       </section>
 
       <section className="mt-8 rounded-lg border border-accent/40 bg-accent/10 p-6">
