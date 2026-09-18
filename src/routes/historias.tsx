@@ -153,9 +153,10 @@ function Historias() {
         {!hidratado ? (
           <p className="mt-3 text-muted-foreground">Cargando…</p>
         ) : testimonios.length === 0 ? (
-          <p className="mt-3 text-sm text-muted-foreground">
-            Todavía no hay historias registradas en este dispositivo.
-          </p>
+          <div className="mt-3 rounded-lg border border-dashed border-border bg-secondary/40 p-5 text-sm text-muted-foreground">
+            <p className="font-semibold text-foreground">Evidencia pendiente de incorporación</p>
+            <p className="mt-1">Próximamente incorporaremos testimonios reales recopilados con autorización. Todavía no hay historias registradas en este dispositivo.</p>
+          </div>
         ) : (
           <ul className="mt-4 grid gap-4">
             {testimonios.map((t) => (

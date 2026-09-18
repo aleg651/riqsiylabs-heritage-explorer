@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, BookOpen, Camera, Eye, FileQuestion, Video } from "lucide-react";
+import { ArrowRight, BookOpen, Camera, Code2, Eye, FileQuestion, Video } from "lucide-react";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 import { Button } from "@/components/ui/button";
 import { ESTADOS_EVIDENCIA, REGISTROS_CAMPO, VIDEOS_CAMPO } from "@/lib/riqsiy-regional";
@@ -25,6 +25,7 @@ function EvidenciaCampoPage() {
     { href: "#observaciones", icono: Eye, texto: "Observaciones" },
     { href: "#preguntas", icono: FileQuestion, texto: "Preguntas" },
     { href: "#fuentes", icono: BookOpen, texto: "Fuentes" },
+    { href: "#proceso", icono: Code2, texto: "Proceso de desarrollo" },
   ];
   return (
     <main className="pb-10">
@@ -97,6 +98,15 @@ function EvidenciaCampoPage() {
             <article id={item.id} key={item.titulo} className="scroll-mt-32 border-t-2 border-accent pt-5"><item.icono className="h-6 w-6 text-primary" /><h2 className="mt-3 font-display text-xl">{item.titulo}</h2><p className="mt-2 text-sm text-muted-foreground">{item.texto}</p></article>
           ))}
         </div>
+        <article id="proceso" className="mt-10 scroll-mt-32 border-t-2 border-primary pt-6">
+          <Code2 className="h-6 w-6 text-primary" />
+          <h2 className="mt-3 font-display text-2xl">Proceso de desarrollo</h2>
+          <p className="mt-2 max-w-3xl text-sm text-muted-foreground">La experiencia conecta observación del territorio, organización de registros, formulación de preguntas, diseño de actividades y creación de una representación digital referencial.</p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {["Observación y registro de campo", "Clasificación de evidencias", "Diseño de experiencias educativas", "Pruebas y mejora de RIQSIY"].map((paso, index) => <div key={paso} className="rounded-md border border-border bg-card p-4"><span className="text-xs font-semibold text-primary">PASO {index + 1}</span><p className="mt-2 text-sm font-medium">{paso}</p></div>)}
+          </div>
+          <p className="mt-4 rounded-md border border-dashed border-border bg-secondary/40 p-4 text-sm text-muted-foreground"><strong className="text-foreground">Evidencia pendiente de incorporación:</strong> capturas y documentos adicionales del proceso se añadirán únicamente cuando estén disponibles y verificados.</p>
+        </article>
         <div className="mt-10 flex flex-wrap gap-3">
           <Button asChild><Link to="/machu-muqu">Explorar Machu Moqo <ArrowRight /></Link></Button>
           <Button asChild variant="outline"><Link to="/investigacion">Continuar la investigación</Link></Button>

@@ -136,7 +136,10 @@ function Investigacion() {
       <section className="mt-12 rounded-lg border border-accent/60 bg-accent/10 p-6">
         <span className="inline-flex rounded-full border border-accent/60 bg-background px-3 py-1 text-xs font-semibold uppercase tracking-[0.14em]">Estado actual</span>
         <h2 className="mt-3 font-display text-2xl">Resultados pendientes de aplicación y análisis</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Los gráficos se mostrarán únicamente cuando existan datos reales. Entonces podrán compararse pretest y postest por interés, conocimiento, valoración y protección, indicando participantes, promedio, porcentaje y diferencia.</p>
+        <p className="mt-2 text-sm text-muted-foreground">Los gráficos se mostrarán únicamente cuando existan datos reales. Entonces podrán compararse pretest y postest por interés, conocimiento, valoración y protección.</p>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {["Conocimiento", "Interés", "Valoración", "Actitud de protección"].map((dimension) => <article key={dimension} className="rounded-md border border-border bg-background p-4"><h3 className="font-semibold">{dimension}</h3><div className="mt-4 grid gap-2"><div className="h-3 rounded-full bg-secondary"/><div className="h-3 rounded-full bg-secondary"/></div><p className="mt-3 text-xs text-muted-foreground">Pretest y postest: datos pendientes.</p></article>)}
+        </div>
       </section>
 
       <section className="mt-8 rounded-lg border border-accent/40 bg-accent/10 p-6">

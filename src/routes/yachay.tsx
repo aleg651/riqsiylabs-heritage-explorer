@@ -28,6 +28,9 @@ const UNIDADES: readonly Unidad[] = [
   { n: 3, titulo: "Mi comunidad", detalle: "Familia, casa y pueblo", palabras: [{ quechua: "ayllu", espanol: "comunidad o familia extensa" }, { quechua: "wasi", espanol: "casa" }, { quechua: "llaqta", espanol: "pueblo o lugar habitado" }] },
   { n: 4, titulo: "La naturaleza", detalle: "Agua, sol y luna", palabras: [{ quechua: "yaku", espanol: "agua" }, { quechua: "inti", espanol: "sol" }, { quechua: "killa", espanol: "luna" }] },
   { n: 5, titulo: "Nuestro patrimonio", detalle: "Saber, camino y mundo", palabras: [{ quechua: "yachay", espanol: "saber o aprendizaje" }, { quechua: "ñan", espanol: "camino" }, { quechua: "pacha", espanol: "mundo, tiempo o espacio según contexto" }] },
+  { n: 6, titulo: "Construcción", detalle: "La palabra muro", palabras: [{ quechua: "pirqa", espanol: "muro" }] },
+  { n: 7, titulo: "Entorno vivo", detalle: "Árbol y monte", palabras: [{ quechua: "sach'a", espanol: "árbol o monte según contexto" }] },
+  { n: 8, titulo: "Nuestra memoria", detalle: "Memoria y pensamiento", palabras: [{ quechua: "yuyay", espanol: "memoria, pensamiento o recuerdo según contexto" }] },
 ] as const;
 
 function YachayPage() {
@@ -60,7 +63,7 @@ function YachayPage() {
       <div className="mx-auto grid max-w-5xl gap-8 px-4 pt-6 md:grid-cols-[minmax(0,1fr)_280px]">
         <section aria-labelledby="ruta-yachay">
           <div className="rounded-lg bg-primary p-5 text-primary-foreground shadow-stone">
-            <p className="text-xs font-bold uppercase">Sección 1 · Primeros pasos</p>
+            <p className="text-xs font-bold uppercase">Ruta de 8 niveles · Primeros pasos</p>
             <h2 id="ruta-yachay" className="mt-1 font-display text-2xl font-bold">Aprende desde tu territorio</h2>
             <p className="mt-1 text-sm text-primary-foreground/80">Completa cada lección para abrir la siguiente.</p>
           </div>
@@ -136,8 +139,8 @@ function Leccion({ unidad, onCerrar, registrar }: { unidad: Unidad; onCerrar: ()
       <div className="max-w-lg text-center">
         <div className="mx-auto grid h-28 w-28 place-items-center rounded-full bg-accent text-accent-foreground shadow-gold"><Star className="h-14 w-14 fill-current" /></div>
         <h1 className="mt-6 font-display text-4xl font-bold">¡Lección completada!</h1>
-        <p className="mt-2 text-muted-foreground">Aprendiste tres palabras de {unidad.titulo.toLowerCase()}.</p>
-        <div className="mt-6 grid grid-cols-2 gap-3"><div className="rounded-lg border border-border bg-card p-4"><p className="text-xs font-bold uppercase text-muted-foreground">Experiencia</p><p className="mt-1 text-2xl font-bold text-primary">+60 XP</p></div><div className="rounded-lg border border-border bg-card p-4"><p className="text-xs font-bold uppercase text-muted-foreground">Recompensa</p><p className="mt-1 text-2xl font-bold text-accent-foreground">+60 🟡</p></div></div>
+        <p className="mt-2 text-muted-foreground">Aprendiste {unidad.palabras.length} palabras de {unidad.titulo.toLowerCase()}.</p>
+        <div className="mt-6 grid grid-cols-2 gap-3"><div className="rounded-lg border border-border bg-card p-4"><p className="text-xs font-bold uppercase text-muted-foreground">Experiencia</p><p className="mt-1 text-2xl font-bold text-primary">+{unidad.palabras.length * 20} XP</p></div><div className="rounded-lg border border-border bg-card p-4"><p className="text-xs font-bold uppercase text-muted-foreground">Recompensa</p><p className="mt-1 text-2xl font-bold text-accent-foreground">+{unidad.palabras.length * 20} 🟡</p></div></div>
         <Button size="lg" className="mt-7 w-full border-b-4 border-primary/70 font-bold uppercase" onClick={onCerrar}>Continuar</Button>
       </div>
     </main>
