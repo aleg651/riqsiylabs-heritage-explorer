@@ -6,6 +6,26 @@ import morayAsset from "@/assets/heritage/moray.jpg.asset.json";
 import pisacAsset from "@/assets/heritage/pisac.jpg.asset.json";
 import hatunrumiyocAsset from "@/assets/heritage/hatunrumiyoc.jpg.asset.json";
 import qhapaqNanAsset from "@/assets/heritage/qhapaq-nan.jpg.asset.json";
+import chincheroAsset from "@/assets/heritage/expanded/chinchero.jpg.asset.json";
+import choquequiraoAsset from "@/assets/heritage/expanded/choquequirao.jpg.asset.json";
+import espirituPampaAsset from "@/assets/heritage/expanded/espiritu-pampa.jpg.asset.json";
+import huchuyQosqoAsset from "@/assets/heritage/expanded/huchuy-qosqo.jpg.asset.json";
+import intipunkuAsset from "@/assets/heritage/expanded/intipunku.jpg.asset.json";
+import machuPicchuAsset from "@/assets/heritage/expanded/machu-picchu.jpg.asset.json";
+import naupaIglesiaAsset from "@/assets/heritage/expanded/naupa-iglesia.jpg.asset.json";
+import ollantaytamboAsset from "@/assets/heritage/expanded/ollantaytambo.jpg.asset.json";
+import phuyupatamarcaAsset from "@/assets/heritage/expanded/phuyupatamarca.jpg.asset.json";
+import pikillaqtaAsset from "@/assets/heritage/expanded/pikillaqta.jpg.asset.json";
+import pinkuyllunaAsset from "@/assets/heritage/expanded/pinkuylluna.jpg.asset.json";
+import pukaPukaraAsset from "@/assets/heritage/expanded/puka-pukara.jpg.asset.json";
+import qorikanchaAsset from "@/assets/heritage/expanded/qorikancha.jpg.asset.json";
+import raqchiAsset from "@/assets/heritage/expanded/raqchi.jpg.asset.json";
+import rumicolcaAsset from "@/assets/heritage/expanded/rumicolca.jpg.asset.json";
+import sayacmarcaAsset from "@/assets/heritage/expanded/sayacmarca.jpg.asset.json";
+import tarawasiAsset from "@/assets/heritage/expanded/tarawasi.jpg.asset.json";
+import vitcosAsset from "@/assets/heritage/expanded/vitcos.jpg.asset.json";
+import waqrapukaraAsset from "@/assets/heritage/expanded/waqrapukara.jpg.asset.json";
+import winayWaynaAsset from "@/assets/heritage/expanded/winay-wayna.jpg.asset.json";
 
 export type Categoria =
   | "centro"
@@ -66,10 +86,82 @@ export interface Sitio {
   conocimientos: string[];
   datosSorprendentes: string[];
   relatos: { titulo: string; texto: string }[];
-  estadoActual: { nivel: "Bueno" | "Vulnerable" | "En riesgo"; detalle: string };
+  estadoActual: { nivel: "Bueno" | "Vulnerable" | "En riesgo" | "Requiere evaluación"; detalle: string };
   loVeiaPeroNoLoConocia: string;
   antesDespues: { antes: string; ahora: string; queHacer: string };
   retos: Reto[];
+}
+
+type FichaCatalogo = Pick<
+  Sitio,
+  "slug" | "nombre" | "categoria" | "ubicacion" | "imagen" | "imagenCredito" | "imagenFuente" | "coordenadas" | "resumen"
+>;
+
+/**
+ * Crea fichas introductorias sin convertir interpretaciones arqueológicas en hechos.
+ * La información especializada de cada sitio debe ampliarse únicamente con fuentes validadas.
+ */
+function crearFichaCatalogo(ficha: FichaCatalogo): Sitio {
+  return {
+    ...ficha,
+    coord: { x: 50, y: 50 },
+    historia:
+      "Este lugar forma parte del patrimonio arqueológico de la región Cusco. La ficha ofrece una introducción y debe complementarse con fuentes arqueológicas e institucionales verificadas.",
+    paraQueServia:
+      "Las funciones atribuidas al lugar deben revisarse según las evidencias y fuentes de cada investigación. RIQSIY no presenta una interpretación única como hecho definitivo.",
+    comoFueConstruido:
+      "En la imagen pueden observarse relaciones entre piedra, relieve y territorio. Determinar técnicas, etapas y autores requiere documentación arqueológica específica.",
+    conocimientos: [
+      "Observar forma, materiales y relación con el paisaje.",
+      "Diferenciar evidencia visible de interpretación.",
+      "Contrastar la información con fuentes arqueológicas e institucionales.",
+    ],
+    datosSorprendentes: [
+      "Es parte de la diversidad patrimonial del Cusco.",
+      "Una fotografía permite observar, pero no demuestra por sí sola antigüedad o función.",
+      "Todavía existen preguntas que requieren investigación especializada.",
+    ],
+    relatos: [
+      {
+        titulo: "Pregunta abierta",
+        texto: "¿Qué evidencias y fuentes necesitaríamos consultar para comprender mejor este lugar?",
+      },
+    ],
+    estadoActual: {
+      nivel: "Requiere evaluación",
+      detalle:
+        "RIQSIY no asigna un diagnóstico de conservación sin una evaluación técnica actual y una fuente verificable.",
+    },
+    loVeiaPeroNoLoConocia:
+      "Mirar con atención permite reconocer formas, materiales y relaciones con el territorio. Conocer exige además registrar, comparar y consultar fuentes confiables.",
+    antesDespues: {
+      antes: "La información histórica y visual comparable debe confirmarse con fuentes fechadas.",
+      ahora: "La fotografía muestra un registro real del lugar, no un diagnóstico arqueológico completo.",
+      queHacer: "Visitar responsablemente, no alterar estructuras y buscar información en fuentes confiables.",
+    },
+    retos: [
+      {
+        tipo: "opcion",
+        pregunta: `¿Qué afirmación es responsable al investigar ${ficha.nombre}?`,
+        opciones: [
+          "Una fotografía demuestra su función exacta",
+          "Debemos diferenciar observación, interpretación y evidencia",
+          "Todos los sitios tuvieron el mismo uso",
+          "No es necesario consultar fuentes",
+        ],
+        correcta: 1,
+        explicacion: "Una investigación responsable distingue lo observable de lo que todavía debe comprobarse.",
+        puntos: 10,
+      },
+      {
+        tipo: "vf",
+        pregunta: "Si no existe evidencia suficiente, debemos decir que todavía requiere investigación.",
+        correcta: true,
+        explicacion: "Reconocer los límites de la evidencia es parte del trabajo científico.",
+        puntos: 10,
+      },
+    ],
+  };
 }
 
 export const SITIOS: Sitio[] = [
