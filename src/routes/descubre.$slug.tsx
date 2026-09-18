@@ -57,13 +57,20 @@ function SitioDetalle() {
   return (
     <article>
       <div className="relative isolate">
-        <img
-          src={sitio.imagen}
-          alt={sitio.nombre}
-          width={1280}
-          height={853}
-          className="h-[46vh] w-full object-cover"
-        />
+        {sitio.imagen ? (
+          <img
+            src={sitio.imagen}
+            alt={sitio.nombre}
+            width={1280}
+            height={853}
+            className="h-[46vh] w-full object-cover"
+          />
+        ) : (
+          <div className="gradient-hero flex h-[46vh] w-full items-end justify-center pb-24 text-xs text-stone-deep-foreground/80">
+            Fotografía verificada pendiente de incorporación
+          </div>
+        )}
+
         <div className="gradient-hero absolute inset-0" />
         <div className="absolute inset-x-0 bottom-0 mx-auto max-w-5xl px-4 pb-8 text-stone-deep-foreground">
           <Link to="/descubre" className="inline-flex items-center gap-1 text-sm opacity-85">
