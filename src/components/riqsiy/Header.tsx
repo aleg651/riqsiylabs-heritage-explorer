@@ -13,7 +13,10 @@ const NAV = [
 
   { to: "/mira-mas-alla", label: "Mira más allá" },
   { to: "/juegos", label: "Minijuegos" },
+  { to: "/detective", label: "Detective" },
+  { to: "/yachaq", label: "Yachaq IA" },
   { to: "/yachay", label: "Yachay" },
+
   { to: "/pasaporte", label: "Pasaporte" },
   { to: "/escanea", label: "Escanea" },
   { to: "/mapa", label: "Mapa" },
