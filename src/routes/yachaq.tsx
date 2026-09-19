@@ -156,7 +156,7 @@ function Yachaq() {
           >
             <PromptInputTextarea ref={areaRef} placeholder="Escribe tu pregunta para Yachaq…" />
             <PromptInputFooter className="justify-end">
-              <PromptInputSubmit status={cargando ? "submitted" : undefined} disabled={cargando} />
+              <PromptInputSubmit {...(cargando ? { status: "submitted" as const } : {})} disabled={cargando} />
             </PromptInputFooter>
           </PromptInput>
           <p className="mt-3 text-xs text-muted-foreground">
