@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { SITIOS } from "@/lib/riqsiy-data";
+import { REGISTROS_HISTORICOS } from "@/lib/riqsiy-historical";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
 
 export const Route = createFileRoute("/antes-y-despues")({
@@ -22,11 +23,17 @@ export const Route = createFileRoute("/antes-y-despues")({
 });
 
 function AntesDespues() {
-  const [slug, setSlug] = useState(SITIOS[0]!.slug);
-  const sitio = SITIOS.find((s) => s.slug === slug)!;
+  const sitiosConImagen = SITIOS.filter((s) => s.imagen);
+  const sitioInicial = sitiosConImagen[0];
+  const [slug, setSlug] = useState(sitioInicial?.slug ?? "");
+  const sitio = SITIOS.find((s) => s.slug === slug) ?? sitioInicial;
 
   const [fase, setFase] = useState<0 | 1 | 2>(0);
   const [comparacion, setComparacion] = useState(50);
+
+  if (!sitio) return null;
+
+  const registroHistorico = REGISTROS_HISTORICOS[sitio.slug];
 
   const fases = [
     { label: "Antes", texto: sitio.antesDespues.antes, clase: "bg-secondary" },
@@ -43,7 +50,7 @@ function AntesDespues() {
       />
 
       <div className="mt-8 flex flex-wrap gap-2">
-        {SITIOS.filter((s) => s.imagen).map((s) => (
+        {sitiosConImagen.map((s) => (
           <button
             key={s.slug}
             type="button"
@@ -60,13 +67,35 @@ function AntesDespues() {
 
       <div className="mt-8 grid gap-6 md:grid-cols-[1fr_1.2fr]">
         <div>
-          <div className="shadow-stone relative h-72 overflow-hidden rounded-lg" aria-label="Comparación interactiva antes y ahora">
-            <img src={sitio.imagen} alt={`${sitio.nombre}, registro actual`} className="absolute inset-0 h-full w-full object-cover saturate-50"/>
-            <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-accent" style={{width:`${comparacion}%`}}><img src={sitio.imagen} alt="Representación visual para comparación" className="h-full max-w-none object-cover sepia" style={{width:'500px'}}/></div>
-            <span className="absolute left-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">ANTES · referencia visual</span><span className="absolute right-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">AHORA · fotografía</span>
-          </div>
-          <label className="mt-3 grid gap-2 text-xs"><span>Desliza para comparar ANTES ←→ AHORA</span><input aria-label="Control de comparación" type="range" min="10" max="90" value={comparacion} onChange={e=>setComparacion(Number(e.target.value))}/></label>
-          <p className="mt-2 text-xs text-muted-foreground">La vista “antes” es un tratamiento visual para observar cambios; no es una reconstrucción histórica.</p>
+          {registroHistorico ? (
+            <>
+              <div className="shadow-stone relative h-72 overflow-hidden rounded-lg" aria-label="Comparación interactiva entre fotografía histórica y actual">
+                <img src={sitio.imagen} alt={`${sitio.nombre}, registro actual`} className="absolute inset-0 h-full w-full object-cover" />
+                <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-accent" style={{ width: `${comparacion}%` }}>
+                  <img src={registroHistorico.imagen} alt={`${sitio.nombre}, ${registroHistorico.tipo.toLowerCase()} de ${registroHistorico.fecha}`} className="h-full max-w-none object-cover" style={{ width: "500px" }} />
+                </div>
+                <span className="absolute left-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">ANTES · {registroHistorico.fecha}</span>
+                <span className="absolute right-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">AHORA · fotografía</span>
+              </div>
+              <label className="mt-3 grid gap-2 text-xs">
+                <span>Desliza para comparar ANTES ←→ AHORA</span>
+                <input aria-label="Control de comparación" type="range" min="10" max="90" value={comparacion} onChange={(e) => setComparacion(Number(e.target.value))} />
+              </label>
+              <div className="mt-3 rounded-md border border-border bg-card p-3 text-xs text-muted-foreground">
+                <p><span className="font-semibold text-foreground">Antes:</span> {registroHistorico.tipo}, {registroHistorico.fecha}. {registroHistorico.autor} · {registroHistorico.licencia}.</p>
+                <a href={registroHistorico.fuente} target="_blank" rel="noreferrer" className="mt-1 inline-block font-semibold text-primary underline underline-offset-4">Consultar archivo y licencia</a>
+                <p className="mt-2"><span className="font-semibold text-foreground">Ahora:</span> {sitio.imagenCredito}.</p>
+                {sitio.imagenFuente && <a href={sitio.imagenFuente} target="_blank" rel="noreferrer" className="mt-1 inline-block font-semibold text-primary underline underline-offset-4">Consultar fotografía actual</a>}
+              </div>
+            </>
+          ) : (
+            <div className="shadow-stone grid h-72 place-items-center rounded-lg border border-dashed border-border bg-card p-8 text-center">
+              <div className="max-w-sm">
+                <p className="font-semibold">Registro histórico pendiente de verificación</p>
+                <p className="mt-2 text-sm text-muted-foreground">No mostraremos la misma fotografía con otro color ni una imagen sin fuente. La comparación se habilitará cuando exista un archivo antiguo auténtico y reutilizable de {sitio.nombre}.</p>
+              </div>
+            </div>
+          )}
         </div>
 
         <div>
