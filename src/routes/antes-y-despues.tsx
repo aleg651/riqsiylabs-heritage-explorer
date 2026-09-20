@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SITIOS } from "@/lib/riqsiy-data";
 import { REGISTROS_HISTORICOS } from "@/lib/riqsiy-historical";
 import { SectionTitle } from "@/components/riqsiy/SectionTitle";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/antes-y-despues")({
   head: () => ({
@@ -34,6 +35,19 @@ function AntesDespues() {
   if (!sitio) return null;
 
   const registroHistorico = REGISTROS_HISTORICOS[sitio.slug];
+  const indiceSitio = sitiosConImagen.findIndex((s) => s.slug === sitio.slug);
+
+  const cambiarSitio = (nuevoSlug: string) => {
+    setSlug(nuevoSlug);
+    setFase(0);
+    setComparacion(50);
+  };
+
+  const moverSitio = (direccion: -1 | 1) => {
+    const siguiente = (indiceSitio + direccion + sitiosConImagen.length) % sitiosConImagen.length;
+    const destino = sitiosConImagen[siguiente];
+    if (destino) cambiarSitio(destino.slug);
+  };
 
   const fases = [
     { label: "Antes", texto: sitio.antesDespues.antes, clase: "bg-secondary" },
@@ -49,30 +63,34 @@ function AntesDespues() {
         description="El deterioro no es una noticia lejana: ocurre en los lugares por donde pasamos todos los días."
       />
 
-      <div className="mt-8 flex flex-wrap gap-2">
-        {sitiosConImagen.map((s) => (
-          <button
-            key={s.slug}
-            type="button"
-            onClick={() => {
-              setSlug(s.slug);
-              setFase(0);
-            }}
-            className={`rounded-full border px-4 py-1.5 text-sm ${slug === s.slug ? "border-primary bg-primary text-primary-foreground" : "border-border"}`}
+      <div className="mt-8 border-y border-border py-4">
+        <label htmlFor="sitio-comparacion" className="mb-2 block text-xs font-semibold uppercase text-muted-foreground">
+          Lugar para comparar · {indiceSitio + 1} de {sitiosConImagen.length}
+        </label>
+        <div className="flex items-center gap-2">
+          <Button type="button" variant="outline" size="icon" onClick={() => moverSitio(-1)} aria-label="Ver sitio anterior">←</Button>
+          <select
+            id="sitio-comparacion"
+            value={sitio.slug}
+            onChange={(event) => cambiarSitio(event.target.value)}
+            className="h-10 min-w-0 flex-1 rounded-md border border-input bg-background px-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
           >
-            {s.nombre}
-          </button>
-        ))}
+            {sitiosConImagen.map((s) => (
+              <option key={s.slug} value={s.slug}>{s.nombre}</option>
+            ))}
+          </select>
+          <Button type="button" variant="outline" size="icon" onClick={() => moverSitio(1)} aria-label="Ver sitio siguiente">→</Button>
+        </div>
       </div>
 
       <div className="mt-8 grid gap-6 md:grid-cols-[1fr_1.2fr]">
         <div>
           {registroHistorico ? (
             <>
-              <div className="shadow-stone relative h-72 overflow-hidden rounded-lg" aria-label="Comparación interactiva entre fotografía histórica y actual">
+              <div className="shadow-stone relative aspect-[4/3] w-full overflow-hidden rounded-lg" aria-label="Comparación interactiva entre fotografía histórica y actual">
                 <img src={sitio.imagen} alt={`${sitio.nombre}, registro actual`} className="absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-y-0 left-0 overflow-hidden border-r-2 border-accent" style={{ width: `${comparacion}%` }}>
-                  <img src={registroHistorico.imagen} alt={`${sitio.nombre}, ${registroHistorico.tipo.toLowerCase()} de ${registroHistorico.fecha}`} className="h-full max-w-none object-cover" style={{ width: "500px" }} />
+                  <img src={registroHistorico.imagen} alt={`${sitio.nombre}, ${registroHistorico.tipo.toLowerCase()} de ${registroHistorico.fecha}`} className="absolute inset-0 h-full max-w-none object-cover" style={{ width: `${10000 / comparacion}%` }} />
                 </div>
                 <span className="absolute left-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">ANTES · {registroHistorico.fecha}</span>
                 <span className="absolute right-3 top-3 rounded bg-background/85 px-2 py-1 text-xs">AHORA · fotografía</span>
@@ -82,6 +100,7 @@ function AntesDespues() {
                 <input aria-label="Control de comparación" type="range" min="10" max="90" value={comparacion} onChange={(e) => setComparacion(Number(e.target.value))} />
               </label>
               <div className="mt-3 rounded-md border border-border bg-card p-3 text-xs text-muted-foreground">
+                <p className="mb-2 leading-relaxed text-foreground">{registroHistorico.descripcion}</p>
                 <p><span className="font-semibold text-foreground">Antes:</span> {registroHistorico.tipo}, {registroHistorico.fecha}. {registroHistorico.autor} · {registroHistorico.licencia}.</p>
                 <a href={registroHistorico.fuente} target="_blank" rel="noreferrer" className="mt-1 inline-block font-semibold text-primary underline underline-offset-4">Consultar archivo y licencia</a>
                 <p className="mt-2"><span className="font-semibold text-foreground">Ahora:</span> {sitio.imagenCredito}.</p>
@@ -89,7 +108,7 @@ function AntesDespues() {
               </div>
             </>
           ) : (
-            <div className="shadow-stone grid h-72 place-items-center rounded-lg border border-dashed border-border bg-card p-8 text-center">
+            <div className="shadow-stone grid aspect-[4/3] w-full place-items-center rounded-lg border border-dashed border-border bg-card p-8 text-center">
               <div className="max-w-sm">
                 <p className="font-semibold">Registro histórico pendiente de verificación</p>
                 <p className="mt-2 text-sm text-muted-foreground">No mostraremos la misma fotografía con otro color ni una imagen sin fuente. La comparación se habilitará cuando exista un archivo antiguo auténtico y reutilizable de {sitio.nombre}.</p>
@@ -101,16 +120,15 @@ function AntesDespues() {
         <div>
           <div className="flex gap-2">
             {fases.map((f, i) => (
-              <button
+              <Button
                 key={f.label}
                 type="button"
+                variant={fase === i ? "default" : "outline"}
                 onClick={() => setFase(i as 0 | 1 | 2)}
-                className={`flex-1 rounded-md border px-3 py-2 text-xs font-semibold transition-colors ${
-                  fase === i ? "border-primary bg-primary text-primary-foreground" : "border-border"
-                }`}
+                className="h-auto min-h-10 flex-1 whitespace-normal px-3 py-2 text-xs"
               >
                 {f.label}
-              </button>
+              </Button>
             ))}
           </div>
 

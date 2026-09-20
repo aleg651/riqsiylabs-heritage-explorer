@@ -133,14 +133,14 @@ function crearFichaCatalogo(ficha: FichaCatalogo): Sitio {
     estadoActual: {
       nivel: "Requiere evaluación",
       detalle:
-        "RIQSIY no asigna un diagnóstico de conservación sin una evaluación técnica actual y una fuente verificable.",
+        `${ficha.resumen} La imagen actual permite reconocer estos elementos visibles, pero RIQSIY no asigna un diagnóstico de conservación sin una evaluación técnica reciente y una fuente verificable.`,
     },
     loVeiaPeroNoLoConocia:
       "Mirar con atención permite reconocer formas, materiales y relaciones con el territorio. Conocer exige además registrar, comparar y consultar fuentes confiables.",
     antesDespues: {
-      antes: "La información histórica y visual comparable debe confirmarse con fuentes fechadas.",
-      ahora: "La fotografía muestra un registro real del lugar, no un diagnóstico arqueológico completo.",
-      queHacer: "Visitar responsablemente, no alterar estructuras y buscar información en fuentes confiables.",
+      antes: `Para conocer cómo era ${ficha.nombre}, se necesita una fotografía o documento histórico fechado e identificado. La comparación debe apoyarse en ese registro y no en una recreación.`,
+      ahora: `El registro actual permite observar: ${ficha.resumen.toLocaleLowerCase("es-PE")} La fotografía documenta la apariencia visible al momento de la toma, no un diagnóstico arqueológico completo.`,
+      queHacer: `Observar ${ficha.nombre} sin alterar sus estructuras, respetar los recorridos permitidos y contrastar cualquier interpretación con fuentes arqueológicas e institucionales.`,
     },
     retos: [
       {
