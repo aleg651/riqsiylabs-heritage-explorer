@@ -9,6 +9,7 @@ export interface RegistroHistorico {
   licencia: string;
   fuente: string;
   tipo: "Fotografía histórica" | "Documento gráfico histórico";
+  descripcion: string;
 }
 
 /**
@@ -24,6 +25,7 @@ export const REGISTROS_HISTORICOS: Partial<Record<string, RegistroHistorico>> = 
     fuente:
       "https://commons.wikimedia.org/wiki/File:Inca_ruins_of_Sacsayhuam%C3%A1n,_Cuzco,_Peru_%3D_Ruinas_Incaicas_de_Sacsayhuam%C3%A1n_-_Cuzco,_Per%C3%BA.jpg",
     tipo: "Fotografía histórica",
+    descripcion: "La postal conserva una vista panorámica de las murallas y del terreno que las rodeaba durante la primera mitad del siglo XX.",
   },
   "machu-picchu": {
     imagen: machuPicchuHistoricalAsset.url,
@@ -32,6 +34,7 @@ export const REGISTROS_HISTORICOS: Partial<Record<string, RegistroHistorico>> = 
     licencia: "Dominio público",
     fuente: "https://commons.wikimedia.org/wiki/File:Machu_Picchu.png",
     tipo: "Fotografía histórica",
+    descripcion: "La toma de la expedición de 1912 documenta estructuras y vegetación durante las primeras investigaciones fotográficas del sitio.",
   },
   qorikancha: {
     imagen: qorikanchaHistoricalAsset.url,
@@ -40,5 +43,6 @@ export const REGISTROS_HISTORICOS: Partial<Record<string, RegistroHistorico>> = 
     licencia: "Dominio público",
     fuente: "https://commons.wikimedia.org/wiki/File:OldCoricancha.jpg",
     tipo: "Fotografía histórica",
+    descripcion: "La fotografía registra la convivencia visible entre los muros incas y el conjunto de Santo Domingo durante la década de 1940.",
   },
 };
