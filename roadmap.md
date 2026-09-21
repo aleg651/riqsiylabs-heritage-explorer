@@ -19,4 +19,4 @@
 - [x] Ajustar Investigación, Modo Jurado, FENCYT y Detective del Patrimonio al prompt maestro regional.
 - [x] Verificar rutas prioritarias y experiencia móvil sin modificar la arquitectura principal.
 - [x] Completar el pulido definitivo FENCYT: evidencia del proceso, 8 niveles Yachay, Pasaporte, modo feria, resultados vacíos, reflexión y relato de origen.
-- [ ] Ampliar Antes y ahora a todos los sitios con archivos históricos verificables y descripciones claras.
+- [x] Ampliar Antes y ahora a todos los sitios con archivos históricos verificables y descripciones claras.
