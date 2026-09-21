@@ -1,4 +1,7 @@
+import espirituPampaHistoricalAsset from "@/assets/heritage/historical/espiritu-pampa.jpg.asset.json";
+import hatunrumiyocHistoricalAsset from "@/assets/heritage/historical/hatunrumiyoc.jpg.asset.json";
 import machuPicchuHistoricalAsset from "@/assets/heritage/historical/machu-picchu.jpg.asset.json";
+import ollantaytamboHistoricalAsset from "@/assets/heritage/historical/ollantaytambo.jpg.asset.json";
 import qorikanchaHistoricalAsset from "@/assets/heritage/historical/qorikancha.jpg.asset.json";
 import sacsayhuamanHistoricalAsset from "@/assets/heritage/historical/sacsayhuaman.jpg.asset.json";
 
