@@ -47,6 +47,7 @@ export const REGISTROS_HISTORICOS: Partial<Record<string, RegistroHistorico>> = 
     fuente: "https://commons.wikimedia.org/wiki/File:OldCoricancha.jpg",
     tipo: "Fotografía histórica",
     descripcion: "La fotografía registra la convivencia visible entre los muros incas y el conjunto de Santo Domingo durante la década de 1940.",
+  },
   ollantaytambo: {
     imagen: ollantaytamboHistoricalAsset.url,
     fecha: "1877",
